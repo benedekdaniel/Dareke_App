@@ -63,6 +63,15 @@
         android:text="@string/sign_in"
         android:background="@drawable/round_login" />
 
+    <ProgressBar
+        android:id="@+id/login_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_forgot_password"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="30dp" />
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_link_to_register"
         android:layout_width="wrap_content"

@@ -1,5 +1,6 @@
 package com.darekeapp.activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,8 +21,9 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText regEmail;
     private EditText regPassword;
     private EditText regConfirmPassword;
-    private ProgressBar progressBar;
+    private ProgressBar regProgressBar;
     private Button regButton;
+    private Button regLinkToLogin;
 
     private FirebaseAuth mAuth;
 
@@ -34,9 +36,10 @@ public class RegisterActivity extends AppCompatActivity {
         regEmail = (EditText) findViewById(R.id.register_email);
         regPassword = (EditText) findViewById(R.id.register_password);
         regConfirmPassword = (EditText) findViewById(R.id.register_password_confirm);
-        progressBar = (ProgressBar) findViewById(R.id.register_progress_bar);
-        progressBar.setVisibility(View.INVISIBLE);
+        regProgressBar = (ProgressBar) findViewById(R.id.register_progress_bar);
+        regProgressBar.setVisibility(View.INVISIBLE);
         regButton = (Button) findViewById(R.id.btn_register);
+        regLinkToLogin = (Button) findViewById(R.id.btn_link_to_sign_in);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -44,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 regButton.setVisibility(View.INVISIBLE);
-                progressBar.setVisibility(View.VISIBLE);
+                regProgressBar.setVisibility(View.VISIBLE);
                 final String name = regName.getText().toString();
                 final String email = regEmail.getText().toString();
                 final String password = regPassword.getText().toString();
@@ -57,6 +60,13 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     createUserAccount(email, name, password);
                 }
+            }
+        });
+
+        regLinkToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUI();
             }
         });
     }
@@ -72,7 +82,8 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             showMessage("Account created");
-                            progressBar.setVisibility(View.INVISIBLE);
+                            regProgressBar.setVisibility(View.INVISIBLE);
+                            updateUI();
                         } else {
                             showMessage(
                                     "Account creation failed" + task.getException().getMessage());
@@ -80,5 +91,10 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void updateUI() {
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        RegisterActivity.this.startActivity(intent);
     }
 }
