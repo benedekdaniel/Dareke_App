@@ -71,17 +71,21 @@ public class LoginActivity extends AppCompatActivity {
         loginForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.sendPasswordResetEmail(loginEmail.getText().toString()).addOnCompleteListener(
-                        new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            showMessage("Reset password email sent");
-                        } else {
-                            showMessage("Error sending reset password email");
+                if (!loginEmail.getText().toString().equals("")) {
+                    mAuth.sendPasswordResetEmail(loginEmail.getText().toString()).addOnCompleteListener(
+                            new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                showMessage("Reset password email sent");
+                            } else {
+                                showMessage("Error sending reset password email");
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    showMessage("Enter your email address");
+                }
             }
         });
     }
