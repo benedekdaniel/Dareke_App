@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RegisterActivity">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/logo"
+        android:contentDescription="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitStart"
+        android:src="@drawable/dareke_app_logo" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/login_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_edt"
+        android:layout_below="@+id/logo"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginRight="50dp"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_edt"
+        android:layout_below="@id/login_email"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:hint="@string/hint_password"
+        android:inputType="textPassword" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/login_password"
+        android:background="@android:color/transparent"
+        android:text="@string/btn_forgot_password"
+        android:gravity="start"
+        android:textColor="@color/colorAccent"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_below="@+id/btn_forgot_password"
+        android:text="@string/sign_in"
+        android:background="@drawable/round_login" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_link_to_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        android:text="@string/register"
+        android:textSize="15sp"
+        android:layout_below="@+id/btn_sign_in"
+        android:layout_centerInParent="true" />
+</RelativeLayout>
