@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     loginProgressBar.setVisibility(View.INVISIBLE);
-                    updateUI();
+                    launchHomeActivity();
                 } else {
                     showMessage(task.getException().getMessage());
                     loginButton.setVisibility(View.VISIBLE);
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUI() {
+    private void launchHomeActivity() {
        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
        LoginActivity.this.startActivity(intent);
     }
@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
-            updateUI();
+            launchHomeActivity();
         }
     }
 }

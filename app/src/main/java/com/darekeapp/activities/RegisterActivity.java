@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
                 final String password = regPassword.getText().toString();
                 final String confirmPassword = regConfirmPassword.getText().toString();
 
-                if (name.isEmpty() || email.isEmpty() || password.isEmpty() ||
+                if (name.isEmpty() || email.isEmpty() || !validPassword(password) ||
                         confirmPassword.isEmpty() || !password.equals(confirmPassword)) {
                     showMessage("Please verify all fields");
                     regButton.setVisibility(View.VISIBLE);
@@ -66,9 +66,22 @@ public class RegisterActivity extends AppCompatActivity {
         regLinkToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUI();
+                launchLoginActivity();
             }
         });
+    }
+
+    private boolean validPassword(String password) {
+        /*
+         * Check if the password is a minimum of eight characters, and contains
+         * at least one uppercase letter, one lowercase letter and one number.
+         */
+        if (password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")) {
+            return true;
+        } else {
+            showMessage("Password is not strong enough");
+            return false;
+        }
     }
 
     private void showMessage(String message) {
@@ -83,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             showMessage("Account created");
                             regProgressBar.setVisibility(View.INVISIBLE);
-                            updateUI();
+                            launchLoginActivity();
                         } else {
                             showMessage(
                                     "Account creation failed" + task.getException().getMessage());
@@ -93,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateUI() {
+    private void launchLoginActivity() {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         RegisterActivity.this.startActivity(intent);
     }
