@@ -1,6 +1,7 @@
 package com.darekeapp.activities;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText regName;
@@ -32,14 +35,14 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        regName = (EditText) findViewById(R.id.register_name);
-        regEmail = (EditText) findViewById(R.id.register_email);
-        regPassword = (EditText) findViewById(R.id.register_password);
-        regConfirmPassword = (EditText) findViewById(R.id.register_password_confirm);
-        regProgressBar = (ProgressBar) findViewById(R.id.register_progress_bar);
+        regName = findViewById(R.id.register_name);
+        regEmail = findViewById(R.id.register_email);
+        regPassword = findViewById(R.id.register_password);
+        regConfirmPassword = findViewById(R.id.register_password_confirm);
+        regProgressBar = findViewById(R.id.register_progress_bar);
         regProgressBar.setVisibility(View.INVISIBLE);
-        regButton = (Button) findViewById(R.id.btn_register);
-        regLinkToLogin = (Button) findViewById(R.id.btn_link_to_sign_in);
+        regButton = findViewById(R.id.btn_register);
+        regLinkToLogin = findViewById(R.id.btn_link_to_sign_in);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -55,7 +58,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (name.isEmpty() || email.isEmpty() || !validPassword(password) ||
                         confirmPassword.isEmpty() || !password.equals(confirmPassword)) {
-                    showMessage("Please verify all fields");
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            showMessage("Please verify all fields");
+                        }
+                    }, 2000);
                     regButton.setVisibility(View.VISIBLE);
                 } else {
                     createUserAccount(email, name, password);
@@ -95,6 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             showMessage("Account created");
+                            updateUserInfo(mAuth.getCurrentUser(), name);
                             regProgressBar.setVisibility(View.INVISIBLE);
                             launchLoginActivity();
                         } else {
@@ -104,6 +114,12 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public void updateUserInfo(FirebaseUser currentUser, String name) {
+        UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name).build();
+        currentUser.updateProfile(profileUpdate);
     }
 
     private void launchLoginActivity() {

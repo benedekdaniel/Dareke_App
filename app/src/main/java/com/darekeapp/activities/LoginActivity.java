@@ -32,13 +32,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginEmail = (EditText) findViewById(R.id.login_email);
-        loginPassword = (EditText) findViewById(R.id.login_password);
-        loginProgressBar = (ProgressBar) findViewById(R.id.login_progress_bar);
+        loginEmail = findViewById(R.id.login_email);
+        loginPassword = findViewById(R.id.login_password);
+        loginProgressBar = findViewById(R.id.login_progress_bar);
         loginProgressBar.setVisibility(View.INVISIBLE);
-        loginButton = (Button) findViewById(R.id.btn_sign_in);
-        loginLinkToReg = (Button) findViewById(R.id.btn_link_to_register);
-        loginForgotPassword = (Button) findViewById(R.id.btn_forgot_password);
+        loginButton = findViewById(R.id.btn_sign_in);
+        loginLinkToReg = findViewById(R.id.btn_link_to_register);
+        loginForgotPassword = findViewById(R.id.btn_forgot_password);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void launchHomeActivity() {
-       Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+       Intent intent = new Intent(LoginActivity.this, Home.class);
        LoginActivity.this.startActivity(intent);
     }
 
