@@ -19,4 +19,16 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="worked_for_agent">Worked for agent?</string>
+    <string name="agent_name">Agent name</string>
+    <string name="shift_start">Shift start</string>
+    <string name="shift_end">Shift end</string>
+    <string name="break_taken">Break taken?</string>
+    <string name="break_start_time">Break start time</string>
+    <string name="break_end_time">Break end time</string>
+    <string name="transport_job">Transport job?</string>
+    <string name="transport_company_name">Transport company name</string>
+    <string name="vehicle_registration">Vehicle registration</string>
+    <string name="darekeapp_info">Daily Record Kepper taking care of your shift management needs on a daily basis.
+        GDPR Statement - No data will be shared to third party. You will only be contacted regarding Daily
+        Record Keeper products.</string>
 </resources>
