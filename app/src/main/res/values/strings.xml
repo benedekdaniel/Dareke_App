@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">DAREKEapp</string>
+    <string name="login_text">DAREKEapp Login</string>
+    <string name="sign_in">Sign In</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_forgot_password">Forgot password?</string>
+    <string name="register">Register</string>
+    <string name="register_name">Name</string>
+    <string name="hint_password_confirm">Confirm password</string>
+    <string name="title_activity_home">Home</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">User Name</string>
+    <string name="nav_header_subtitle">user.name@firebase.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>
