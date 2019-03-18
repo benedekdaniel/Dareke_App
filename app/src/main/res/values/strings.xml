@@ -25,4 +25,9 @@
     <string name="break_taken">Break taken?</string>
     <string name="break_start_time">Break start time</string>
     <string name="break_end_time">Break end time</string>
+    <string name="transport_job">Transport job?</string>
+    <string name="transport_company_name">Transport company name</string>
+    <string name="vehicle_registration">Vehicle registration</string>
+    <string name="darekeapp_info">Daily Record Kepper taking care of your shift management needs on a daily basis. Go ahead and sign up
+    or log in if already registered</string>
 </resources>
