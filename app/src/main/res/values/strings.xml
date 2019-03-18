@@ -28,6 +28,7 @@
     <string name="transport_job">Transport job?</string>
     <string name="transport_company_name">Transport company name</string>
     <string name="vehicle_registration">Vehicle registration</string>
-    <string name="darekeapp_info">Daily Record Kepper taking care of your shift management needs on a daily basis. Go ahead and sign up
-    or log in if already registered</string>
+    <string name="darekeapp_info">Daily Record Kepper taking care of your shift management needs on a daily basis.
+        GDPR Statement - No data will be shared to third party. You will only be contacted regarding Daily
+        Record Keeper products.</string>
 </resources>
