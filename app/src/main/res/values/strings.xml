@@ -6,7 +6,7 @@
     <string name="hint_password">Password</string>
     <string name="btn_forgot_password">Forgot password?</string>
     <string name="register">Register</string>
-    <string name="register_name">Name</string>
+    <string name="hint_name">Name</string>
     <string name="hint_password_confirm">Confirm password</string>
     <string name="title_activity_home">Home</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -30,4 +30,6 @@
     <string name="vehicle_registration">Vehicle registration</string>
     <string name="darekeapp_info">Daily Record Keeper takes care of your shift management needs on a daily basis.</string>
     <string name="gdpr_statement">GDPR Statement - No data will be shared to third party. You will only be contacted regarding Daily Record Keeper products.</string>
+    <string name="what_should_the_share_file_include">What should the share file include?</string>
+    <string name="save">Save</string>
 </resources>
