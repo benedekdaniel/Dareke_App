@@ -20,4 +20,5 @@
     <string name="no">No</string>
     <string name="worked_for_agent">Worked for agent?</string>
     <string name="agent_name">Agent name</string>
+    <string name="shift_start">Shift start</string>
 </resources>
