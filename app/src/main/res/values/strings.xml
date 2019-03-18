@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">DAREKEapp</string>
     <string name="login_text">DAREKEapp Login</string>
-    <string name="sign_in">Sign in</string>
+    <string name="sign_in">Sign In</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="btn_forgot_password">Forgot password?</string>
