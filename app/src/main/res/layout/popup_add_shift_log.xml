@@ -68,12 +68,93 @@
             android:layout_marginRight="50dp" />
 
         <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+            android:id="@+id/shift_start_time"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             app:picker_curved="true"
             app:picker_cyclic="true"
             android:layout_below="@id/shift_start_question"
+            app:picker_visibleItemCount="7" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/shift_end_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shift_start_time"
+            android:text="@string/shift_end"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp" />
+
+        <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+            android:id="@+id/shift_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:picker_curved="true"
+            app:picker_cyclic="true"
+            android:layout_below="@id/shift_end_question"
+            app:picker_visibleItemCount="7" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/break_taken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:checked="true"
+            android:text="@string/break_taken"
+            android:textSize="18sp"
+            android:textOn="@string/yes"
+            android:textOff="@string/no"
+            android:layout_below="@id/shift_end_time" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/break_start_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/break_taken"
+            android:text="@string/break_start_time"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp" />
+
+        <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+            android:id="@+id/break_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:picker_curved="true"
+            app:picker_cyclic="true"
+            android:layout_below="@id/break_start_text"
+            app:picker_visibleItemCount="7" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/break_end_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/break_start_time"
+            android:text="@string/break_end_time"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp" />
+
+        <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+            android:id="@+id/break_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:picker_curved="true"
+            app:picker_cyclic="true"
+            android:layout_below="@id/break_end_text"
             app:picker_visibleItemCount="7" />
     </RelativeLayout>
 
