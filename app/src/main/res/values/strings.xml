@@ -15,4 +15,8 @@
     <string name="nav_header_subtitle">user.name@firebase.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="company_name">Name of company</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="worked_for_agent">Worked for agent?</string>
 </resources>
