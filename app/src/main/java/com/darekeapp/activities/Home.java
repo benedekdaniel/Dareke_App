@@ -68,7 +68,6 @@ public class Home extends AppCompatActivity
         popupAddShiftLog.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT,
                 Toolbar.LayoutParams.WRAP_CONTENT);
         popupAddShiftLog.getWindow().getAttributes().gravity = Gravity.TOP;
-
     }
 
     @Override
