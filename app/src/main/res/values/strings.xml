@@ -19,4 +19,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="worked_for_agent">Worked for agent?</string>
+    <string name="agent_name">Agent name</string>
 </resources>
