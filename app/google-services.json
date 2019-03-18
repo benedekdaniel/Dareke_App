@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "123413612333",
+    "firebase_url": "https://darekeapp-150ee.firebaseio.com",
+    "project_id": "darekeapp-150ee",
+    "storage_bucket": "darekeapp-150ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123413612333:android:ce180d76fcf08a26",
+        "android_client_info": {
+          "package_name": "com.darekeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123413612333-ego3tdsivdgm02pupe7q86g4am449ut9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.darekeapp",
+            "certificate_hash": "eb9788bf51d6d84e929be85e8904ed6805b99a94"
+          }
+        },
+        {
+          "client_id": "123413612333-auvbnscmjah3oi9kiqup9cb61up07gcd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzc6Js0yD863RtkLO9LGMN5xoGwLvhK7A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123413612333-auvbnscmjah3oi9kiqup9cb61up07gcd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
