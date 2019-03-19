@@ -1,10 +1,8 @@
 package com.darekeapp.activities;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +19,7 @@ import com.darekeapp.fragments.HomeFragment;
 import com.darekeapp.fragments.SettingsFragment;
 import com.darekeapp.fragments.ShiftLogsFragment;
 
+import com.darekeapp.utils.FullScreenDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,7 +27,6 @@ public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
-    Dialog popupAddShiftLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +37,12 @@ public class Home extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        
-        initialisePopup();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupAddShiftLog.show();
+                FullScreenDialog.display(getSupportFragmentManager());
             }
         });
 
@@ -62,14 +58,6 @@ public class Home extends AppCompatActivity
         updateNavHeader();
     }
 
-    private void initialisePopup() {
-        popupAddShiftLog = new Dialog(this);
-        popupAddShiftLog.setContentView(R.layout.popup_add_shift_log);
-        popupAddShiftLog.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT,
-                Toolbar.LayoutParams.WRAP_CONTENT);
-        popupAddShiftLog.getWindow().getAttributes().gravity = Gravity.TOP;
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -78,28 +66,6 @@ public class Home extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

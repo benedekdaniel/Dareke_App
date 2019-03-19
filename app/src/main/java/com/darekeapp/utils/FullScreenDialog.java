@@ -1,6 +1,7 @@
 package com.darekeapp.utils;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.darekeapp.R;
 
@@ -17,7 +19,7 @@ public class FullScreenDialog extends DialogFragment {
 
     public static FullScreenDialog display(FragmentManager fragmentManager) {
         FullScreenDialog fullScreenDialog = new FullScreenDialog();
-        fullScreenDialog.show(fragmentManager, "example_dialog");
+        fullScreenDialog.show(fragmentManager, "fullscreen_dialog");
         return fullScreenDialog;
     }
 
@@ -31,11 +33,10 @@ public class FullScreenDialog extends DialogFragment {
     public void onStart() {
         super.onStart();
         Dialog dialog = getDialog();
-        if (dialog != null) {
+        if (dialog != null && dialog.getWindow() != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
-            dialog.setContentView(R.layout.popup_add_shift_log);
         }
     }
 
@@ -44,8 +45,7 @@ public class FullScreenDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.full_screen_dialog_layout,
-                container,
-                false);
+                container);
         toolbar = view.findViewById(R.id.toolbar);
         return view;
     }
@@ -60,12 +60,11 @@ public class FullScreenDialog extends DialogFragment {
                 FullScreenDialog.this.dismiss();
             }
         });
-        toolbar.setTitle("Some Title");
         toolbar.inflateMenu(R.menu.full_screen_dialog_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                FullScreenDialog.this.dismiss();
+                Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
