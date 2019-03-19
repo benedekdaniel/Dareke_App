@@ -1,7 +1,6 @@
 package com.darekeapp.utils;
 
 import android.app.Dialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -35,7 +34,7 @@ public class FullScreenDialog extends DialogFragment {
         Dialog dialog = getDialog();
         if (dialog != null && dialog.getWindow() != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
         }
     }
@@ -45,7 +44,7 @@ public class FullScreenDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.full_screen_dialog_layout,
-                container);
+                container, false);
         toolbar = view.findViewById(R.id.toolbar);
         return view;
     }
