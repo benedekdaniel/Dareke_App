@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,10 +20,7 @@ import com.darekeapp.R;
 import com.darekeapp.fragments.HomeFragment;
 import com.darekeapp.fragments.SettingsFragment;
 import com.darekeapp.fragments.ShiftLogsFragment;
-<<<<<<< HEAD
-import com.darekeapp.utils.FullScreenDialog;
-=======
->>>>>>> master
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -46,7 +42,7 @@ public class Home extends AppCompatActivity
         
         initialisePopup();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,13 +50,13 @@ public class Home extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         updateNavHeader();
@@ -76,7 +72,7 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -111,18 +107,23 @@ public class Home extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+
         if (id == R.id.nav_home) {
             getSupportActionBar().setTitle("Home");
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.container, new HomeFragment()).commit();
+            fab.hide();
         } else if (id == R.id.nav_shift_logs) {
             getSupportActionBar().setTitle("Shift Logs");
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.container, new ShiftLogsFragment()).commit();
+            fab.show();
         } else if (id == R.id.nav_settings) {
             getSupportActionBar().setTitle("Settings");
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.container, new SettingsFragment()).commit();
+            fab.hide();
         } else if (id == R.id.nav_sign_out) {
             FirebaseAuth.getInstance().signOut();
             Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
