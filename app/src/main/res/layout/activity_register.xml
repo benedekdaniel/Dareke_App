@@ -28,7 +28,7 @@
             android:background="@drawable/round_edt"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:hint="@string/register_name"
+            android:hint="@string/hint_name"
             android:inputType="textPersonName" />
     </android.support.design.widget.TextInputLayout>
 
