@@ -21,7 +21,10 @@ import com.darekeapp.R;
 import com.darekeapp.fragments.HomeFragment;
 import com.darekeapp.fragments.SettingsFragment;
 import com.darekeapp.fragments.ShiftLogsFragment;
+<<<<<<< HEAD
 import com.darekeapp.utils.FullScreenDialog;
+=======
+>>>>>>> master
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -47,7 +50,7 @@ public class Home extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initialisePopup();
+                popupAddShiftLog.show();
             }
         });
 
