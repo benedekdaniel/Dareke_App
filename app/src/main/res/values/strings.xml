@@ -32,4 +32,5 @@
     <string name="gdpr_statement">GDPR Statement - No data will be shared to third party. You will only be contacted regarding Daily Record Keeper products.</string>
     <string name="what_should_the_share_file_include">What should the share file include?</string>
     <string name="save">Save</string>
+    <string name="add">Add</string>
 </resources>
