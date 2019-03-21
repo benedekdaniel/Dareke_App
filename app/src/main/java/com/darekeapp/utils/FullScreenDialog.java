@@ -4,17 +4,31 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.darekeapp.R;
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 
 public class FullScreenDialog extends DialogFragment {
     private Toolbar toolbar;
+    private EditText companyName;
+    private SwitchCompat workedForAgent;
+    private EditText agentName;
+    private SingleDateAndTimePicker shiftStart;
+    private SingleDateAndTimePicker shiftEnd;
+    private SwitchCompat breakTaken;
+    private SingleDateAndTimePicker breakStart;
+    private SingleDateAndTimePicker breakEnd;
+    private SwitchCompat isTransportCompany;
+    private EditText transportCompanyName;
+    private EditText vehicleRegistration;
 
     public static FullScreenDialog display(FragmentManager fragmentManager) {
         FullScreenDialog fullScreenDialog = new FullScreenDialog();
@@ -46,6 +60,29 @@ public class FullScreenDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.full_screen_dialog_layout,
                 container, false);
         toolbar = view.findViewById(R.id.toolbar);
+
+        companyName = view.findViewById(R.id.company_name);
+        workedForAgent = view.findViewById(R.id.worked_for_agent);
+        agentName = view.findViewById(R.id.agent_name);
+        shiftStart = view.findViewById(R.id.shift_start_time);
+        shiftEnd = view.findViewById(R.id.shift_end_time);
+        breakTaken = view.findViewById(R.id.break_taken);
+        breakStart = view.findViewById(R.id.break_start_time);
+        breakEnd = view.findViewById(R.id.break_end_time);
+        isTransportCompany = view.findViewById(R.id.transport_job);
+        transportCompanyName = view.findViewById(R.id.transport_company_name);
+        vehicleRegistration = view.findViewById(R.id.vehicle_registration);
+
+        shiftStart.setIsAmPm(false);
+        shiftEnd.setIsAmPm(false);
+        breakStart.setIsAmPm(false);
+        breakEnd.setIsAmPm(false);
+
+        shiftStart.setStepMinutes(1);
+        shiftEnd.setStepMinutes(1);
+        breakStart.setStepMinutes(1);
+        breakEnd.setStepMinutes(1);
+
         return view;
     }
 
@@ -63,9 +100,47 @@ public class FullScreenDialog extends DialogFragment {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show();
+                if (fieldsValid()) {
+                    Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show();
+                };
                 return true;
             }
         });
+    }
+
+    private boolean fieldsValid() {
+        if (companyName.getText().toString().isEmpty()) {
+            companyName.setBackgroundResource(R.drawable.invalid_edt);
+            showMessage("Fill out the highlighted boxes");
+            return false;
+        }
+
+        if (workedForAgent.isChecked() && agentName.getText().toString().isEmpty()) {
+            agentName.setBackgroundResource(R.drawable.invalid_edt);
+            showMessage("Fill out the highlighted boxes");
+            return false;
+        }
+
+        if ((shiftStart.getDate().after(shiftEnd.getDate())) ||
+                (shiftStart.getDate().after(shiftEnd.getDate()) &&
+                        shiftStart.getDate().getTime() <= shiftEnd.getDate().getTime())) {
+            showMessage("Invalid shift date or time");
+            return false;
+        };
+
+        if (breakTaken.isChecked() &&
+                (breakStart.getDate().before(shiftStart.getDate())) ||
+                (breakStart.getDate().after(shiftEnd.getDate())) ||
+                (breakStart.getDate().after(breakEnd.getDate()) &&
+                        breakStart.getDate().getTime() <= breakEnd.getDate().getTime())) {
+            showMessage("Invalid break date or time");
+            return false;
+        };
+
+        return true;
+    }
+
+    private void showMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 }

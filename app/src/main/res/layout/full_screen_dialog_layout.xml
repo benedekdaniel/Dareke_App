@@ -221,7 +221,7 @@
                 android:layout_below="@+id/transport_company_name_text_input_layout"
                 android:layout_marginTop="10dp">
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/registration_number"
+                    android:id="@+id/vehicle_registration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_edt"
