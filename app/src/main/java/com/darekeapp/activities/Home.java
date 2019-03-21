@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -25,14 +24,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home2);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
@@ -97,13 +96,13 @@ public class Home extends AppCompatActivity
             finish();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void updateNavHeader() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    private void updateNavHeader() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView navUserName = headerView.findViewById(R.id.nav_user_name);
         TextView navUserEmail = headerView.findViewById(R.id.nav_user_email);

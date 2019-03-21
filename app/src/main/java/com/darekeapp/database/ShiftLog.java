@@ -3,15 +3,18 @@ package com.darekeapp.database;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Date;
-
 
 @Entity
 public class ShiftLog {
     @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "user_uid")
-    private int userUid;
+    private String userUid;
 
     @ColumnInfo(name = "company_name")
     private String companyName;
@@ -46,12 +49,12 @@ public class ShiftLog {
     @ColumnInfo(name = "vehicle_registration")
     private String vehicleRegistration;
 
-    public ShiftLog(int userUid, String companyName, boolean workedForAgent, String agentName,
+    public ShiftLog(String companyName, boolean workedForAgent, String agentName,
                     Date shiftStart, Date shiftEnd,
                     boolean breakTaken, Date breakStart,
                     Date breakEnd, boolean isTransportJob,
                     String transportCompanyName, String vehicleRegistration) {
-        this.userUid = userUid;
+        this.userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         this.companyName = companyName;
         this.workedForAgent = workedForAgent;
         this.agentName = agentName;
@@ -83,11 +86,11 @@ public class ShiftLog {
                 '}';
     }
 
-    public int getUserUid() {
+    public String getUserUid() {
         return userUid;
     }
 
-    public void setUserUid(int userUid) {
+    public void setUserUid(String userUid) {
         this.userUid = userUid;
     }
 
@@ -159,8 +162,8 @@ public class ShiftLog {
         return isTransportJob;
     }
 
-    public void setTransportJob(boolean transportCompany) {
-        isTransportJob = transportCompany;
+    public void setTransportJob(boolean transportJob) {
+        isTransportJob = transportJob;
     }
 
     public String getTransportCompanyName() {

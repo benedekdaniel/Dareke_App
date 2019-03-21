@@ -1,6 +1,7 @@
 package com.darekeapp.utils;
 
 import android.app.Dialog;
+import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -14,10 +15,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.darekeapp.R;
+import com.darekeapp.database.ShiftLogDatabase;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 
 public class FullScreenDialog extends DialogFragment {
     private Toolbar toolbar;
+
+    private ShiftLogDatabase db;
+
     private EditText companyName;
     private SwitchCompat workedForAgent;
     private EditText agentName;
@@ -30,10 +35,9 @@ public class FullScreenDialog extends DialogFragment {
     private EditText transportCompanyName;
     private EditText vehicleRegistration;
 
-    public static FullScreenDialog display(FragmentManager fragmentManager) {
+    public static void display(FragmentManager fragmentManager) {
         FullScreenDialog fullScreenDialog = new FullScreenDialog();
         fullScreenDialog.show(fragmentManager, "fullscreen_dialog");
-        return fullScreenDialog;
     }
 
     @Override
@@ -101,8 +105,11 @@ public class FullScreenDialog extends DialogFragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (fieldsValid()) {
-                    Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show();
-                };
+                    Toast.makeText(getContext(), "Test message passed", Toast.LENGTH_SHORT).show();
+                    db = Room.databaseBuilder(getContext(),
+                                              ShiftLogDatabase.class,
+                                        "ShiftLogDatabase").build();
+                }
                 return true;
             }
         });
@@ -139,7 +146,7 @@ public class FullScreenDialog extends DialogFragment {
                         breakStart.getDate().getTime() <= breakEnd.getDate().getTime())) {
             showMessage("Invalid break date or time");
             return false;
-        };
+        }
 
         if (isTransportJob.isChecked() && transportCompanyName.getText().toString().isEmpty()) {
             transportCompanyName.setBackgroundResource(R.drawable.invalid_edt);

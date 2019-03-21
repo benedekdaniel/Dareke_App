@@ -1,6 +1,5 @@
 package com.darekeapp.fragments;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -73,11 +72,6 @@ public class ShiftLogsFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
     }
 
     @Override

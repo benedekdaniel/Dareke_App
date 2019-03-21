@@ -117,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    public void updateUserInfo(FirebaseUser currentUser, String name) {
+    private void updateUserInfo(FirebaseUser currentUser, String name) {
         UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name).build();
         currentUser.updateProfile(profileUpdate);
