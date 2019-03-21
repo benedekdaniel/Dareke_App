@@ -4,8 +4,6 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
-
 import java.util.Date;
 
 
@@ -39,8 +37,8 @@ public class ShiftLog {
     @ColumnInfo(name = "break_end")
     private Date breakEnd;
 
-    @ColumnInfo(name = "is_transport_company")
-    private boolean isTransportCompany;
+    @ColumnInfo(name = "is_transport_job")
+    private boolean isTransportJob;
 
     @ColumnInfo(name = "transport_company_name")
     private String transportCompanyName;
@@ -51,7 +49,7 @@ public class ShiftLog {
     public ShiftLog(int userUid, String companyName, boolean workedForAgent, String agentName,
                     Date shiftStart, Date shiftEnd,
                     boolean breakTaken, Date breakStart,
-                    Date breakEnd, boolean isTransportCompany,
+                    Date breakEnd, boolean isTransportJob,
                     String transportCompanyName, String vehicleRegistration) {
         this.userUid = userUid;
         this.companyName = companyName;
@@ -62,7 +60,7 @@ public class ShiftLog {
         this.breakTaken = breakTaken;
         this.breakStart = breakStart;
         this.breakEnd = breakEnd;
-        this.isTransportCompany = isTransportCompany;
+        this.isTransportJob = isTransportJob;
         this.transportCompanyName = transportCompanyName;
         this.vehicleRegistration = vehicleRegistration;
     }
@@ -79,7 +77,7 @@ public class ShiftLog {
                 ", breakTaken=" + breakTaken +
                 ", breakStart=" + breakStart +
                 ", breakEnd=" + breakEnd +
-                ", isTransportCompany=" + isTransportCompany +
+                ", isTransportCompany=" + isTransportJob +
                 ", transportCompanyName='" + transportCompanyName + '\'' +
                 ", vehicleRegistration='" + vehicleRegistration + '\'' +
                 '}';
@@ -157,12 +155,12 @@ public class ShiftLog {
         this.breakEnd = breakEnd;
     }
 
-    public boolean isTransportCompany() {
-        return isTransportCompany;
+    public boolean isTransportJob() {
+        return isTransportJob;
     }
 
-    public void setTransportCompany(boolean transportCompany) {
-        isTransportCompany = transportCompany;
+    public void setTransportJob(boolean transportCompany) {
+        isTransportJob = transportCompany;
     }
 
     public String getTransportCompanyName() {

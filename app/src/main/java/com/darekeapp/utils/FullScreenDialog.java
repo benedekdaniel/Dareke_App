@@ -26,7 +26,7 @@ public class FullScreenDialog extends DialogFragment {
     private SwitchCompat breakTaken;
     private SingleDateAndTimePicker breakStart;
     private SingleDateAndTimePicker breakEnd;
-    private SwitchCompat isTransportCompany;
+    private SwitchCompat isTransportJob;
     private EditText transportCompanyName;
     private EditText vehicleRegistration;
 
@@ -69,7 +69,7 @@ public class FullScreenDialog extends DialogFragment {
         breakTaken = view.findViewById(R.id.break_taken);
         breakStart = view.findViewById(R.id.break_start_time);
         breakEnd = view.findViewById(R.id.break_end_time);
-        isTransportCompany = view.findViewById(R.id.transport_job);
+        isTransportJob = view.findViewById(R.id.transport_job);
         transportCompanyName = view.findViewById(R.id.transport_company_name);
         vehicleRegistration = view.findViewById(R.id.vehicle_registration);
 
@@ -113,12 +113,16 @@ public class FullScreenDialog extends DialogFragment {
             companyName.setBackgroundResource(R.drawable.invalid_edt);
             showMessage("Fill out the highlighted boxes");
             return false;
+        } else {
+            companyName.setBackgroundResource(R.drawable.round_edt);
         }
 
         if (workedForAgent.isChecked() && agentName.getText().toString().isEmpty()) {
             agentName.setBackgroundResource(R.drawable.invalid_edt);
             showMessage("Fill out the highlighted boxes");
             return false;
+        } else {
+            agentName.setBackgroundResource(R.drawable.round_edt);
         }
 
         if ((shiftStart.getDate().after(shiftEnd.getDate())) ||
@@ -126,7 +130,7 @@ public class FullScreenDialog extends DialogFragment {
                         shiftStart.getDate().getTime() <= shiftEnd.getDate().getTime())) {
             showMessage("Invalid shift date or time");
             return false;
-        };
+        }
 
         if (breakTaken.isChecked() &&
                 (breakStart.getDate().before(shiftStart.getDate())) ||
@@ -136,6 +140,22 @@ public class FullScreenDialog extends DialogFragment {
             showMessage("Invalid break date or time");
             return false;
         };
+
+        if (isTransportJob.isChecked() && transportCompanyName.getText().toString().isEmpty()) {
+            transportCompanyName.setBackgroundResource(R.drawable.invalid_edt);
+            showMessage("Fill out the highlighted boxes");
+            return false;
+        } else {
+            transportCompanyName.setBackgroundResource(R.drawable.round_edt);
+        }
+
+        if (isTransportJob.isChecked() && vehicleRegistration.getText().toString().isEmpty()) {
+            vehicleRegistration.setBackgroundResource(R.drawable.invalid_edt);
+            showMessage("Fill out the highlighted boxes");
+            return false;
+        } else {
+            vehicleRegistration.setBackgroundResource(R.drawable.round_edt);
+        }
 
         return true;
     }
