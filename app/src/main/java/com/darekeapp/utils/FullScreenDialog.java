@@ -2,6 +2,7 @@ package com.darekeapp.utils;
 
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.darekeapp.R;
+import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 
@@ -105,10 +107,19 @@ public class FullScreenDialog extends DialogFragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (fieldsValid()) {
-                    Toast.makeText(getContext(), "Test message passed", Toast.LENGTH_SHORT).show();
+                    showMessage("Test message passed");
                     db = Room.databaseBuilder(getContext(),
-                                              ShiftLogDatabase.class,
-                                        "ShiftLogDatabase").build();
+                            ShiftLogDatabase.class,
+                            "ShiftLogDatabase").build();
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            ShiftLog.Builder shiftLogBuilder = new ShiftLog.Builder();
+                            // TODO: Save user inputs into database.
+
+                            ShiftLog shiftLog = shiftLogBuilder.build();
+                        }
+                    });
                 }
                 return true;
             }
