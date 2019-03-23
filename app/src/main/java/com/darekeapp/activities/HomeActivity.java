@@ -38,6 +38,7 @@ public class HomeActivity extends AppCompatActivity
         currentUser = mAuth.getCurrentUser();
 
         FloatingActionButton fab = findViewById(R.id.fab);
+        fab.hide();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
