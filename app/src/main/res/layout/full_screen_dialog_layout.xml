@@ -224,6 +224,30 @@
                     android:hint="@string/vehicle_registration"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/poa_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicle_registration_text_input_layout"
+                android:text="@string/poa"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_poa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/poa_text"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
+                android:onClick="sendMessage"
+                android:padding="15dp"
+                android:background="@drawable/round_login"
+                android:text="@string/poa_button_text" />
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>

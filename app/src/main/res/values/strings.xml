@@ -31,4 +31,6 @@
     <string name="what_should_the_share_file_include">What should the share file include?</string>
     <string name="save">Save</string>
     <string name="add">Add</string>
+    <string name="poa">Period of availability</string>
+    <string name="poa_button_text">Add availability</string>
 </resources>
