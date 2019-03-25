@@ -1,7 +1,6 @@
 package com.darekeapp.utils;
 
 import android.app.Dialog;
-import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.darekeapp.R;
@@ -29,6 +29,8 @@ public class FullScreenDialog extends DialogFragment {
     private SingleDateAndTimePicker shiftStart;
     private SingleDateAndTimePicker shiftEnd;
     private SwitchCompat breakTaken;
+    private TextView breakStartText;
+    private TextView breakEndText;
     private SingleDateAndTimePicker breakStart;
     private SingleDateAndTimePicker breakEnd;
     private SwitchCompat isTransportJob;
@@ -72,10 +74,14 @@ public class FullScreenDialog extends DialogFragment {
         shiftEnd = view.findViewById(R.id.shift_end_time);
         breakTaken = view.findViewById(R.id.break_taken);
         breakStart = view.findViewById(R.id.break_start_time);
+        breakStartText = view.findViewById(R.id.break_start_text);
+        breakEndText = view.findViewById(R.id.break_end_text);
         breakEnd = view.findViewById(R.id.break_end_time);
         isTransportJob = view.findViewById(R.id.transport_job);
         transportCompanyName = view.findViewById(R.id.transport_company_name);
         vehicleRegistration = view.findViewById(R.id.vehicle_registration);
+
+
 
         shiftStart.setIsAmPm(false);
         shiftEnd.setIsAmPm(false);
