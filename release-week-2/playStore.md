@@ -1,6 +1,6 @@
 ## DAREKEapp
 
-
+![alt-text-1](https://imgur.com/a/HCTFp8s)
 
 DAREKEapp is an easy-to-use shift log app that saves your shifts and sends them to your company.
 With the DAREKEapp you can:
