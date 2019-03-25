@@ -12,4 +12,4 @@ With the DAREKEapp you can:
     - Agent name
     - Shift start and end
     - Break start and end
-    - Tranport job specific data
+    - Transport job specific data
