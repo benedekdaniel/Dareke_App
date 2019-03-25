@@ -21,7 +21,7 @@ import com.darekeapp.R;
 import com.darekeapp.database.ShiftLogDatabase;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 
-public class FullScreenDialog extends DialogFragment {
+public class FullScreenDialog extends DialogFragment implements View.OnClickListener {
     private Toolbar toolbar;
 
     private ShiftLogDatabase db;
@@ -41,6 +41,7 @@ public class FullScreenDialog extends DialogFragment {
     private EditText vehicleRegistration;
 
     Dialog popupAddPoa;
+    Button myButton;
 
     public static void display(FragmentManager fragmentManager) {
         FullScreenDialog fullScreenDialog = new FullScreenDialog();
@@ -70,24 +71,29 @@ public class FullScreenDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.full_screen_dialog_layout,
+        View rootView = inflater.inflate(R.layout.full_screen_dialog_layout,
                 container, false);
 
-        toolbar = view.findViewById(R.id.toolbar);
 
-        companyName = view.findViewById(R.id.company_name);
-        workedForAgent = view.findViewById(R.id.worked_for_agent);
-        agentName = view.findViewById(R.id.agent_name);
-        shiftStart = view.findViewById(R.id.shift_start_time);
-        shiftEnd = view.findViewById(R.id.shift_end_time);
-        breakTaken = view.findViewById(R.id.break_taken);
-        breakStartText = view.findViewById(R.id.break_start_text);
-        breakStart = view.findViewById(R.id.break_start_time);
-        breakEndText = view.findViewById(R.id.break_end_text);
-        breakEnd = view.findViewById(R.id.break_end_time);
-        isTransportJob = view.findViewById(R.id.transport_job);
-        transportCompanyName = view.findViewById(R.id.transport_company_name);
-        vehicleRegistration = view.findViewById(R.id.vehicle_registration);
+        myButton = (Button) rootView.findViewById(R.id.button_poa);
+        myButton.setOnClickListener(this);
+
+
+        toolbar = rootView.findViewById(R.id.toolbar);
+
+        companyName = rootView.findViewById(R.id.company_name);
+        workedForAgent = rootView.findViewById(R.id.worked_for_agent);
+        agentName = rootView.findViewById(R.id.agent_name);
+        shiftStart = rootView.findViewById(R.id.shift_start_time);
+        shiftEnd = rootView.findViewById(R.id.shift_end_time);
+        breakTaken = rootView.findViewById(R.id.break_taken);
+        breakStartText = rootView.findViewById(R.id.break_start_text);
+        breakStart = rootView.findViewById(R.id.break_start_time);
+        breakEndText = rootView.findViewById(R.id.break_end_text);
+        breakEnd = rootView.findViewById(R.id.break_end_time);
+        isTransportJob = rootView.findViewById(R.id.transport_job);
+        transportCompanyName = rootView.findViewById(R.id.transport_company_name);
+        vehicleRegistration = rootView.findViewById(R.id.vehicle_registration);
 
         // Displays all the times in 24-hour format.
         shiftStart.setIsAmPm(false);
@@ -151,7 +157,7 @@ public class FullScreenDialog extends DialogFragment {
             }
         });
 
-        return view;
+        return rootView;
     }
 
     @Override
@@ -243,4 +249,8 @@ public class FullScreenDialog extends DialogFragment {
         popupAddPoa.getWindow().getAttributes().gravity = Gravity.TOP;
     }
 
+    @Override
+    public void onClick(View v) {
+        popupAddPoa.show();
+    }
 }
