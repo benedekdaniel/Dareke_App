@@ -23,12 +23,9 @@ public class ShiftLogsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-
-
     public ShiftLogsFragment() {
         // Required empty public constructor
     }
-
 
     // TODO: Rename and change types and number of parameters
     public static ShiftLogsFragment newInstance(String param1, String param2) {
@@ -39,8 +36,6 @@ public class ShiftLogsFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
