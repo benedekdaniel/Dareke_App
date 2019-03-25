@@ -11,7 +11,10 @@ import java.util.Date;
 
 @Entity
 public class ShiftLog {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "shift_log_id")
+    private int shiftLogId;
+
     @NonNull
     @ColumnInfo(name = "user_uid")
     private String userUid;
@@ -49,12 +52,15 @@ public class ShiftLog {
     @ColumnInfo(name = "vehicle_registration")
     private String vehicleRegistration;
 
-    public ShiftLog(String companyName, boolean workedForAgent, String agentName,
-                    Date shiftStart, Date shiftEnd,
-                    boolean breakTaken, Date breakStart,
-                    Date breakEnd, boolean isTransportJob,
-                    String transportCompanyName, String vehicleRegistration) {
+    private ShiftLog() {
         this.userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
+    public ShiftLog(String companyName, boolean workedForAgent, String agentName, Date shiftStart,
+                    Date shiftEnd, boolean breakTaken, Date breakStart, Date breakEnd,
+                    boolean isTransportJob, String transportCompanyName,
+                    String vehicleRegistration) {
+        this();
         this.companyName = companyName;
         this.workedForAgent = workedForAgent;
         this.agentName = agentName;
@@ -68,10 +74,74 @@ public class ShiftLog {
         this.vehicleRegistration = vehicleRegistration;
     }
 
+    public static class Builder {
+        private final ShiftLog shiftLog = new ShiftLog();
+
+        public Builder setCompanyName(String companyName) {
+            shiftLog.companyName = companyName;
+            return this;
+        }
+
+        public Builder setWorkedForAgent(boolean workedForAgent) {
+            shiftLog.workedForAgent = workedForAgent;
+            return this;
+        }
+
+        public Builder setAgentName(String agentName) {
+            shiftLog.agentName = agentName;
+            return this;
+        }
+
+        public Builder setShiftStart(Date shiftStart) {
+            shiftLog.shiftStart = shiftStart;
+            return this;
+        }
+
+        public Builder setShiftEnd(Date shiftEnd) {
+            shiftLog.shiftEnd = shiftEnd;
+            return this;
+        }
+
+        public Builder setBreakTaken(boolean breakTaken) {
+            shiftLog.breakTaken = breakTaken;
+            return this;
+        }
+
+        public Builder setBreakStart(Date breakStart) {
+            shiftLog.breakStart = breakStart;
+            return this;
+        }
+
+        public Builder setBreakEnd(Date breakEnd) {
+            shiftLog.breakEnd = breakEnd;
+            return this;
+        }
+
+        public Builder setTransportJob(boolean transportJob) {
+            shiftLog.isTransportJob = transportJob;
+            return this;
+        }
+
+        public Builder setTransportCompanyName(String transportCompanyName) {
+            shiftLog.transportCompanyName = transportCompanyName;
+            return this;
+        }
+
+        public Builder setVehicleRegistration(String vehicleRegistration) {
+            shiftLog.vehicleRegistration = vehicleRegistration;
+            return this;
+        }
+
+        public ShiftLog build() {
+            return shiftLog;
+        }
+    }
+
     @Override
     public String toString() {
         return "ShiftLog{" +
-                "userUid=" + userUid +
+                "shiftLogId=" + shiftLogId +
+                ", userUid='" + userUid + '\'' +
                 ", companyName='" + companyName + '\'' +
                 ", workedForAgent=" + workedForAgent +
                 ", agentName='" + agentName + '\'' +
@@ -80,17 +150,26 @@ public class ShiftLog {
                 ", breakTaken=" + breakTaken +
                 ", breakStart=" + breakStart +
                 ", breakEnd=" + breakEnd +
-                ", isTransportCompany=" + isTransportJob +
+                ", isTransportJob=" + isTransportJob +
                 ", transportCompanyName='" + transportCompanyName + '\'' +
                 ", vehicleRegistration='" + vehicleRegistration + '\'' +
                 '}';
     }
 
+    public int getShiftLogId() {
+        return shiftLogId;
+    }
+
+    public void setShiftLogId(int shiftLogId) {
+        this.shiftLogId = shiftLogId;
+    }
+
+    @NonNull
     public String getUserUid() {
         return userUid;
     }
 
-    public void setUserUid(String userUid) {
+    public void setUserUid(@NonNull String userUid) {
         this.userUid = userUid;
     }
 

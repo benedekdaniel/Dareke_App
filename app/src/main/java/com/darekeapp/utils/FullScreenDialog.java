@@ -3,11 +3,13 @@ package com.darekeapp.utils;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.darekeapp.R;
+import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
 import com.darekeapp.fragments.DatePickerFragment;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.List;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -54,8 +60,6 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
-
-
     }
 
     @Override
@@ -84,7 +88,6 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
                 datePicker.show(getFragmentManager(), "date picker");
             }
         });
-
 
         toolbar = view.findViewById(R.id.toolbar);
 
@@ -182,10 +185,63 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (fieldsValid()) {
-                    Toast.makeText(getContext(), "Test message passed", Toast.LENGTH_SHORT).show();
+                    showMessage("Test message passed");
                     db = Room.databaseBuilder(getContext(),
-                                              ShiftLogDatabase.class,
-                                        "ShiftLogDatabase").build();
+                            ShiftLogDatabase.class,
+                            "ShiftLogDatabase").build();
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            ShiftLog.Builder shiftLogBuilder = new ShiftLog.Builder();
+                            // Save user inputs into database.
+                            shiftLogBuilder.setCompanyName(companyName.getText().toString());
+                            shiftLogBuilder.setWorkedForAgent(workedForAgent.isChecked());
+                            if (!workedForAgent.isChecked()) {
+                                shiftLogBuilder.setAgentName(null);
+                            } else {
+                                shiftLogBuilder.setAgentName(agentName.getText().toString());
+                            }
+                            shiftLogBuilder.setShiftStart(shiftStart.getDate());
+                            shiftLogBuilder.setShiftEnd(shiftEnd.getDate());
+                            shiftLogBuilder.setBreakTaken(breakTaken.isChecked());
+                            if (!breakTaken.isChecked()) {
+                                shiftLogBuilder.setBreakStart(null);
+                                shiftLogBuilder.setBreakEnd(null);
+                            } else {
+                                shiftLogBuilder.setBreakStart(breakStart.getDate());
+                                shiftLogBuilder.setBreakEnd(breakEnd.getDate());
+                            }
+                            shiftLogBuilder.setTransportJob(isTransportJob.isChecked());
+                            if (!isTransportJob.isChecked()) {
+                                shiftLogBuilder.setTransportCompanyName(null);
+                                shiftLogBuilder.setVehicleRegistration(null);
+                            } else {
+                                shiftLogBuilder.setTransportCompanyName(
+                                        transportCompanyName.getText().toString());
+                                shiftLogBuilder.setVehicleRegistration(
+                                        vehicleRegistration.getText().toString());
+                            }
+                            // Build the shift log object.
+                            ShiftLog shiftLog = shiftLogBuilder.build();
+                            // Store the current data of the database inside a `List`.
+                            List<ShiftLog> currentDatabaseContent = db.shiftLogDao().getAllShiftLogs(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            // Delete all the data of the current user from the database.
+                            db.shiftLogDao().deleteAllShiftLogs(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            // Add the new shift log to `currentDatabaseContent`.
+                            currentDatabaseContent.add(shiftLog);
+                            /*
+                             * Add all of the shift logs from `currentDatabaseContent` to the
+                             * database.
+                             */
+                            for (ShiftLog shiftLogs : currentDatabaseContent) {
+                                db.shiftLogDao().insert(shiftLogs);
+                            }
+                            // Test message.
+                            Log.d("TEST", db.shiftLogDao().getAllShiftLogs(FirebaseAuth.getInstance().getCurrentUser().getUid()).toString());
+                            // Close the `FullScreenDialog`.
+                            FullScreenDialog.this.dismiss();
+                        }
+                    });
                 }
                 return true;
             }
