@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.darekeapp.R;
@@ -29,7 +30,9 @@ public class FullScreenDialog extends DialogFragment {
     private SingleDateAndTimePicker shiftStart;
     private SingleDateAndTimePicker shiftEnd;
     private SwitchCompat breakTaken;
+    private TextView breakStartText;
     private SingleDateAndTimePicker breakStart;
+    private TextView breakEndText;
     private SingleDateAndTimePicker breakEnd;
     private SwitchCompat isTransportJob;
     private EditText transportCompanyName;
@@ -71,7 +74,9 @@ public class FullScreenDialog extends DialogFragment {
         shiftStart = view.findViewById(R.id.shift_start_time);
         shiftEnd = view.findViewById(R.id.shift_end_time);
         breakTaken = view.findViewById(R.id.break_taken);
+        breakStartText = view.findViewById(R.id.break_start_text);
         breakStart = view.findViewById(R.id.break_start_time);
+        breakEndText = view.findViewById(R.id.break_end_text);
         breakEnd = view.findViewById(R.id.break_end_time);
         isTransportJob = view.findViewById(R.id.transport_job);
         transportCompanyName = view.findViewById(R.id.transport_company_name);
@@ -88,6 +93,56 @@ public class FullScreenDialog extends DialogFragment {
         shiftEnd.setStepMinutes(1);
         breakStart.setStepMinutes(1);
         breakEnd.setStepMinutes(1);
+
+        // Set initial visibility of optional fields to `View.GONE`.
+        agentName.setVisibility(View.GONE);
+        breakStartText.setVisibility(View.GONE);
+        breakStart.setVisibility(View.GONE);
+        breakEndText.setVisibility(View.GONE);
+        breakEnd.setVisibility(View.GONE);
+        transportCompanyName.setVisibility(View.GONE);
+        vehicleRegistration.setVisibility(View.GONE);
+
+        workedForAgent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!workedForAgent.isChecked()) {
+                    agentName.setVisibility(View.GONE);
+                } else {
+                    agentName.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        breakTaken.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!breakTaken.isChecked()) {
+                    breakStartText.setVisibility(View.GONE);
+                    breakStart.setVisibility(View.GONE);
+                    breakEndText.setVisibility(View.GONE);
+                    breakEnd.setVisibility(View.GONE);
+                } else {
+                    breakStartText.setVisibility(View.VISIBLE);
+                    breakStart.setVisibility(View.VISIBLE);
+                    breakEndText.setVisibility(View.VISIBLE);
+                    breakEnd.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        isTransportJob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isTransportJob.isChecked()) {
+                    transportCompanyName.setVisibility(View.GONE);
+                    vehicleRegistration.setVisibility(View.GONE);
+                } else {
+                    transportCompanyName.setVisibility(View.VISIBLE);
+                    vehicleRegistration.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         return view;
     }
