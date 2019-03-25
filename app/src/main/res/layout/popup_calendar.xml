@@ -7,7 +7,7 @@
 
 
 
-    <com.squareup.timessquare.CalendarPickerView
+    <com.appeaser.sublimepickerlibrary.SublimePicker
         android:id="@+id/popup_calendar"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
