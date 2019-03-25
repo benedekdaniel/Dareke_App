@@ -20,6 +20,9 @@ import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.List;
 
 public class FullScreenDialog extends DialogFragment {
     private Toolbar toolbar;
@@ -144,10 +147,25 @@ public class FullScreenDialog extends DialogFragment {
                                 shiftLogBuilder.setVehicleRegistration(
                                         vehicleRegistration.getText().toString());
                             }
+                            // Build the shift log object.
                             ShiftLog shiftLog = shiftLogBuilder.build();
-                            Log.d("TEST", shiftLog.toString());
-                            db.shiftLogDao().insert(shiftLog);
-                            Log.d("TEST", db.shiftLogDao().getAllShiftLogs("6xzj9ZMSVqhH7pc1VrtrNRTysW82").toString());
+                            // Store the current data of the database inside a `List`.
+                            List<ShiftLog> currentDatabaseContent = db.shiftLogDao().getAllShiftLogs(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            // Delete all the data of the current user from the database.
+                            db.shiftLogDao().deleteAllShiftLogs(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            // Add the new shift log to `currentDatabaseContent`.
+                            currentDatabaseContent.add(shiftLog);
+                            /*
+                             * Add all of the shift logs from `currentDatabaseContent` to the
+                             * database.
+                             */
+                            for (ShiftLog shiftLogs : currentDatabaseContent) {
+                                db.shiftLogDao().insert(shiftLogs);
+                            }
+                            // Test message.
+                            Log.d("TEST", db.shiftLogDao().getAllShiftLogs(FirebaseAuth.getInstance().getCurrentUser().getUid()).toString());
+                            // Close the `FullScreenDialog`.
+                            FullScreenDialog.this.dismiss();
                         }
                     });
                 }

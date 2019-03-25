@@ -36,5 +36,5 @@ public interface ShiftLogDao {
      * @param userUid the unique ID of the user
      */
     @Query("DELETE FROM ShiftLog WHERE user_uid = :userUid")
-    void deleteAllShiftLogs(int userUid);
+    void deleteAllShiftLogs(String userUid);
 }

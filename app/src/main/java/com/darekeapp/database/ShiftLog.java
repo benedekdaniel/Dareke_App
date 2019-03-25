@@ -11,7 +11,10 @@ import java.util.Date;
 
 @Entity
 public class ShiftLog {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "shift_log_id")
+    private int shiftLogId;
+
     @NonNull
     @ColumnInfo(name = "user_uid")
     private String userUid;
@@ -137,7 +140,8 @@ public class ShiftLog {
     @Override
     public String toString() {
         return "ShiftLog{" +
-                "userUid='" + userUid + '\'' +
+                "shiftLogId=" + shiftLogId +
+                ", userUid='" + userUid + '\'' +
                 ", companyName='" + companyName + '\'' +
                 ", workedForAgent=" + workedForAgent +
                 ", agentName='" + agentName + '\'' +
@@ -150,6 +154,14 @@ public class ShiftLog {
                 ", transportCompanyName='" + transportCompanyName + '\'' +
                 ", vehicleRegistration='" + vehicleRegistration + '\'' +
                 '}';
+    }
+
+    public int getShiftLogId() {
+        return shiftLogId;
+    }
+
+    public void setShiftLogId(int shiftLogId) {
+        this.shiftLogId = shiftLogId;
     }
 
     @NonNull
