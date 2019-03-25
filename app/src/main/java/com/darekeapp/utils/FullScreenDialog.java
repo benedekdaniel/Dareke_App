@@ -1,5 +1,6 @@
 package com.darekeapp.utils;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
@@ -13,18 +14,25 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
+import com.darekeapp.fragments.DatePickerFragment;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-public class FullScreenDialog extends DialogFragment {
+import java.text.DateFormat;
+import java.util.Calendar;
+
+public class FullScreenDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private Toolbar toolbar;
 
     private ShiftLogDatabase db;
@@ -35,7 +43,9 @@ public class FullScreenDialog extends DialogFragment {
     private SingleDateAndTimePicker shiftStart;
     private SingleDateAndTimePicker shiftEnd;
     private SwitchCompat breakTaken;
+    private TextView breakStartText;
     private SingleDateAndTimePicker breakStart;
+    private TextView breakEndText;
     private SingleDateAndTimePicker breakEnd;
     private SwitchCompat isTransportJob;
     private EditText transportCompanyName;
@@ -50,6 +60,8 @@ public class FullScreenDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
+
+
     }
 
     @Override
@@ -64,11 +76,22 @@ public class FullScreenDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.full_screen_dialog_layout,
                 container, false);
+
+        Button button = view.findViewById(R.id.button_poa);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getFragmentManager(), "date picker");
+            }
+        });
+
+
         toolbar = view.findViewById(R.id.toolbar);
 
         companyName = view.findViewById(R.id.company_name);
@@ -77,21 +100,75 @@ public class FullScreenDialog extends DialogFragment {
         shiftStart = view.findViewById(R.id.shift_start_time);
         shiftEnd = view.findViewById(R.id.shift_end_time);
         breakTaken = view.findViewById(R.id.break_taken);
+        breakStartText = view.findViewById(R.id.break_start_text);
         breakStart = view.findViewById(R.id.break_start_time);
+        breakEndText = view.findViewById(R.id.break_end_text);
         breakEnd = view.findViewById(R.id.break_end_time);
         isTransportJob = view.findViewById(R.id.transport_job);
         transportCompanyName = view.findViewById(R.id.transport_company_name);
         vehicleRegistration = view.findViewById(R.id.vehicle_registration);
 
+        // Displays all the times in 24-hour format.
         shiftStart.setIsAmPm(false);
         shiftEnd.setIsAmPm(false);
         breakStart.setIsAmPm(false);
         breakEnd.setIsAmPm(false);
 
+        // Sets the step of the minutes to 1.
         shiftStart.setStepMinutes(1);
         shiftEnd.setStepMinutes(1);
         breakStart.setStepMinutes(1);
         breakEnd.setStepMinutes(1);
+
+        // Set initial visibility of optional fields to `View.GONE`.
+        agentName.setVisibility(View.GONE);
+        breakStartText.setVisibility(View.GONE);
+        breakStart.setVisibility(View.GONE);
+        breakEndText.setVisibility(View.GONE);
+        breakEnd.setVisibility(View.GONE);
+        transportCompanyName.setVisibility(View.GONE);
+        vehicleRegistration.setVisibility(View.GONE);
+
+        workedForAgent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!workedForAgent.isChecked()) {
+                    agentName.setVisibility(View.GONE);
+                } else {
+                    agentName.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        breakTaken.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!breakTaken.isChecked()) {
+                    breakStartText.setVisibility(View.GONE);
+                    breakStart.setVisibility(View.GONE);
+                    breakEndText.setVisibility(View.GONE);
+                    breakEnd.setVisibility(View.GONE);
+                } else {
+                    breakStartText.setVisibility(View.VISIBLE);
+                    breakStart.setVisibility(View.VISIBLE);
+                    breakEndText.setVisibility(View.VISIBLE);
+                    breakEnd.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        isTransportJob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isTransportJob.isChecked()) {
+                    transportCompanyName.setVisibility(View.GONE);
+                    vehicleRegistration.setVisibility(View.GONE);
+                } else {
+                    transportCompanyName.setVisibility(View.VISIBLE);
+                    vehicleRegistration.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         return view;
     }
@@ -228,5 +305,18 @@ public class FullScreenDialog extends DialogFragment {
 
     private void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+
+        TextView textView = view.findViewById(R.id.textView);
+        textView.setText(currentDateString);
     }
 }

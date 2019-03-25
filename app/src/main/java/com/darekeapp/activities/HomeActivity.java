@@ -1,5 +1,6 @@
 package com.darekeapp.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.darekeapp.R;
@@ -23,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
@@ -45,6 +47,7 @@ public class HomeActivity extends AppCompatActivity
                 FullScreenDialog.display(getSupportFragmentManager());
             }
         });
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -116,5 +119,10 @@ public class HomeActivity extends AppCompatActivity
 
         navUserName.setText(currentUser.getDisplayName());
         navUserEmail.setText(currentUser.getEmail());
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
     }
 }
