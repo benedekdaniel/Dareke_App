@@ -60,8 +60,6 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
-
-
     }
 
     @Override
@@ -90,7 +88,6 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
                 datePicker.show(getFragmentManager(), "date picker");
             }
         });
-
 
         toolbar = view.findViewById(R.id.toolbar);
 
