@@ -15,7 +15,7 @@ public interface ShiftLogDao {
      * @return all shift logs for the specific user
      */
     @Query("SELECT * FROM ShiftLog WHERE user_uid = :userUid")
-    List<ShiftLog> getAllShiftLogs(int userUid);
+    List<ShiftLog> getAllShiftLogs(String userUid);
 
     /**
      * Inserts one or more new `ShiftLog` objects.

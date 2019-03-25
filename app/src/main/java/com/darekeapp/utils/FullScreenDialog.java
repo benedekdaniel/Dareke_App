@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -115,9 +116,38 @@ public class FullScreenDialog extends DialogFragment {
                         @Override
                         public void run() {
                             ShiftLog.Builder shiftLogBuilder = new ShiftLog.Builder();
-                            // TODO: Save user inputs into database.
-
+                            // Save user inputs into database.
+                            shiftLogBuilder.setCompanyName(companyName.getText().toString());
+                            shiftLogBuilder.setWorkedForAgent(workedForAgent.isChecked());
+                            if (!workedForAgent.isChecked()) {
+                                shiftLogBuilder.setAgentName(null);
+                            } else {
+                                shiftLogBuilder.setAgentName(agentName.getText().toString());
+                            }
+                            shiftLogBuilder.setShiftStart(shiftStart.getDate());
+                            shiftLogBuilder.setShiftEnd(shiftEnd.getDate());
+                            shiftLogBuilder.setBreakTaken(breakTaken.isChecked());
+                            if (!breakTaken.isChecked()) {
+                                shiftLogBuilder.setBreakStart(null);
+                                shiftLogBuilder.setBreakEnd(null);
+                            } else {
+                                shiftLogBuilder.setBreakStart(breakStart.getDate());
+                                shiftLogBuilder.setBreakEnd(breakEnd.getDate());
+                            }
+                            shiftLogBuilder.setTransportJob(isTransportJob.isChecked());
+                            if (!isTransportJob.isChecked()) {
+                                shiftLogBuilder.setTransportCompanyName(null);
+                                shiftLogBuilder.setVehicleRegistration(null);
+                            } else {
+                                shiftLogBuilder.setTransportCompanyName(
+                                        transportCompanyName.getText().toString());
+                                shiftLogBuilder.setVehicleRegistration(
+                                        vehicleRegistration.getText().toString());
+                            }
                             ShiftLog shiftLog = shiftLogBuilder.build();
+                            Log.d("TEST", shiftLog.toString());
+                            db.shiftLogDao().insert(shiftLog);
+                            Log.d("TEST", db.shiftLogDao().getAllShiftLogs("6xzj9ZMSVqhH7pc1VrtrNRTysW82").toString());
                         }
                     });
                 }

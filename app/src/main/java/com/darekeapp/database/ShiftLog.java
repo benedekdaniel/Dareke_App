@@ -157,47 +157,95 @@ public class ShiftLog {
         return userUid;
     }
 
+    public void setUserUid(@NonNull String userUid) {
+        this.userUid = userUid;
+    }
+
     public String getCompanyName() {
         return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public boolean isWorkedForAgent() {
         return workedForAgent;
     }
 
+    public void setWorkedForAgent(boolean workedForAgent) {
+        this.workedForAgent = workedForAgent;
+    }
+
     public String getAgentName() {
         return agentName;
+    }
+
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
     }
 
     public Date getShiftStart() {
         return shiftStart;
     }
 
+    public void setShiftStart(Date shiftStart) {
+        this.shiftStart = shiftStart;
+    }
+
     public Date getShiftEnd() {
         return shiftEnd;
+    }
+
+    public void setShiftEnd(Date shiftEnd) {
+        this.shiftEnd = shiftEnd;
     }
 
     public boolean isBreakTaken() {
         return breakTaken;
     }
 
+    public void setBreakTaken(boolean breakTaken) {
+        this.breakTaken = breakTaken;
+    }
+
     public Date getBreakStart() {
         return breakStart;
+    }
+
+    public void setBreakStart(Date breakStart) {
+        this.breakStart = breakStart;
     }
 
     public Date getBreakEnd() {
         return breakEnd;
     }
 
+    public void setBreakEnd(Date breakEnd) {
+        this.breakEnd = breakEnd;
+    }
+
     public boolean isTransportJob() {
         return isTransportJob;
+    }
+
+    public void setTransportJob(boolean transportJob) {
+        isTransportJob = transportJob;
     }
 
     public String getTransportCompanyName() {
         return transportCompanyName;
     }
 
+    public void setTransportCompanyName(String transportCompanyName) {
+        this.transportCompanyName = transportCompanyName;
+    }
+
     public String getVehicleRegistration() {
         return vehicleRegistration;
+    }
+
+    public void setVehicleRegistration(String vehicleRegistration) {
+        this.vehicleRegistration = vehicleRegistration;
     }
 }
