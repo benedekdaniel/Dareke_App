@@ -7,10 +7,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +40,8 @@ public class FullScreenDialog extends DialogFragment {
     private EditText transportCompanyName;
     private EditText vehicleRegistration;
 
+    Dialog popupAddPoa;
+
     public static void display(FragmentManager fragmentManager) {
         FullScreenDialog fullScreenDialog = new FullScreenDialog();
         fullScreenDialog.show(fragmentManager, "fullscreen_dialog");
@@ -47,6 +51,8 @@ public class FullScreenDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
+
+        initialisePopup();
     }
 
     @Override
@@ -66,6 +72,7 @@ public class FullScreenDialog extends DialogFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.full_screen_dialog_layout,
                 container, false);
+
         toolbar = view.findViewById(R.id.toolbar);
 
         companyName = view.findViewById(R.id.company_name);
@@ -227,4 +234,13 @@ public class FullScreenDialog extends DialogFragment {
     private void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
+
+    private void initialisePopup() {
+        popupAddPoa = new Dialog(getActivity());
+        popupAddPoa.setContentView(R.layout.popup_calendar);
+        popupAddPoa.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT,
+                Toolbar.LayoutParams.WRAP_CONTENT);
+        popupAddPoa.getWindow().getAttributes().gravity = Gravity.TOP;
+    }
+
 }
