@@ -77,11 +77,13 @@ public class FullScreenDialog extends DialogFragment {
         transportCompanyName = view.findViewById(R.id.transport_company_name);
         vehicleRegistration = view.findViewById(R.id.vehicle_registration);
 
+        // Displays all the times in 24-hour format.
         shiftStart.setIsAmPm(false);
         shiftEnd.setIsAmPm(false);
         breakStart.setIsAmPm(false);
         breakEnd.setIsAmPm(false);
 
+        // Sets the step of the minutes to 1.
         shiftStart.setStepMinutes(1);
         shiftEnd.setStepMinutes(1);
         breakStart.setStepMinutes(1);
