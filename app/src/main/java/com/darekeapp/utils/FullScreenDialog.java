@@ -1,6 +1,5 @@
 package com.darekeapp.utils;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
@@ -14,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,16 +20,12 @@ import android.widget.Toast;
 import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
-import com.darekeapp.fragments.DatePickerFragment;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-
-public class FullScreenDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class FullScreenDialog extends DialogFragment {
     private Toolbar toolbar;
 
     private ShiftLogDatabase db;
@@ -47,9 +40,10 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
     private SingleDateAndTimePicker breakStart;
     private TextView breakEndText;
     private SingleDateAndTimePicker breakEnd;
-    private SwitchCompat isTransportJob;
-    private EditText transportCompanyName;
+    private SwitchCompat governedByDriverHours;
     private EditText vehicleRegistration;
+    private TextView poaText;
+    private SingleDateAndTimePicker poaTime;
 
     public static void display(FragmentManager fragmentManager) {
         FullScreenDialog fullScreenDialog = new FullScreenDialog();
@@ -80,15 +74,6 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
         View view = inflater.inflate(R.layout.full_screen_dialog_layout,
                 container, false);
 
-        Button button = view.findViewById(R.id.button_poa);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getFragmentManager(), "date picker");
-            }
-        });
-
         toolbar = view.findViewById(R.id.toolbar);
 
         companyName = view.findViewById(R.id.company_name);
@@ -101,21 +86,27 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
         breakStart = view.findViewById(R.id.break_start_time);
         breakEndText = view.findViewById(R.id.break_end_text);
         breakEnd = view.findViewById(R.id.break_end_time);
-        isTransportJob = view.findViewById(R.id.transport_job);
-        transportCompanyName = view.findViewById(R.id.transport_company_name);
+        governedByDriverHours = view.findViewById(R.id.governed_by_driver_hours);
         vehicleRegistration = view.findViewById(R.id.vehicle_registration);
+        poaText = view.findViewById(R.id.poa_text);
+        poaTime = view.findViewById(R.id.poa_time);
 
         // Displays all the times in 24-hour format.
         shiftStart.setIsAmPm(false);
         shiftEnd.setIsAmPm(false);
         breakStart.setIsAmPm(false);
         breakEnd.setIsAmPm(false);
+        poaTime.setIsAmPm(false);
 
         // Sets the step of the minutes to 1.
         shiftStart.setStepMinutes(1);
         shiftEnd.setStepMinutes(1);
         breakStart.setStepMinutes(1);
         breakEnd.setStepMinutes(1);
+        poaTime.setStepMinutes(1);
+
+        // Remove the dates from POA input.
+        poaTime.setDisplayDays(false);
 
         // Set initial visibility of optional fields to `View.GONE`.
         agentName.setVisibility(View.GONE);
@@ -123,8 +114,9 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
         breakStart.setVisibility(View.GONE);
         breakEndText.setVisibility(View.GONE);
         breakEnd.setVisibility(View.GONE);
-        transportCompanyName.setVisibility(View.GONE);
         vehicleRegistration.setVisibility(View.GONE);
+        poaText.setVisibility(View.GONE);
+        poaTime.setVisibility(View.GONE);
 
         workedForAgent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,19 +146,21 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
             }
         });
 
-        isTransportJob.setOnClickListener(new View.OnClickListener() {
+        governedByDriverHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isTransportJob.isChecked()) {
-                    transportCompanyName.setVisibility(View.GONE);
+                if (!governedByDriverHours.isChecked()) {
                     vehicleRegistration.setVisibility(View.GONE);
+                    poaText.setVisibility(View.GONE);
+                    poaTime.setVisibility(View.GONE);
                 } else {
-                    transportCompanyName.setVisibility(View.VISIBLE);
                     vehicleRegistration.setVisibility(View.VISIBLE);
+                    poaText.setVisibility(View.VISIBLE);
+                    poaTime.setVisibility(View.VISIBLE);
                 }
             }
         });
-
+        // Return the view.
         return view;
     }
 
@@ -185,7 +179,6 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (fieldsValid()) {
-                    showMessage("Test message passed");
                     db = Room.databaseBuilder(getContext(),
                             ShiftLogDatabase.class,
                             "ShiftLogDatabase").build();
@@ -211,22 +204,25 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
                                 shiftLogBuilder.setBreakStart(breakStart.getDate());
                                 shiftLogBuilder.setBreakEnd(breakEnd.getDate());
                             }
-                            shiftLogBuilder.setTransportJob(isTransportJob.isChecked());
-                            if (!isTransportJob.isChecked()) {
-                                shiftLogBuilder.setTransportCompanyName(null);
+                            shiftLogBuilder.setGovernedByDriverHours(
+                                    governedByDriverHours.isChecked());
+                            if (!governedByDriverHours.isChecked()) {
                                 shiftLogBuilder.setVehicleRegistration(null);
+                                shiftLogBuilder.setPoaTime(null);
                             } else {
-                                shiftLogBuilder.setTransportCompanyName(
-                                        transportCompanyName.getText().toString());
                                 shiftLogBuilder.setVehicleRegistration(
                                         vehicleRegistration.getText().toString());
+                                shiftLogBuilder.setPoaTime(poaTime.getDate().getTime());
                             }
                             // Build the shift log object.
                             ShiftLog shiftLog = shiftLogBuilder.build();
                             // Store the current data of the database inside a `List`.
-                            List<ShiftLog> currentDatabaseContent = db.shiftLogDao().getAllShiftLogs(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            List<ShiftLog> currentDatabaseContent = db.shiftLogDao()
+                                            .getAllShiftLogs(FirebaseAuth.getInstance()
+                                            .getCurrentUser().getUid());
                             // Delete all the data of the current user from the database.
-                            db.shiftLogDao().deleteAllShiftLogs(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            db.shiftLogDao().deleteAllShiftLogs(FirebaseAuth.getInstance()
+                                    .getCurrentUser().getUid());
                             // Add the new shift log to `currentDatabaseContent`.
                             currentDatabaseContent.add(shiftLog);
                             /*
@@ -237,7 +233,9 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
                                 db.shiftLogDao().insert(shiftLogs);
                             }
                             // Test message.
-                            Log.d("TEST", db.shiftLogDao().getAllShiftLogs(FirebaseAuth.getInstance().getCurrentUser().getUid()).toString());
+                            Log.d("TEST", db.shiftLogDao().getAllShiftLogs(
+                                    FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .toString());
                             // Close the `FullScreenDialog`.
                             FullScreenDialog.this.dismiss();
                         }
@@ -281,15 +279,8 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
             return false;
         }
 
-        if (isTransportJob.isChecked() && transportCompanyName.getText().toString().isEmpty()) {
-            transportCompanyName.setBackgroundResource(R.drawable.invalid_edt);
-            showMessage("Fill out the highlighted boxes");
-            return false;
-        } else {
-            transportCompanyName.setBackgroundResource(R.drawable.round_edt);
-        }
-
-        if (isTransportJob.isChecked() && vehicleRegistration.getText().toString().isEmpty()) {
+        if (governedByDriverHours.isChecked() &&
+                vehicleRegistration.getText().toString().isEmpty()) {
             vehicleRegistration.setBackgroundResource(R.drawable.invalid_edt);
             showMessage("Fill out the highlighted boxes");
             return false;
@@ -297,23 +288,16 @@ public class FullScreenDialog extends DialogFragment implements DatePickerDialog
             vehicleRegistration.setBackgroundResource(R.drawable.round_edt);
         }
 
+        if (governedByDriverHours.isChecked() && poaTime.getDate().getTime() >=
+                (shiftEnd.getDate().getTime() - shiftStart.getDate().getTime())) {
+            showMessage("POA time must be within shift hours");
+            return false;
+        }
+
         return true;
     }
 
     private void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-
-        TextView textView = view.findViewById(R.id.textView);
-        textView.setText(currentDateString);
     }
 }
