@@ -1,6 +1,8 @@
 # DAREKEapp
 
-![Login Page](https://i.stack.imgur.com/7cH32.png) ![Home Page](https://i.stack.imgur.com/a1qB9.png) ![Shift Log Form](https://i.stack.imgur.com/oBHpN.png)
+<img src="https://i.stack.imgur.com/7cH32.png" alt="Login Page" width="320">
+<img src="https://i.stack.imgur.com/a1qB9.png" alt="Home Page" width="320">
+<img src="https://i.stack.imgur.com/oBHpN.png" alt="Shift Log Form" width="320">
 
 DAREKEapp is an easy-to-use shift log app that saves your shifts and sends them to your company.
 With the DAREKEapp you can:
