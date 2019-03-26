@@ -241,6 +241,16 @@
                 android:text="@string/drive_time"
                 android:textSize="18sp"
                 android:textColor="@android:color/black" />
+
+            <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+                android:id="@+id/drive_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                app:picker_curved="true"
+                app:picker_cyclic="true"
+                android:layout_below="@id/drive_time_text"
+                app:picker_visibleItemCount="7" />
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>

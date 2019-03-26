@@ -1,6 +1,5 @@
 package com.darekeapp.activities;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,12 +11,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.darekeapp.R;
 import com.darekeapp.fragments.HomeFragment;
-import com.darekeapp.fragments.SettingsFragment;
 import com.darekeapp.fragments.ShiftLogsFragment;
 
 import com.darekeapp.utils.FullScreenDialog;
@@ -25,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
@@ -47,7 +44,6 @@ public class HomeActivity extends AppCompatActivity
                 FullScreenDialog.display(getSupportFragmentManager());
             }
         });
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -94,11 +90,6 @@ public class HomeActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.container, new ShiftLogsFragment()).commit();
             fab.show();
-        } else if (id == R.id.nav_settings) {
-            getSupportActionBar().setTitle("Settings");
-            getSupportFragmentManager().beginTransaction().replace(
-                    R.id.container, new SettingsFragment()).commit();
-            fab.hide();
         } else if (id == R.id.nav_sign_out) {
             FirebaseAuth.getInstance().signOut();
             Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
@@ -119,10 +110,5 @@ public class HomeActivity extends AppCompatActivity
 
         navUserName.setText(currentUser.getDisplayName());
         navUserEmail.setText(currentUser.getEmail());
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
     }
 }

@@ -52,13 +52,17 @@ public class ShiftLog {
     @ColumnInfo(name = "poa_time")
     private Long poaTime;
 
+    @ColumnInfo(name = "drive_time")
+    private Long driveTime;
+
     private ShiftLog() {
         this.userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     public ShiftLog(String companyName, boolean workedForAgent, String agentName, Date shiftStart,
                     Date shiftEnd, boolean breakTaken, Date breakStart, Date breakEnd,
-                    boolean governedByDriverHours, String vehicleRegistration, Long poaTime) {
+                    boolean governedByDriverHours, String vehicleRegistration, Long poaTime,
+                    Long driveTime) {
         this();
         this.companyName = companyName;
         this.workedForAgent = workedForAgent;
@@ -71,6 +75,7 @@ public class ShiftLog {
         this.governedByDriverHours = governedByDriverHours;
         this.vehicleRegistration = vehicleRegistration;
         this.poaTime = poaTime;
+        this.driveTime = driveTime;
     }
 
     public static class Builder {
@@ -131,6 +136,11 @@ public class ShiftLog {
             return this;
         }
 
+        public Builder setDriveTime(Long driveTime) {
+            shiftLog.driveTime = driveTime;
+            return this;
+        }
+
         public ShiftLog build() {
             return shiftLog;
         }
@@ -152,6 +162,7 @@ public class ShiftLog {
                 ", governedByDriverHours=" + governedByDriverHours +
                 ", vehicleRegistration='" + vehicleRegistration + '\'' +
                 ", poaTime=" + poaTime +
+                ", driveTime=" + driveTime +
                 '}';
     }
 
@@ -258,5 +269,13 @@ public class ShiftLog {
 
     public void setPoaTime(Long poaTime) {
         this.poaTime = poaTime;
+    }
+
+    public Long getDriveTime() {
+        return driveTime;
+    }
+
+    public void setDriveTime(Long driveTime) {
+        this.driveTime = driveTime;
     }
 }
