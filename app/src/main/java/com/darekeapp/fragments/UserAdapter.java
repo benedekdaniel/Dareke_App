@@ -11,12 +11,13 @@ import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
-    ArrayList<ShiftLog> users;
+    List<ShiftLog> users;
 
-    public UserAdapter(ArrayList<ShiftLog> users) {
+    public UserAdapter(List<ShiftLog> users) {
         this.users = users;
     }
 

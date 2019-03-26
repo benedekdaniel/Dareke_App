@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ShiftLogsFragment extends Fragment {
@@ -64,17 +66,12 @@ public class ShiftLogsFragment extends Fragment {
 
         recyclerView = myView.findViewById(R.id.shift_list_recycle);
 
-//        users = new ArrayList<>();
-//
-//        for (int i = 0; i <10 ; i++) {
-//
-//
-//            users.add("Daniel");
-//
-//
-//        }
+        ShiftLogDatabase db = Room.databaseBuilder(getContext(), ShiftLogDatabase.class, "ShiftLogDatabase")
+                .allowMainThreadQueries()
+                .build();
 
-        ShiftLogDatabase db = Room.databaseBuilder(getContext(), ShiftLogDatabase.class, "ShiftLogDatabase").build();
+        List<ShiftLog> users = db.shiftLogDao().getAllShiftLogs(
+                FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
 
