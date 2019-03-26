@@ -43,14 +43,14 @@ public class ShiftLog {
     @ColumnInfo(name = "break_end")
     private Date breakEnd;
 
-    @ColumnInfo(name = "is_transport_job")
-    private boolean isTransportJob;
-
-    @ColumnInfo(name = "transport_company_name")
-    private String transportCompanyName;
+    @ColumnInfo(name = "governed_by_driver_hours")
+    private boolean governedByDriverHours;
 
     @ColumnInfo(name = "vehicle_registration")
     private String vehicleRegistration;
+
+    @ColumnInfo(name = "poa_time")
+    private Long poaTime;
 
     private ShiftLog() {
         this.userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -58,8 +58,7 @@ public class ShiftLog {
 
     public ShiftLog(String companyName, boolean workedForAgent, String agentName, Date shiftStart,
                     Date shiftEnd, boolean breakTaken, Date breakStart, Date breakEnd,
-                    boolean isTransportJob, String transportCompanyName,
-                    String vehicleRegistration) {
+                    boolean governedByDriverHours, String vehicleRegistration, Long poaTime) {
         this();
         this.companyName = companyName;
         this.workedForAgent = workedForAgent;
@@ -69,9 +68,9 @@ public class ShiftLog {
         this.breakTaken = breakTaken;
         this.breakStart = breakStart;
         this.breakEnd = breakEnd;
-        this.isTransportJob = isTransportJob;
-        this.transportCompanyName = transportCompanyName;
+        this.governedByDriverHours = governedByDriverHours;
         this.vehicleRegistration = vehicleRegistration;
+        this.poaTime = poaTime;
     }
 
     public static class Builder {
@@ -117,18 +116,18 @@ public class ShiftLog {
             return this;
         }
 
-        public Builder setTransportJob(boolean transportJob) {
-            shiftLog.isTransportJob = transportJob;
-            return this;
-        }
-
-        public Builder setTransportCompanyName(String transportCompanyName) {
-            shiftLog.transportCompanyName = transportCompanyName;
+        public Builder setGovernedByDriverHours(boolean governedByDriverHours) {
+            shiftLog.governedByDriverHours = governedByDriverHours;
             return this;
         }
 
         public Builder setVehicleRegistration(String vehicleRegistration) {
             shiftLog.vehicleRegistration = vehicleRegistration;
+            return this;
+        }
+
+        public Builder setPoaTime(Long poaTime) {
+            shiftLog.poaTime = poaTime;
             return this;
         }
 
@@ -150,9 +149,9 @@ public class ShiftLog {
                 ", breakTaken=" + breakTaken +
                 ", breakStart=" + breakStart +
                 ", breakEnd=" + breakEnd +
-                ", isTransportJob=" + isTransportJob +
-                ", transportCompanyName='" + transportCompanyName + '\'' +
+                ", governedByDriverHours=" + governedByDriverHours +
                 ", vehicleRegistration='" + vehicleRegistration + '\'' +
+                ", poaTime=" + poaTime +
                 '}';
     }
 
@@ -237,20 +236,12 @@ public class ShiftLog {
         this.breakEnd = breakEnd;
     }
 
-    public boolean isTransportJob() {
-        return isTransportJob;
+    public boolean isGovernedByDriverHours() {
+        return governedByDriverHours;
     }
 
-    public void setTransportJob(boolean transportJob) {
-        isTransportJob = transportJob;
-    }
-
-    public String getTransportCompanyName() {
-        return transportCompanyName;
-    }
-
-    public void setTransportCompanyName(String transportCompanyName) {
-        this.transportCompanyName = transportCompanyName;
+    public void setGovernedByDriverHours(boolean governedByDriverHours) {
+        this.governedByDriverHours = governedByDriverHours;
     }
 
     public String getVehicleRegistration() {
@@ -259,5 +250,13 @@ public class ShiftLog {
 
     public void setVehicleRegistration(String vehicleRegistration) {
         this.vehicleRegistration = vehicleRegistration;
+    }
+
+    public Long getPoaTime() {
+        return poaTime;
+    }
+
+    public void setPoaTime(Long poaTime) {
+        this.poaTime = poaTime;
     }
 }
