@@ -1,13 +1,21 @@
 package com.darekeapp.fragments;
 
+import android.arch.persistence.room.Room;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.darekeapp.R;
+import com.darekeapp.database.ShiftLog;
+import com.darekeapp.database.ShiftLogDatabase;
+
+import java.util.ArrayList;
+
 
 public class ShiftLogsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -20,6 +28,10 @@ public class ShiftLogsFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    RecyclerView recyclerView;
+    RecyclerView.Adapter adapter;
+//    ArrayList<ShiftLog> users;
 
     public ShiftLogsFragment() {
         // Required empty public constructor
@@ -49,6 +61,26 @@ public class ShiftLogsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View myView =  inflater.inflate(R.layout.fragment_shift_logs, container, false);
+
+        recyclerView = myView.findViewById(R.id.shift_list_recycle);
+
+//        users = new ArrayList<>();
+//
+//        for (int i = 0; i <10 ; i++) {
+//
+//
+//            users.add("Daniel");
+//
+//
+//        }
+
+        ShiftLogDatabase db = Room.databaseBuilder(getContext(), ShiftLogDatabase.class, "ShiftLogDatabase").build();
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+
+        adapter = new UserAdapter(users);
+
+        recyclerView.setAdapter(adapter);
 
         return myView;
     }
