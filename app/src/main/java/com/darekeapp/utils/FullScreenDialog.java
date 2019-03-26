@@ -44,6 +44,8 @@ public class FullScreenDialog extends DialogFragment {
     private EditText vehicleRegistration;
     private TextView poaText;
     private SingleDateAndTimePicker poaTime;
+    private TextView driveTimeText;
+    private  SingleDateAndTimePicker driveTime;
 
     public static void display(FragmentManager fragmentManager) {
         FullScreenDialog fullScreenDialog = new FullScreenDialog();
@@ -90,6 +92,8 @@ public class FullScreenDialog extends DialogFragment {
         vehicleRegistration = view.findViewById(R.id.vehicle_registration);
         poaText = view.findViewById(R.id.poa_text);
         poaTime = view.findViewById(R.id.poa_time);
+        driveTimeText = view.findViewById(R.id.drive_time_text);
+        driveTime = view.findViewById(R.id.drive_time);
 
         // Displays all the times in 24-hour format.
         shiftStart.setIsAmPm(false);
@@ -97,6 +101,7 @@ public class FullScreenDialog extends DialogFragment {
         breakStart.setIsAmPm(false);
         breakEnd.setIsAmPm(false);
         poaTime.setIsAmPm(false);
+        driveTime.setIsAmPm(false);
 
         // Sets the step of the minutes to 1.
         shiftStart.setStepMinutes(1);
@@ -104,9 +109,11 @@ public class FullScreenDialog extends DialogFragment {
         breakStart.setStepMinutes(1);
         breakEnd.setStepMinutes(1);
         poaTime.setStepMinutes(1);
+        driveTime.setStepMinutes(1);
 
-        // Remove the dates from POA input.
+        // Remove the dates from hour and minute inputs.
         poaTime.setDisplayDays(false);
+        driveTime.setDisplayDays(false);
 
         // Set initial visibility of optional fields to `View.GONE`.
         agentName.setVisibility(View.GONE);
@@ -117,6 +124,8 @@ public class FullScreenDialog extends DialogFragment {
         vehicleRegistration.setVisibility(View.GONE);
         poaText.setVisibility(View.GONE);
         poaTime.setVisibility(View.GONE);
+        driveTimeText.setVisibility(View.GONE);
+        driveTime.setVisibility(View.GONE);
 
         workedForAgent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,10 +162,14 @@ public class FullScreenDialog extends DialogFragment {
                     vehicleRegistration.setVisibility(View.GONE);
                     poaText.setVisibility(View.GONE);
                     poaTime.setVisibility(View.GONE);
+                    driveTimeText.setVisibility(View.GONE);
+                    driveTime.setVisibility(View.GONE);
                 } else {
                     vehicleRegistration.setVisibility(View.VISIBLE);
                     poaText.setVisibility(View.VISIBLE);
                     poaTime.setVisibility(View.VISIBLE);
+                    driveTimeText.setVisibility(View.VISIBLE);
+                    driveTime.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -209,10 +222,12 @@ public class FullScreenDialog extends DialogFragment {
                             if (!governedByDriverHours.isChecked()) {
                                 shiftLogBuilder.setVehicleRegistration(null);
                                 shiftLogBuilder.setPoaTime(null);
+                                shiftLogBuilder.setDriveTime(null);
                             } else {
                                 shiftLogBuilder.setVehicleRegistration(
                                         vehicleRegistration.getText().toString());
                                 shiftLogBuilder.setPoaTime(poaTime.getDate().getTime());
+                                shiftLogBuilder.setDriveTime(driveTime.getDate().getTime());
                             }
                             // Build the shift log object.
                             ShiftLog shiftLog = shiftLogBuilder.build();
@@ -286,12 +301,6 @@ public class FullScreenDialog extends DialogFragment {
             return false;
         } else {
             vehicleRegistration.setBackgroundResource(R.drawable.round_edt);
-        }
-
-        if (governedByDriverHours.isChecked() && poaTime.getDate().getTime() >=
-                (shiftEnd.getDate().getTime() - shiftStart.getDate().getTime())) {
-            showMessage("POA time must be within shift hours");
-            return false;
         }
 
         return true;

@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.darekeapp.R;
 import com.darekeapp.fragments.HomeFragment;
-import com.darekeapp.fragments.SettingsFragment;
 import com.darekeapp.fragments.ShiftLogsFragment;
 
 import com.darekeapp.utils.FullScreenDialog;
@@ -45,7 +44,6 @@ public class HomeActivity extends AppCompatActivity
                 FullScreenDialog.display(getSupportFragmentManager());
             }
         });
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -92,11 +90,6 @@ public class HomeActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.container, new ShiftLogsFragment()).commit();
             fab.show();
-        } else if (id == R.id.nav_settings) {
-            getSupportActionBar().setTitle("Settings");
-            getSupportFragmentManager().beginTransaction().replace(
-                    R.id.container, new SettingsFragment()).commit();
-            fab.hide();
         } else if (id == R.id.nav_sign_out) {
             FirebaseAuth.getInstance().signOut();
             Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
@@ -118,5 +111,4 @@ public class HomeActivity extends AppCompatActivity
         navUserName.setText(currentUser.getDisplayName());
         navUserEmail.setText(currentUser.getEmail());
     }
-
 }
