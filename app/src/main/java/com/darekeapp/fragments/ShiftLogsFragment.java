@@ -1,6 +1,7 @@
 package com.darekeapp.fragments;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,13 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.darekeapp.R;
+import com.darekeapp.activities.ShiftLogDataActivity;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
+import com.darekeapp.utils.FullScreenDialog;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 public class ShiftLogsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -33,10 +34,9 @@ public class ShiftLogsFragment extends Fragment {
 
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
-//    ArrayList<ShiftLog> users;
 
     public ShiftLogsFragment() {
-        // Required empty public constructor
+        // Required empty public constructor.
     }
 
     // TODO: Rename and change types and number of parameters
@@ -61,23 +61,35 @@ public class ShiftLogsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment.
         View myView =  inflater.inflate(R.layout.fragment_shift_logs, container, false);
 
-        recyclerView = myView.findViewById(R.id.shift_list_recycle);
+        recyclerView = myView.findViewById(R.id.shift_list_recycler_view);
 
-        ShiftLogDatabase db = Room.databaseBuilder(getContext(), ShiftLogDatabase.class, "ShiftLogDatabase")
+        ShiftLogDatabase db = Room.databaseBuilder(getContext(),ShiftLogDatabase.class,
+                "ShiftLogDatabase")
                 .allowMainThreadQueries()
                 .build();
 
-        List<ShiftLog> users = db.shiftLogDao().getAllShiftLogs(
+        List<ShiftLog> shiftLogs = db.shiftLogDao().getAllShiftLogs(
                 FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
-
-        adapter = new UserAdapter(users);
-
+        adapter = new ShiftLogAdapter(shiftLogs);
         recyclerView.setAdapter(adapter);
+
+        ((ShiftLogAdapter) adapter).setOnItemClickListener(
+                new ShiftLogAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ShiftLog shiftLog) {
+                Intent intent = new Intent(getActivity(), ShiftLogDataActivity.class);
+                intent.putExtra(FullScreenDialog.EXTRA_ID, shiftLog.getShiftLogId());
+                intent.putExtra(FullScreenDialog.EXTRA_COMPANY_NAME, shiftLog.getCompanyName());
+                intent.putExtra(FullScreenDialog.EXTRA_SHIFT_START, shiftLog.getShiftStart());
+                intent.putExtra(FullScreenDialog.EXTRA_SHIFT_END, shiftLog.getShiftEnd());
+                startActivity(intent);
+            }
+        });
 
         return myView;
     }
@@ -94,7 +106,6 @@ public class ShiftLogsFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

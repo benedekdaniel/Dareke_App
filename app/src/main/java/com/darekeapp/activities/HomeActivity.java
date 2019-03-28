@@ -81,7 +81,7 @@ public class HomeActivity extends AppCompatActivity
         FloatingActionButton fab = findViewById(R.id.fab);
 
         if (id == R.id.nav_home) {
-            getSupportActionBar().setTitle("HomeActivity");
+            getSupportActionBar().setTitle("Home");
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.container, new HomeFragment()).commit();
             fab.hide();

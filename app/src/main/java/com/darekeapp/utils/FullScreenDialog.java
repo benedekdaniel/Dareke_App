@@ -26,6 +26,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 public class FullScreenDialog extends DialogFragment {
+    public static final String EXTRA_ID = "com.darekeapp.utils.FullScreenDialog.EXTRA_ID";
+    public static final String EXTRA_COMPANY_NAME = "com.darekeapp.utils.FullScreenDialog.EXTRA_COMPANY_NAME";
+    public static final String EXTRA_SHIFT_START = "com.darekeapp.utils.FullScreenDialog.EXTRA_SHIFT_START";
+    public static final String EXTRA_SHIFT_END = "com.darekeapp.utils.FullScreenDialog.EXTRA_SHIFT_END";
+
     private Toolbar toolbar;
 
     private ShiftLogDatabase db;

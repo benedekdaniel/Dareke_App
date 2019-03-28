@@ -14,7 +14,8 @@
     <string name="nav_header_title">User Name</string>
     <string name="nav_header_subtitle">user.name@firebase.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_share">Share</string>
     <string name="company_name">Name of company</string>
     <string name="worked_for_agent">Worked for agent?</string>
     <string name="agent_name">Agent name</string>
@@ -33,4 +34,5 @@
     <string name="poa">How much POA did you incur during the shift?</string>
     <string name="poa_button_text">Add availability</string>
     <string name="drive_time">How much drive time did you accumulate during your shift?</string>
+    <string name="title_activity_shift_log_data">ShiftLogDataActivity</string>
 </resources>

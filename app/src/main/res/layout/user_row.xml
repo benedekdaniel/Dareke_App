@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:padding="12dp">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/company_name_list_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/shift_start_list_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/shift_end_list_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"/>
-
-
+        android:textSize="12sp" />
 </LinearLayout>
