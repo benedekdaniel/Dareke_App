@@ -127,4 +127,14 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         RegisterActivity.this.startActivity(intent);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        regName.setText("");
+        regEmail.setText("");
+        regPassword.setText("");
+        regConfirmPassword.setText("");
+    }
 }

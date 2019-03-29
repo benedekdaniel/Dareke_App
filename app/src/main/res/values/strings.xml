@@ -27,12 +27,12 @@
     <string name="governed_by_driver_hours">Is the shift governed by driver hours?</string>
     <string name="vehicle_registration">Vehicle registration</string>
     <string name="darekeapp_info">Daily Record Keeper takes care of your shift management needs on a daily basis.</string>
-    <string name="gdpr_statement">GDPR Statement - No data will be shared to third party. You will only be contacted regarding Daily Record Keeper products.</string>
+    <string name="gdpr_statement"><b>GDPR Statement -</b> No data will be shared to third party. You will only be contacted regarding Daily Record Keeper products.</string>
     <string name="what_should_the_share_file_include">What should the share file include?</string>
     <string name="save">Save</string>
     <string name="add">Add</string>
     <string name="poa">How much POA did you incur during the shift?</string>
     <string name="poa_button_text">Add availability</string>
     <string name="drive_time">How much drive time did you accumulate during your shift?</string>
-    <string name="title_activity_shift_log_data">ShiftLogDataActivity</string>
+    <string name="title_activity_shift_log_data">Shift Log Data</string>
 </resources>

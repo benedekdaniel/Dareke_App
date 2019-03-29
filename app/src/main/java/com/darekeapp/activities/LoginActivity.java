@@ -126,4 +126,12 @@ public class LoginActivity extends AppCompatActivity {
             launchHomeActivity();
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        loginEmail.setText("");
+        loginPassword.setText("");
+    }
 }
