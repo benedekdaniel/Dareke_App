@@ -90,11 +90,9 @@ public class ShiftLogsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
         adapter = new ShiftLogAdapter(shiftLogs);
 
-        //Add line divider after shift logs
-
+        // Add line divider after each shift log.
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity()
                 .getBaseContext(), DividerItemDecoration.VERTICAL);
-
         dividerItemDecoration.setDrawable(getResources()
                 .getDrawable(R.drawable.recyclerview_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
