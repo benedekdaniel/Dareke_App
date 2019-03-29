@@ -13,12 +13,21 @@ import com.darekeapp.database.ShiftLog;
 import java.util.List;
 
 public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHolder> {
+
     private List<ShiftLog> shiftLogs;
     private OnItemClickListener listener;
 
     public ShiftLogAdapter(List<ShiftLog> shiftLogs) {
         this.shiftLogs = shiftLogs;
     }
+
+    public void setData(List<ShiftLog> newData) {
+        this.shiftLogs.clear();
+        shiftLogs.addAll(newData);
+        notifyDataSetChanged();
+    }
+
+
 
     @NonNull
     @Override

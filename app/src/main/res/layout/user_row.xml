@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="@android:color/black" />
+        android:textColor="#2B2B2B"
+        android:fontFamily="sans-serif-medium"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/shift_start_list_text"

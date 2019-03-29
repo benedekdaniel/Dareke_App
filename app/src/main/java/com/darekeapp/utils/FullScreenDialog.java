@@ -256,6 +256,7 @@ public class FullScreenDialog extends DialogFragment {
                         }
                     });
                 }
+
                 return true;
             }
         });
