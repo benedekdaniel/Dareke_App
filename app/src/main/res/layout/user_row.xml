@@ -7,6 +7,7 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/company_name_list_text"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
