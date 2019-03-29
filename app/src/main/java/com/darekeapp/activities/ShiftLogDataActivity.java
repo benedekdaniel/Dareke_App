@@ -43,7 +43,7 @@ public class ShiftLogDataActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd hh:mm:ss yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm:ss");
 
         companyNameDataText = findViewById(R.id.company_name_data_text);
         workedForAgentDataText = findViewById(R.id.worked_for_agent_data_text);
