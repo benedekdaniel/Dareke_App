@@ -9,17 +9,20 @@
         android:id="@+id/company_name_list_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="@android:color/black" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/shift_start_list_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textColor="@android:color/black" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/shift_end_list_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textColor="@android:color/black" />
 </LinearLayout>

@@ -30,6 +30,7 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/company_name_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -37,19 +38,23 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/company_name"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/company_name_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/company_name"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/worked_for_agent_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -57,19 +62,23 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/worked_for_agent"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/worked_for_agent_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/worked_for_agent"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/agent_name_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -77,19 +86,23 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/agent_name"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/agent_name_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/agent_name"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/shift_start_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -97,19 +110,23 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/shift_start"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/shift_start_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/shift_start"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/shift_end_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -117,19 +134,23 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/shift_end"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/shift_end_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/shift_end"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/break_taken_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -137,19 +158,23 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/break_taken"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/break_taken_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/break_taken"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/break_start_time_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -157,19 +182,23 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/break_start_time"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/break_start_time_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/break_start_time"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/break_end_time_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -177,19 +206,23 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/break_end_time"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/break_end_time_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/break_end_time"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/governed_by_driver_hours_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -197,19 +230,23 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/governed_by_driver_hours"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/governed_by_driver_hours_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/governed_by_driver_hours"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/vehicle_registration_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -218,18 +255,22 @@
                 android:text="@string/vehicle_registration"
                 android:textAllCaps="true"
                 android:textColor="@android:color/black"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/vehicle_registration_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/vehicle_registration"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/poa_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -237,19 +278,23 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/poa"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/poa_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/poa"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/drive_time_data_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -257,16 +302,19 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/drive_time"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/drive_time_data_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@string/drive_time"
+                android:textSize="18sp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
     </ScrollView>
