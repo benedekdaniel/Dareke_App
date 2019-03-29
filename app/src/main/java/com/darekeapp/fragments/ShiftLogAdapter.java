@@ -31,8 +31,10 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ShiftLogAdapter.ViewHolder viewHolder, int position) {
         viewHolder.companyName.setText(shiftLogs.get(position).getCompanyName());
-        viewHolder.shiftStart.setText("Shift start: " + shiftLogs.get(position).getShiftStart().toString());
-        viewHolder.shiftEnd.setText("Shift end: " + shiftLogs.get(position).getShiftEnd().toString());
+        viewHolder.shiftStart.setText("Shift start: " + shiftLogs.get(position)
+                .getShiftStart().toString());
+        viewHolder.shiftEnd.setText("Shift end: " + shiftLogs.get(position)
+                .getShiftEnd().toString());
     }
 
     @Override
