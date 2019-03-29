@@ -134,6 +134,13 @@ public class ShiftLogDataActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_share) {
             return true;
+        } else if (id == android.R.id.home) {
+            /*
+             * When the user clicks back on the action bar, return back to the
+             * `ShiftLogsFragment` by finishing this activity.
+             */
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
