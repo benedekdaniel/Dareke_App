@@ -79,7 +79,7 @@ public class ShiftLogsFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.shift_list_recycler_view);
 
-        ShiftLogDatabase db = Room.databaseBuilder(getContext(),ShiftLogDatabase.class,
+        ShiftLogDatabase db = Room.databaseBuilder(getContext(), ShiftLogDatabase.class,
                 "ShiftLogDatabase")
                 .allowMainThreadQueries()
                 .build();

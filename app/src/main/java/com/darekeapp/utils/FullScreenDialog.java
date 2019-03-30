@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
+import com.darekeapp.fragments.ShiftLogsFragment;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -47,9 +48,8 @@ public class FullScreenDialog extends DialogFragment {
     private TextView driveTimeText;
     private SingleDateAndTimePicker driveTime;
 
-    public static void display(FragmentManager fragmentManager) {
-        FullScreenDialog fullScreenDialog = new FullScreenDialog();
-        fullScreenDialog.show(fragmentManager, "fullscreen_dialog");
+    public void display(FragmentManager fragmentManager) {
+        show(fragmentManager, "fullscreen_dialog");
     }
 
     @Override
@@ -127,6 +127,19 @@ public class FullScreenDialog extends DialogFragment {
         driveTimeText.setVisibility(View.GONE);
         driveTime.setVisibility(View.GONE);
 
+        /*
+         * If the arguments in the `Bundle` are not null, populate the fields in the shift log
+         * form with the given information from the `Bundle`.
+         */
+        if (getArguments() != null) {
+            companyName.setText(getArguments().getString(ShiftLogsFragment.EXTRA_COMPANY_NAME));
+            if (getArguments().getBoolean(ShiftLogsFragment.EXTRA_WORKED_FOR_AGENT)) {
+                workedForAgent.setChecked(true);
+            } else {
+                workedForAgent.setChecked(false);
+            }
+        }
+
         workedForAgent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +187,7 @@ public class FullScreenDialog extends DialogFragment {
             }
         });
 
-        // Return the view.
+        // Return the view inflated with the layout defined for full screen dialog.
         return view;
     }
 

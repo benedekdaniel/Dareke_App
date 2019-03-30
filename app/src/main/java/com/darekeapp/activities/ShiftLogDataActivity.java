@@ -132,7 +132,14 @@ public class ShiftLogDataActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_edit) {
-            FullScreenDialog.display(getSupportFragmentManager());
+            FullScreenDialog fullScreenDialog = new FullScreenDialog();
+            Bundle args = new Bundle();
+            args.putString(ShiftLogsFragment.EXTRA_COMPANY_NAME, getIntent().getStringExtra(
+                    ShiftLogsFragment.EXTRA_COMPANY_NAME));
+            args.putBoolean(ShiftLogsFragment.EXTRA_WORKED_FOR_AGENT, getIntent().getBooleanExtra(
+                    ShiftLogsFragment.EXTRA_WORKED_FOR_AGENT, false));
+            fullScreenDialog.setArguments(args);
+            fullScreenDialog.display(getSupportFragmentManager());
         } else if (id == R.id.action_share) {
             return true;
         } else if (id == android.R.id.home) {

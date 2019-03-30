@@ -41,7 +41,8 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FullScreenDialog.display(getSupportFragmentManager());
+                FullScreenDialog fullScreenDialog = new FullScreenDialog();
+                fullScreenDialog.display(getSupportFragmentManager());
             }
         });
 
