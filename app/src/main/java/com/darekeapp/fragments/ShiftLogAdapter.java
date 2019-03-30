@@ -26,9 +26,7 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
         shiftLogs.addAll(newData);
         notifyDataSetChanged();
     }
-
-
-
+    
     @NonNull
     @Override
     public ShiftLogAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

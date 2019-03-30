@@ -5,7 +5,6 @@ import android.support.v7.util.DiffUtil;
 import java.util.List;
 
 public class DiffUtilCallback extends DiffUtil.Callback {
-
     private List<String> oldList;
     private List<String> newList;
 
@@ -13,7 +12,6 @@ public class DiffUtilCallback extends DiffUtil.Callback {
         this.oldList = oldList;
         this.newList = newList;
     }
-
 
     @Override
     public int getOldListSize() {

@@ -45,7 +45,7 @@ public class FullScreenDialog extends DialogFragment {
     private TextView poaText;
     private SingleDateAndTimePicker poaTime;
     private TextView driveTimeText;
-    private  SingleDateAndTimePicker driveTime;
+    private SingleDateAndTimePicker driveTime;
 
     public static void display(FragmentManager fragmentManager) {
         FullScreenDialog fullScreenDialog = new FullScreenDialog();
@@ -173,6 +173,7 @@ public class FullScreenDialog extends DialogFragment {
                 }
             }
         });
+
         // Return the view.
         return view;
     }
@@ -256,7 +257,6 @@ public class FullScreenDialog extends DialogFragment {
                         }
                     });
                 }
-
                 return true;
             }
         });

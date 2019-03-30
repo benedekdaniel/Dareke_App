@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.darekeapp.R;
 import com.darekeapp.fragments.ShiftLogsFragment;
+import com.darekeapp.utils.FullScreenDialog;
 
 import java.text.SimpleDateFormat;
 
@@ -131,7 +132,7 @@ public class ShiftLogDataActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_edit) {
-            return true;
+            FullScreenDialog.display(getSupportFragmentManager());
         } else if (id == R.id.action_share) {
             return true;
         } else if (id == android.R.id.home) {
@@ -140,9 +141,8 @@ public class ShiftLogDataActivity extends AppCompatActivity {
              * `ShiftLogsFragment` by finishing this activity.
              */
             finish();
-            return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }
