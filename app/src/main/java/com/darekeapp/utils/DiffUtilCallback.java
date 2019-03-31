@@ -2,13 +2,15 @@ package com.darekeapp.utils;
 
 import android.support.v7.util.DiffUtil;
 
+import com.darekeapp.database.ShiftLog;
+
 import java.util.List;
 
 public class DiffUtilCallback extends DiffUtil.Callback {
-    private List<String> oldList;
-    private List<String> newList;
+    private List<ShiftLog> oldList;
+    private List<ShiftLog> newList;
 
-    public DiffUtilCallback(List<String> oldList, List<String> newList) {
+    public DiffUtilCallback(List<ShiftLog> oldList, List<ShiftLog> newList) {
         this.oldList = oldList;
         this.newList = newList;
     }
@@ -30,6 +32,6 @@ public class DiffUtilCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldPosition, int newPosition) {
-        return oldList.get(oldPosition) == newList.get(newPosition);
+        return newList.get(newPosition) == oldList.get(oldPosition);
     }
 }
