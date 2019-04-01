@@ -3,7 +3,6 @@ package com.darekeapp.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -59,7 +58,7 @@ public class ShiftLogDataActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
 
         companyNameDataText = findViewById(R.id.company_name_data_text);
         workedForAgentDataText = findViewById(R.id.worked_for_agent_data_text);

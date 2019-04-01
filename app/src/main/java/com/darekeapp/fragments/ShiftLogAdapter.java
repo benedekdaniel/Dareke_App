@@ -13,9 +13,12 @@ import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.utils.DiffUtilCallback;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHolder> {
+    SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
+
     private List<ShiftLog> shiftLogs;
     private OnItemClickListener listener;
     private Context context;
@@ -36,10 +39,10 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ShiftLogAdapter.ViewHolder viewHolder, int position) {
         viewHolder.companyName.setText(shiftLogs.get(position).getCompanyName());
-        viewHolder.shiftStart.setText("Shift start: " + shiftLogs.get(position)
-                .getShiftStart().toString());
-        viewHolder.shiftEnd.setText("Shift end: " + shiftLogs.get(position)
-                .getShiftEnd().toString());
+        viewHolder.shiftStart.setText("Shift start: " + formatter.format(shiftLogs.get(position)
+                .getShiftStart()));
+        viewHolder.shiftEnd.setText("Shift end: " + formatter.format(shiftLogs.get(position)
+                .getShiftEnd()));
     }
 
     @Override
