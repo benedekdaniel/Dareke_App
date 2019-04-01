@@ -214,7 +214,7 @@ public class ShiftLogDataActivity extends AppCompatActivity {
                 "Shift end: " + shiftEndDataText.getText() + "\r\n" +
                 "Break taken? " + breakTakenDataText.getText() + "\r\n" +
                 "Break start: " + breakStartDataText.getText() + "\r\n" +
-                "Break end: " + shiftEndDataText.getText() + "\r\n" +
+                "Break end: " + breakEndDataText.getText() + "\r\n" +
                 "Governed by driver hours? " + governedByDriverHoursDataText.getText() + "\r\n" +
                 "Vehicle registration: " + vehicleRegistrationDataText.getText() + "\r\n" +
                 "POA time: " + poaTimeDataText.getText() + "\r\n" +
