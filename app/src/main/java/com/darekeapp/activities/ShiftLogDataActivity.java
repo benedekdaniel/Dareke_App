@@ -1,8 +1,10 @@
 package com.darekeapp.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -128,14 +130,6 @@ public class ShiftLogDataActivity extends AppCompatActivity {
             driveTimeDataText.setText(String.valueOf(getIntent().getLongExtra(
                     ShiftLogsFragment.EXTRA_DRIVE_TIME, 0)));
         }
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            // Check for permissions (e.g. read contacts and send SMS).
-            if (!checkPermission()) {
-                // Permission not given, ask for it.
-                requestPermission();
-            }
-        }
     }
 
     @Override
@@ -168,12 +162,18 @@ public class ShiftLogDataActivity extends AppCompatActivity {
             fullScreenDialog.setArguments(args);
             fullScreenDialog.display(getSupportFragmentManager());
         } else if (id == R.id.action_share) {
-            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
-            String shareBody = shiftLogMessageToSend();
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Shift Log");
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            // Check for permissions (e.g. read contacts and send SMS).
+            if (!checkPermission()) {
+                // Permission not given, ask for it.
+                requestPermission();
+            } else {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = shiftLogMessageToSend();
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Shift Log");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            }
         } else if (id == android.R.id.home) {
             /*
              * When the user clicks back on the action bar, return back to the
@@ -250,6 +250,11 @@ public class ShiftLogDataActivity extends AppCompatActivity {
                     if (!sendSMSPermission || !readContactsPermission) {
                         Toast.makeText(getApplicationContext(), "Permission not granted",
                                 Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
                     }
                     break;
                 }
