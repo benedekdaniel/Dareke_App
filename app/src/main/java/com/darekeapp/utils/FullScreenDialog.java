@@ -8,7 +8,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +23,7 @@ import com.darekeapp.fragments.ShiftLogsFragment;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Date;
 import java.util.List;
 
 public class FullScreenDialog extends DialogFragment {
@@ -133,10 +133,41 @@ public class FullScreenDialog extends DialogFragment {
          */
         if (getArguments() != null) {
             companyName.setText(getArguments().getString(ShiftLogsFragment.EXTRA_COMPANY_NAME));
+
             if (getArguments().getBoolean(ShiftLogsFragment.EXTRA_WORKED_FOR_AGENT)) {
                 workedForAgent.setChecked(true);
-            } else {
-                workedForAgent.setChecked(false);
+                agentName.setVisibility(View.VISIBLE);
+                agentName.setText(getArguments().getString(ShiftLogsFragment.EXTRA_AGENT_NAME));
+            }
+
+            shiftStart.setDefaultDate((Date) getArguments().getSerializable(
+                    ShiftLogsFragment.EXTRA_SHIFT_START));
+            shiftEnd.setDefaultDate((Date) getArguments().getSerializable(
+                    ShiftLogsFragment.EXTRA_SHIFT_END));
+
+            if (getArguments().getBoolean(ShiftLogsFragment.EXTRA_BREAK_TAKEN)) {
+                breakTaken.setChecked(true);
+                breakStartText.setVisibility(View.VISIBLE);
+                breakStart.setVisibility(View.VISIBLE);
+                breakStart.setDefaultDate((Date) getArguments().getSerializable(
+                        ShiftLogsFragment.EXTRA_BREAK_START));
+                breakEndText.setVisibility(View.VISIBLE);
+                breakEnd.setVisibility(View.VISIBLE);
+                breakEnd.setDefaultDate((Date) getArguments().getSerializable(
+                        ShiftLogsFragment.EXTRA_BREAK_END));
+            }
+
+            if (getArguments().getBoolean(ShiftLogsFragment.EXTRA_GOVERNED_BY_DRIVER_HOURS)) {
+                governedByDriverHours.setChecked(true);
+                vehicleRegistration.setVisibility(View.VISIBLE);
+                vehicleRegistration.setText(getArguments().getString(
+                        ShiftLogsFragment.EXTRA_VEHICLE_REGISTRATION));
+                poaText.setVisibility(View.VISIBLE);
+                poaTime.setDefaultDate((Date) getArguments().getSerializable(
+                        ShiftLogsFragment.EXTRA_POA_TIME));
+                driveTimeText.setVisibility(View.VISIBLE);
+                driveTime.setDefaultDate((Date) getArguments().getSerializable(
+                        ShiftLogsFragment.EXTRA_DRIVE_TIME));
             }
         }
 
@@ -202,6 +233,7 @@ public class FullScreenDialog extends DialogFragment {
             }
         });
         toolbar.inflateMenu(R.menu.full_screen_dialog_menu);
+        // toolbar.getMenu().findItem(R.id.action_add).setTitle("Save");
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -261,10 +293,6 @@ public class FullScreenDialog extends DialogFragment {
                             for (ShiftLog shiftLogs : currentDatabaseContent) {
                                 db.shiftLogDao().insert(shiftLogs);
                             }
-                            // Test message.
-                            Log.d("TEST", db.shiftLogDao().getAllShiftLogs(
-                                    FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .toString());
                             // Close the `FullScreenDialog`.
                             FullScreenDialog.this.dismiss();
                         }

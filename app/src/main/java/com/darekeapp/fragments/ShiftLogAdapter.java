@@ -1,6 +1,7 @@
 package com.darekeapp.fragments;
 
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
+import com.darekeapp.utils.DiffUtilCallback;
 
 import java.util.List;
 
@@ -21,12 +23,11 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
         this.shiftLogs = shiftLogs;
     }
 
-    public void setData(List<ShiftLog> newData) {
-        this.shiftLogs.clear();
-        shiftLogs.addAll(newData);
-        notifyDataSetChanged();
+    public void insertData(List<ShiftLog> insertList) {
+        DiffUtilCallback myDiffUtilCallback = new DiffUtilCallback(shiftLogs, insertList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(myDiffUtilCallback);
     }
-    
+
     @NonNull
     @Override
     public ShiftLogAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
