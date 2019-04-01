@@ -2,12 +2,10 @@ package com.darekeapp.utils;
 
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
-import com.darekeapp.fragments.ShiftLogAdapter;
 import com.darekeapp.fragments.ShiftLogsFragment;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
@@ -257,8 +254,6 @@ public class FullScreenDialog extends DialogFragment {
                                     .getCurrentUser().getUid());
                             // Add the new shift log to `currentDatabaseContent`.
                             currentDatabaseContent.add(shiftLog);
-
-
                             /*
                              * Add all of the shift logs from `currentDatabaseContent` to the
                              * database.
@@ -268,7 +263,6 @@ public class FullScreenDialog extends DialogFragment {
                             }
                             // Close the `FullScreenDialog`.
                             FullScreenDialog.this.dismiss();
-
                         }
                     });
                     db.close();
