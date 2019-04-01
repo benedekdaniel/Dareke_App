@@ -244,39 +244,7 @@ public class FullScreenDialog extends DialogFragment {
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            ShiftLog.Builder shiftLogBuilder = new ShiftLog.Builder();
-                            // Save user inputs into database.
-                            shiftLogBuilder.setCompanyName(companyName.getText().toString());
-                            shiftLogBuilder.setWorkedForAgent(workedForAgent.isChecked());
-                            if (!workedForAgent.isChecked()) {
-                                shiftLogBuilder.setAgentName(null);
-                            } else {
-                                shiftLogBuilder.setAgentName(agentName.getText().toString());
-                            }
-                            shiftLogBuilder.setShiftStart(shiftStart.getDate());
-                            shiftLogBuilder.setShiftEnd(shiftEnd.getDate());
-                            shiftLogBuilder.setBreakTaken(breakTaken.isChecked());
-                            if (!breakTaken.isChecked()) {
-                                shiftLogBuilder.setBreakStart(null);
-                                shiftLogBuilder.setBreakEnd(null);
-                            } else {
-                                shiftLogBuilder.setBreakStart(breakStart.getDate());
-                                shiftLogBuilder.setBreakEnd(breakEnd.getDate());
-                            }
-                            shiftLogBuilder.setGovernedByDriverHours(
-                                    governedByDriverHours.isChecked());
-                            if (!governedByDriverHours.isChecked()) {
-                                shiftLogBuilder.setVehicleRegistration(null);
-                                shiftLogBuilder.setPoaTime(null);
-                                shiftLogBuilder.setDriveTime(null);
-                            } else {
-                                shiftLogBuilder.setVehicleRegistration(
-                                        vehicleRegistration.getText().toString());
-                                shiftLogBuilder.setPoaTime(poaTime.getDate().getTime());
-                                shiftLogBuilder.setDriveTime(driveTime.getDate().getTime());
-                            }
-                            // Build the shift log object.
-                            ShiftLog shiftLog = shiftLogBuilder.build();
+                            ShiftLog shiftLog = insertData();
                             // Store the current data of the database inside a `List`.
                             List<ShiftLog> currentDatabaseContent = db.shiftLogDao()
                                             .getAllShiftLogs(FirebaseAuth.getInstance()
@@ -298,9 +266,48 @@ public class FullScreenDialog extends DialogFragment {
                         }
                     });
                 }
+                // FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                // FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                // fragmentTransaction.replace(R.id.container, new ShiftLogsFragment()).commit();
                 return true;
             }
         });
+    }
+
+    private ShiftLog insertData() {
+        ShiftLog.Builder shiftLogBuilder = new ShiftLog.Builder();
+        // Save user inputs into database.
+        shiftLogBuilder.setCompanyName(companyName.getText().toString());
+        shiftLogBuilder.setWorkedForAgent(workedForAgent.isChecked());
+        if (!workedForAgent.isChecked()) {
+            shiftLogBuilder.setAgentName(null);
+        } else {
+            shiftLogBuilder.setAgentName(agentName.getText().toString());
+        }
+        shiftLogBuilder.setShiftStart(shiftStart.getDate());
+        shiftLogBuilder.setShiftEnd(shiftEnd.getDate());
+        shiftLogBuilder.setBreakTaken(breakTaken.isChecked());
+        if (!breakTaken.isChecked()) {
+            shiftLogBuilder.setBreakStart(null);
+            shiftLogBuilder.setBreakEnd(null);
+        } else {
+            shiftLogBuilder.setBreakStart(breakStart.getDate());
+            shiftLogBuilder.setBreakEnd(breakEnd.getDate());
+        }
+        shiftLogBuilder.setGovernedByDriverHours(
+                governedByDriverHours.isChecked());
+        if (!governedByDriverHours.isChecked()) {
+            shiftLogBuilder.setVehicleRegistration(null);
+            shiftLogBuilder.setPoaTime(null);
+            shiftLogBuilder.setDriveTime(null);
+        } else {
+            shiftLogBuilder.setVehicleRegistration(
+                    vehicleRegistration.getText().toString());
+            shiftLogBuilder.setPoaTime(poaTime.getDate().getTime());
+            shiftLogBuilder.setDriveTime(driveTime.getDate().getTime());
+        }
+        // Build the shift log object.
+        return shiftLogBuilder.build();
     }
 
     private boolean fieldsValid() {
