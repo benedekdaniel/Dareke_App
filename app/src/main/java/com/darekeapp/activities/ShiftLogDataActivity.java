@@ -1,12 +1,19 @@
 package com.darekeapp.activities;
 
 import android.os.Bundle;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
+
 
 import com.darekeapp.R;
 import com.darekeapp.fragments.ShiftLogsFragment;
@@ -15,7 +22,6 @@ import com.darekeapp.utils.FullScreenDialog;
 import java.text.SimpleDateFormat;
 
 public class ShiftLogDataActivity extends AppCompatActivity {
-
     private TextView companyNameDataText;
     private TextView workedForAgentDataText;
     private TextView agentNameDataTitle;
@@ -35,10 +41,16 @@ public class ShiftLogDataActivity extends AppCompatActivity {
     private TextView driveTimeDataTitle;
     private TextView driveTimeDataText;
 
+    /**
+     * Request code for permission.
+     */
+    private static final int PERMISSION_REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shift_log_data);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -115,6 +127,14 @@ public class ShiftLogDataActivity extends AppCompatActivity {
             driveTimeDataText.setText(String.valueOf(getIntent().getLongExtra(
                     ShiftLogsFragment.EXTRA_DRIVE_TIME, 0)));
         }
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            // Check for permissions (e.g. read contacts and send SMS).
+            if (!checkPermission()) {
+                // Permission not given, ask for it.
+                requestPermission();
+            }
+        }
     }
 
     @Override
@@ -149,7 +169,69 @@ public class ShiftLogDataActivity extends AppCompatActivity {
              */
             finish();
         }
-
         return true;
     }
+
+    /**
+     * Checks whether the permission for sending sms and accessing contacts has been granted.
+     * @return true if permission granted, otherwise false
+     */
+    public boolean checkPermission() {
+        int SendSMSPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.SEND_SMS);
+        int ContactPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.READ_CONTACTS);
+
+        return SendSMSPermissionResult == PackageManager.PERMISSION_GRANTED &&
+                ContactPermissionResult == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(ShiftLogDataActivity.this, new String[] {
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_CODE);
+    }
+
+    // Format the shift log data as a string for sending to the company
+    private String shiftLogMessageToSend() {
+        String message;
+        message = "Company name: " + companyNameDataText.getText() + "\r\n"
+                + "Worked for agent?: " + workedForAgentDataText.getText() + "\r\n"
+                + "Agent title: " + agentNameDataTitle.getText() + "\r\n"
+                + "Agent name: " + agentNameDataText.getText() + "\r\n"
+                + "Shift start: " + shiftStartDataText.getText() + "\r\n"
+                + "Shift end: " + shiftEndDataText.getText() + "\r\n"
+                + "Break taken?: " + breakTakenDataText.getText() + "\r\n"
+                + "Break start title: " + breakStartDataTitle.getText() + "\r\n"
+                + "Break start: " + breakStartDataText.getText() + "\r\n"
+                + "Break end title: " + breakEndDataTitle.getText() + "\r\n"
+                + "Break end: " + shiftEndDataText.getText() + "\r\n"
+                + "Governed by driver hours?: " + governedByDriverHoursDataText.getText() + "\r\n"
+                + "Vehicle reg title: " + vehicleRegistrationDataTitle.getText() + "\r\n"
+                + "Vehicle reg: " + vehicleRegistrationDataText.getText() + "\r\n"
+                + "POA time title: " + poaTimeDataTitle.getText() + "\r\n"
+                + "POA time: " + poaTimeDataText.getText() + "\r\n"
+                + "Drive time title: " + driveTimeDataTitle.getText() + "\r\n"
+                + "Drive time: " + driveTimeDataText.getText();
+        return message;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[],
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+                    boolean sendSMSPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean readContactsPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (!sendSMSPermission || !readContactsPermission) {
+                        Toast.makeText(getApplicationContext(), "Permission not granted",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                }
+        }
+    }
+
 }
