@@ -170,8 +170,8 @@ public class ShiftLogDataActivity extends AppCompatActivity {
         } else if (id == R.id.action_share) {
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
-            String shareBody = "Here is the share content body";
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+            String shareBody = shiftLogMessageToSend();
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Shift Log");
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             startActivity(Intent.createChooser(sharingIntent, "Share via"));
         } else if (id == android.R.id.home) {
@@ -207,24 +207,18 @@ public class ShiftLogDataActivity extends AppCompatActivity {
     // Format the shift log data as a string for sending to the company
     private String shiftLogMessageToSend() {
         String message;
-        message = "Company name: " + companyNameDataText.getText() + "\r\n"
-                + "Worked for agent?: " + workedForAgentDataText.getText() + "\r\n"
-                + "Agent title: " + agentNameDataTitle.getText() + "\r\n"
-                + "Agent name: " + agentNameDataText.getText() + "\r\n"
-                + "Shift start: " + shiftStartDataText.getText() + "\r\n"
-                + "Shift end: " + shiftEndDataText.getText() + "\r\n"
-                + "Break taken?: " + breakTakenDataText.getText() + "\r\n"
-                + "Break start title: " + breakStartDataTitle.getText() + "\r\n"
-                + "Break start: " + breakStartDataText.getText() + "\r\n"
-                + "Break end title: " + breakEndDataTitle.getText() + "\r\n"
-                + "Break end: " + shiftEndDataText.getText() + "\r\n"
-                + "Governed by driver hours?: " + governedByDriverHoursDataText.getText() + "\r\n"
-                + "Vehicle reg title: " + vehicleRegistrationDataTitle.getText() + "\r\n"
-                + "Vehicle reg: " + vehicleRegistrationDataText.getText() + "\r\n"
-                + "POA time title: " + poaTimeDataTitle.getText() + "\r\n"
-                + "POA time: " + poaTimeDataText.getText() + "\r\n"
-                + "Drive time title: " + driveTimeDataTitle.getText() + "\r\n"
-                + "Drive time: " + driveTimeDataText.getText();
+        message = "Company name: " + companyNameDataText.getText() + "\r\n" +
+                "Worked for agent? " + workedForAgentDataText.getText() + "\r\n" +
+                "Agent name: " + agentNameDataText.getText() + "\r\n" +
+                "Shift start: " + shiftStartDataText.getText() + "\r\n" +
+                "Shift end: " + shiftEndDataText.getText() + "\r\n" +
+                "Break taken? " + breakTakenDataText.getText() + "\r\n" +
+                "Break start: " + breakStartDataText.getText() + "\r\n" +
+                "Break end: " + shiftEndDataText.getText() + "\r\n" +
+                "Governed by driver hours? " + governedByDriverHoursDataText.getText() + "\r\n" +
+                "Vehicle registration: " + vehicleRegistrationDataText.getText() + "\r\n" +
+                "POA time: " + poaTimeDataText.getText() + "\r\n" +
+                "Drive time: " + driveTimeDataText.getText();
         return message;
     }
 
