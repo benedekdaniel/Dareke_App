@@ -58,7 +58,8 @@ public class ShiftLogDataActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
 
         companyNameDataText = findViewById(R.id.company_name_data_text);
         workedForAgentDataText = findViewById(R.id.worked_for_agent_data_text);
@@ -93,9 +94,9 @@ public class ShiftLogDataActivity extends AppCompatActivity {
                     getIntent().getStringExtra(ShiftLogsFragment.EXTRA_AGENT_NAME));
         }
         // Shift start/end.
-        shiftStartDataText.setText(formatter.format(getIntent().getSerializableExtra(
+        shiftStartDataText.setText(dateFormatter.format(getIntent().getSerializableExtra(
                 ShiftLogsFragment.EXTRA_SHIFT_START)));
-        shiftEndDataText.setText(formatter.format(getIntent().getSerializableExtra(
+        shiftEndDataText.setText(dateFormatter.format(getIntent().getSerializableExtra(
                 ShiftLogsFragment.EXTRA_SHIFT_END)));
         // Break details.
         breakTakenDataText.setText(String.valueOf(getIntent().getBooleanExtra(
@@ -106,9 +107,9 @@ public class ShiftLogDataActivity extends AppCompatActivity {
             breakEndDataTitle.setVisibility(View.GONE);
             breakEndDataText.setVisibility(View.GONE);
         } else {
-            breakStartDataText.setText(formatter.format(getIntent().getSerializableExtra(
+            breakStartDataText.setText(dateFormatter.format(getIntent().getSerializableExtra(
                     ShiftLogsFragment.EXTRA_BREAK_START)));
-            breakEndDataText.setText(formatter.format(getIntent().getSerializableExtra(
+            breakEndDataText.setText(dateFormatter.format(getIntent().getSerializableExtra(
                     ShiftLogsFragment.EXTRA_BREAK_END)));
         }
         // Transport job specific data.
@@ -124,11 +125,35 @@ public class ShiftLogDataActivity extends AppCompatActivity {
         } else {
             vehicleRegistrationDataText.setText(
                     getIntent().getStringExtra(ShiftLogsFragment.EXTRA_VEHICLE_REGISTRATION));
-            poaTimeDataText.setText(String.valueOf(getIntent().getLongExtra(
-                    ShiftLogsFragment.EXTRA_POA_TIME, 0)));
-            driveTimeDataText.setText(String.valueOf(getIntent().getLongExtra(
-                    ShiftLogsFragment.EXTRA_DRIVE_TIME, 0)));
+            String poaStringFormatted = timeFormatter.format(
+                    getIntent().getLongExtra(ShiftLogsFragment.EXTRA_POA_TIME, 0));
+            poaTimeDataText.setText(formatTime(poaStringFormatted));
+            String driveTimeFormatted = timeFormatter.format(getIntent().getLongExtra(
+                    ShiftLogsFragment.EXTRA_DRIVE_TIME, 0));
+            driveTimeDataText.setText(formatTime(driveTimeFormatted));
         }
+    }
+
+    private String formatTime(String str) {
+        String hours = "";
+        String minutes = "";
+        String[] separated;
+
+        separated = str.split(":");
+
+        if (separated[0].equals("0") || separated[0].equals("1")) {
+            hours = " hour ";
+        } else {
+            hours = " hours ";
+        }
+
+        if (separated[1].equals("0") || separated[1].equals("1")) {
+            minutes = " minute ";
+        } else {
+            minutes = " minutes ";
+        }
+
+        return separated[0] + hours + separated[1] + minutes;
     }
 
     @Override
