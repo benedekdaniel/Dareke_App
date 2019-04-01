@@ -204,21 +204,37 @@ public class ShiftLogDataActivity extends AppCompatActivity {
                 Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_CODE);
     }
 
-    // Format the shift log data as a string for sending to the company
+    /**
+     * Format the message to be sent with the shift details.
+     * @return the `String` of shift log details
+     */
     private String shiftLogMessageToSend() {
         String message;
         message = "Company name: " + companyNameDataText.getText() + "\r\n" +
-                "Worked for agent? " + workedForAgentDataText.getText() + "\r\n" +
-                "Agent name: " + agentNameDataText.getText() + "\r\n" +
-                "Shift start: " + shiftStartDataText.getText() + "\r\n" +
+                "Worked for agent? " + workedForAgentDataText.getText() + "\r\n";
+
+        if (!workedForAgentDataText.getText().equals("false")) {
+            message += "Agent name: " + agentNameDataText.getText() + "\r\n";
+        }
+
+        message += "Shift start: " + shiftStartDataText.getText() + "\r\n" +
                 "Shift end: " + shiftEndDataText.getText() + "\r\n" +
-                "Break taken? " + breakTakenDataText.getText() + "\r\n" +
-                "Break start: " + breakStartDataText.getText() + "\r\n" +
-                "Break end: " + breakEndDataText.getText() + "\r\n" +
-                "Governed by driver hours? " + governedByDriverHoursDataText.getText() + "\r\n" +
-                "Vehicle registration: " + vehicleRegistrationDataText.getText() + "\r\n" +
-                "POA time: " + poaTimeDataText.getText() + "\r\n" +
-                "Drive time: " + driveTimeDataText.getText();
+                "Break taken? " + breakTakenDataText.getText() + "\r\n";
+
+        if (!breakTakenDataText.getText().equals("false")) {
+            message += "Break start: " + breakStartDataText.getText() + "\r\n" +
+                    "Break end: " + breakEndDataText.getText() + "\r\n";
+        }
+
+        message += "Governed by driver hours? " + governedByDriverHoursDataText.getText() + "\r\n";
+
+        if (!governedByDriverHoursDataText.getText().equals("false")) {
+            message += "Vehicle registration: " + vehicleRegistrationDataText.getText() + "\r\n" +
+                    "POA time: " + poaTimeDataText.getText() + "\r\n" +
+                    "Drive time: " + driveTimeDataText.getText();
+        }
+
+        // Return the formatted message with the given shift details.
         return message;
     }
 
