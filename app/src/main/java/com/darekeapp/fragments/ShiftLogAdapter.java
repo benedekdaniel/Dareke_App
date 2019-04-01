@@ -1,5 +1,6 @@
 package com.darekeapp.fragments;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -18,14 +19,25 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
 
     private List<ShiftLog> shiftLogs;
     private OnItemClickListener listener;
+    private Context context;
 
-    public ShiftLogAdapter(List<ShiftLog> shiftLogs) {
+    public ShiftLogAdapter(List<ShiftLog> shiftLogs, Context context) {
         this.shiftLogs = shiftLogs;
+        this.context = context;
     }
 
     public void insertData(List<ShiftLog> insertList) {
-        DiffUtilCallback myDiffUtilCallback = new DiffUtilCallback(shiftLogs, insertList);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(myDiffUtilCallback);
+        DiffUtilCallback diffUtilCallback = new DiffUtilCallback(shiftLogs, insertList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtilCallback);
+    }
+
+    public void removeShiftLog(final int position) {
+        shiftLogs.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public List<ShiftLog> getData() {
+        return shiftLogs;
     }
 
     @NonNull

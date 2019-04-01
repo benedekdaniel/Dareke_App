@@ -265,6 +265,7 @@ public class FullScreenDialog extends DialogFragment {
                             FullScreenDialog.this.dismiss();
                         }
                     });
+                    db.close();
                 }
                 // FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 // FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
