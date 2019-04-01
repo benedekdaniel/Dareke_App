@@ -73,6 +73,11 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
         }
     }
 
+    public void addItem(ShiftLog newShiftLogItemCreated){
+        this.shiftLogs.add(newShiftLogItemCreated);
+        this.notifyDataSetChanged();
+    }
+
     public interface OnItemClickListener {
         void onItemClick(ShiftLog shiftLog);
     }
