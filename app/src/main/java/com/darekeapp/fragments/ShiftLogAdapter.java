@@ -23,12 +23,10 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
         this.shiftLogs = shiftLogs;
     }
 
-
     public void insertData(List<ShiftLog> insertList) {
         DiffUtilCallback myDiffUtilCallback = new DiffUtilCallback(shiftLogs, insertList);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(myDiffUtilCallback);
     }
-
 
     @NonNull
     @Override
