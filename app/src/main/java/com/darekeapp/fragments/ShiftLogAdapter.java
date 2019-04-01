@@ -16,14 +16,12 @@ import com.darekeapp.utils.DiffUtilCallback;
 import java.util.List;
 
 public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHolder> {
-
     private List<ShiftLog> shiftLogs;
     private OnItemClickListener listener;
     private Context context;
 
-    public ShiftLogAdapter(List<ShiftLog> shiftLogs, Context context) {
+    public ShiftLogAdapter(List<ShiftLog> shiftLogs) {
         this.shiftLogs = shiftLogs;
-        this.context = context;
     }
 
     public void insertData(List<ShiftLog> insertList) {

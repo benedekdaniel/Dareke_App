@@ -12,7 +12,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +95,7 @@ public class ShiftLogsFragment extends Fragment {
                 FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
-        adapter = new ShiftLogAdapter(shiftLogs, getContext());
+        adapter = new ShiftLogAdapter(shiftLogs);
 
         // Add line divider after each shift log.
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity()
@@ -133,7 +132,8 @@ public class ShiftLogsFragment extends Fragment {
     }
 
     private void enableSwipeToDeleteAndUndo() {
-        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(getActivity().getApplicationContext()) {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(
+                getActivity().getApplicationContext()) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 final int position = viewHolder.getAdapterPosition();
@@ -152,8 +152,8 @@ public class ShiftLogsFragment extends Fragment {
                 db.close();
 
                 Snackbar snackbar = Snackbar
-                        .make(getActivity().findViewById(android.R.id.content), "Shift log deleted.",
-                                Snackbar.LENGTH_LONG);
+                        .make(getActivity().findViewById(android.R.id.content),
+                                "Shift log deleted.", Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         };
