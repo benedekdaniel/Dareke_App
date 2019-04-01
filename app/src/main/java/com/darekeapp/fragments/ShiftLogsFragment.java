@@ -26,9 +26,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 public class ShiftLogsFragment extends Fragment {
-
-
-
     public static final String EXTRA_COMPANY_NAME = "COMPANY_NAME";
     public static final String EXTRA_WORKED_FOR_AGENT = "WORKED_FOR_AGENT";
     public static final String EXTRA_AGENT_NAME = "AGENT_NAME";
@@ -73,15 +70,11 @@ public class ShiftLogsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
-    private List<ShiftLog> shiftLogs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,12 +84,14 @@ public class ShiftLogsFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.shift_list_recycler_view);
 
+        enableSwipeToDeleteAndUndo();
+
         ShiftLogDatabase db = Room.databaseBuilder(getContext(), ShiftLogDatabase.class,
                 "ShiftLogDatabase")
                 .allowMainThreadQueries()
                 .build();
 
-        shiftLogs = db.shiftLogDao().getAllShiftLogs(
+        List<ShiftLog> shiftLogs = db.shiftLogDao().getAllShiftLogs(
                 FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
@@ -180,11 +175,8 @@ public class ShiftLogsFragment extends Fragment {
         listener = null;
     }
 
-
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 }
