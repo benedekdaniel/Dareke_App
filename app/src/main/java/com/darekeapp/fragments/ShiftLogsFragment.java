@@ -3,11 +3,15 @@ package com.darekeapp.fragments;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,7 @@ import com.darekeapp.R;
 import com.darekeapp.activities.ShiftLogDataActivity;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
+import com.darekeapp.utils.SwipeToDeleteCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -49,7 +54,7 @@ public class ShiftLogsFragment extends Fragment {
     private OnFragmentInteractionListener listener;
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private ShiftLogAdapter adapter;
 
     public ShiftLogsFragment() {
         // Required empty public constructor.
@@ -85,7 +90,6 @@ public class ShiftLogsFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_shift_logs, container, false);
 
         recyclerView = view.findViewById(R.id.shift_list_recycler_view);
-
 
         ShiftLogDatabase db = Room.databaseBuilder(getContext(), ShiftLogDatabase.class,
                 "ShiftLogDatabase")
@@ -130,6 +134,37 @@ public class ShiftLogsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void enableSwipeToDeleteAndUndo() {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(
+                getActivity().getApplicationContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                final int position = viewHolder.getAdapterPosition();
+                final ShiftLog item = adapter.getData().get(position);
+
+                adapter.removeShiftLog(position);
+                final ShiftLogDatabase db = Room.databaseBuilder(getContext(),
+                        ShiftLogDatabase.class,
+                        "ShiftLogDatabase").build();
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        db.shiftLogDao().deleteShiftLog(item);
+                    }
+                });
+                db.close();
+
+                Snackbar snackbar = Snackbar
+                        .make(getActivity().findViewById(android.R.id.content),
+                                "Shift log deleted.", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        };
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
