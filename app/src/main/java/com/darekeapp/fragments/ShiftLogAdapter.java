@@ -24,12 +24,6 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
     }
 
 
-    public void insertData(List<ShiftLog> insertList) {
-        DiffUtilCallback myDiffUtilCallback = new DiffUtilCallback(shiftLogs, insertList);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(myDiffUtilCallback);
-    }
-
-
     @NonNull
     @Override
     public ShiftLogAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -82,4 +76,5 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
+
 }
