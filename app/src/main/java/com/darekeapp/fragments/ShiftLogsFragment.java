@@ -93,7 +93,6 @@ public class ShiftLogsFragment extends Fragment {
         enableSwipeToDeleteAndUndo();
 
         FloatingActionButton fab = view.findViewById(R.id.fab2);
-//        fab.hide();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,4 +195,5 @@ public class ShiftLogsFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

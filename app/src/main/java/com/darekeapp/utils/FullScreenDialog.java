@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -273,14 +274,18 @@ public class FullScreenDialog extends DialogFragment {
                             }
                             // Close the `FullScreenDialog`.
                             FullScreenDialog.this.dismiss();
+
+
+                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                             fragmentTransaction.replace(R.id.container, new ShiftLogsFragment()).commit();
+
                             //refresh
                         }
                     });
                     db.close();
                 }
-                // FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                // FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                // fragmentTransaction.replace(R.id.container, new ShiftLogsFragment()).commit();
+
                 return true;
             }
         });
