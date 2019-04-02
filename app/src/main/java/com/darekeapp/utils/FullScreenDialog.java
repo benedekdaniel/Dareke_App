@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -23,11 +24,12 @@ import com.darekeapp.fragments.ShiftLogsFragment;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class FullScreenDialog extends DialogFragment {
+
+//    private IReloadListCallback callback;
     private Toolbar toolbar;
 
     private ShiftLogDatabase db;
@@ -49,24 +51,16 @@ public class FullScreenDialog extends DialogFragment {
     private TextView driveTimeText;
     private SingleDateAndTimePicker driveTime;
 
-    public void display(FragmentManager fragmentManager) {
-        show(fragmentManager, "fullscreen_dialog");
+
+    /*public FullScreenDialog(IReloadListCallback cb) {
+        this.callback = cb;
+    }*/
+
+    public FullScreenDialog() {
     }
 
-    /**
-     * Formatter to format the date and time to default
-     * values to have a date of today and set the time
-     * to 00 for hours and 01 for minutes.
-     * @return the required date and time
-     */
-    public Date getDefaultDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 12);
-        calendar.set(Calendar.MINUTE, 1);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-
-        return calendar.getTime();
+    public void display(FragmentManager fragmentManager) {
+        show(fragmentManager, "fullscreen_dialog");
     }
 
     @Override
@@ -128,19 +122,9 @@ public class FullScreenDialog extends DialogFragment {
         poaTime.setStepMinutes(1);
         driveTime.setStepMinutes(1);
 
-        // Set max/min date for break start/end.
-        breakStart.setMinDate(shiftStart.getDate());
-        breakStart.setMaxDate(shiftEnd.getDate());
-        breakEnd.setMinDate(shiftStart.getDate());
-        breakEnd.setMaxDate(shiftEnd.getDate());
-
         // Remove the dates from hour and minute inputs.
         poaTime.setDisplayDays(false);
         driveTime.setDisplayDays(false);
-
-        // Set the default date and time.
-        poaTime.setDefaultDate(getDefaultDate());
-        driveTime.setDefaultDate(getDefaultDate());
 
         // Set initial visibility of optional fields to `View.GONE`.
         agentName.setVisibility(View.GONE);
@@ -274,7 +258,7 @@ public class FullScreenDialog extends DialogFragment {
                             ShiftLog shiftLog = insertData();
                             // Store the current data of the database inside a `List`.
                             List<ShiftLog> currentDatabaseContent = db.shiftLogDao()
-                                    .getAllShiftLogs(FirebaseAuth.getInstance()
+                                            .getAllShiftLogs(FirebaseAuth.getInstance()
                                             .getCurrentUser().getUid());
                             // Delete all the data of the current user from the database.
                             db.shiftLogDao().deleteAllShiftLogs(FirebaseAuth.getInstance()
@@ -290,13 +274,18 @@ public class FullScreenDialog extends DialogFragment {
                             }
                             // Close the `FullScreenDialog`.
                             FullScreenDialog.this.dismiss();
+
+
+                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                             fragmentTransaction.replace(R.id.container, new ShiftLogsFragment()).commit();
+
+                            //refresh
                         }
                     });
                     db.close();
                 }
-                // FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                // FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                // fragmentTransaction.replace(R.id.container, new ShiftLogsFragment()).commit();
+
                 return true;
             }
         });
