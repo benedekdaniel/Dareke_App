@@ -4,14 +4,18 @@ import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +27,7 @@ import com.darekeapp.fragments.ShiftLogsFragment;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +36,7 @@ public class FullScreenDialog extends DialogFragment {
 
     private ShiftLogDatabase db;
 
-    private EditText companyName;
+    private AutoCompleteTextView companyName;
     private SwitchCompat workedForAgent;
     private EditText agentName;
     private SingleDateAndTimePicker shiftStart;
@@ -94,6 +99,18 @@ public class FullScreenDialog extends DialogFragment {
         poaTime = view.findViewById(R.id.poa_time);
         driveTimeText = view.findViewById(R.id.drive_time_text);
         driveTime = view.findViewById(R.id.drive_time);
+
+        db = Room.databaseBuilder(getContext(),
+                ShiftLogDatabase.class,
+                "ShiftLogDatabase").allowMainThreadQueries().build();
+
+        // List of all companies that the logged in user has worked for.
+        List<String> companies = db.shiftLogDao().getAllCompanies(
+                FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        // Shows a list of companies as the user starts to enter the company name.
+        companyName.setAdapter(new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1, companies));
 
         // Displays all the times in 24-hour format.
         shiftStart.setIsAmPm(false);
@@ -238,9 +255,6 @@ public class FullScreenDialog extends DialogFragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (fieldsValid()) {
-                    db = Room.databaseBuilder(getContext(),
-                            ShiftLogDatabase.class,
-                            "ShiftLogDatabase").build();
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {

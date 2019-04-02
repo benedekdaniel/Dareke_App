@@ -19,6 +19,14 @@ public interface ShiftLogDao {
     List<ShiftLog> getAllShiftLogs(String userUid);
 
     /**
+     * Gets all the companies the user has previously worked for.
+     * @param userUid the unique ID of the user
+     * @return all companies for user has previously worked for.
+     */
+    @Query("SELECT company_name FROM ShiftLog WHERE user_uid = :userUid")
+    List<String> getAllCompanies(String userUid);
+
+    /**
      * Inserts one or more new `ShiftLog` objects.
      * @param shiftLog the shift log to be inserted.
      */
