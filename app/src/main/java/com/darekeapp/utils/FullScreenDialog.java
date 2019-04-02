@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.List;
 
 public class FullScreenDialog extends DialogFragment {
+
+//    private IReloadListCallback callback;
     private Toolbar toolbar;
 
     private ShiftLogDatabase db;
@@ -47,6 +49,14 @@ public class FullScreenDialog extends DialogFragment {
     private SingleDateAndTimePicker poaTime;
     private TextView driveTimeText;
     private SingleDateAndTimePicker driveTime;
+
+
+    /*public FullScreenDialog(IReloadListCallback cb) {
+        this.callback = cb;
+    }*/
+
+    public FullScreenDialog() {
+    }
 
     public void display(FragmentManager fragmentManager) {
         show(fragmentManager, "fullscreen_dialog");
@@ -263,6 +273,7 @@ public class FullScreenDialog extends DialogFragment {
                             }
                             // Close the `FullScreenDialog`.
                             FullScreenDialog.this.dismiss();
+                            //refresh
                         }
                     });
                     db.close();

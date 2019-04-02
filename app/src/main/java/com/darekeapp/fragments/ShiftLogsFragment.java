@@ -6,12 +6,15 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import com.darekeapp.R;
 import com.darekeapp.activities.ShiftLogDataActivity;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
+import com.darekeapp.utils.FullScreenDialog;
 import com.darekeapp.utils.SwipeToDeleteCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -67,6 +71,7 @@ public class ShiftLogsFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +80,7 @@ public class ShiftLogsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +92,17 @@ public class ShiftLogsFragment extends Fragment {
 
         enableSwipeToDeleteAndUndo();
 
+        FloatingActionButton fab = view.findViewById(R.id.fab2);
+//        fab.hide();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FullScreenDialog fullScreenDialog = new FullScreenDialog();
+                fullScreenDialog.display(getFragmentManager());
+            }
+        });
+
+
 
         ShiftLogDatabase db = Room.databaseBuilder(getContext(), ShiftLogDatabase.class,
                 "ShiftLogDatabase")
@@ -95,12 +112,12 @@ public class ShiftLogsFragment extends Fragment {
         List<ShiftLog> shiftLogs = db.shiftLogDao().getAllShiftLogs(
                 FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         adapter = new ShiftLogAdapter(shiftLogs);
 
         // Add line divider after each shift log.
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity()
-                .getBaseContext(), DividerItemDecoration.VERTICAL);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(view
+                .getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getResources()
                 .getDrawable(R.drawable.recyclerview_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
