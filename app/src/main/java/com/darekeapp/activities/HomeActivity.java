@@ -34,8 +34,6 @@ public class HomeActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -69,17 +67,14 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
         if (id == R.id.nav_home) {
             getSupportActionBar().setTitle("Home");
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.container, new HomeFragment()).commit();
-
         } else if (id == R.id.nav_shift_logs) {
             getSupportActionBar().setTitle("Shift Logs");
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.container, new ShiftLogsFragment()).commit();
-
         } else if (id == R.id.nav_sign_out) {
             FirebaseAuth.getInstance().signOut();
             Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);

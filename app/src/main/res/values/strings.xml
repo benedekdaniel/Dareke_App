@@ -34,7 +34,4 @@
     <string name="poa_button_text">Add availability</string>
     <string name="drive_time">How much drive time did you accumulate during your shift?</string>
     <string name="title_activity_shift_log_data">Shift Log Data</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

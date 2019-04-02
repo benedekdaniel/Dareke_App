@@ -74,7 +74,6 @@ public class FullScreenDialog extends DialogFragment {
         return calendar.getTime();
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -262,7 +261,7 @@ public class FullScreenDialog extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -272,40 +271,53 @@ public class FullScreenDialog extends DialogFragment {
             }
         });
         toolbar.inflateMenu(R.menu.full_screen_dialog_menu);
-        // toolbar.getMenu().findItem(R.id.action_add).setTitle("Save");
+        if (getArguments() != null) {
+            toolbar.getMenu().findItem(R.id.action_add).setTitle("Save");
+        }
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (fieldsValid()) {
+                    db = Room.databaseBuilder(getContext(),
+                            ShiftLogDatabase.class,
+                            "ShiftLogDatabase").build();
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
                             ShiftLog shiftLog = insertData();
-                            // Store the current data of the database inside a `List`.
-                            List<ShiftLog> currentDatabaseContent = db.shiftLogDao()
-                                            .getAllShiftLogs(FirebaseAuth.getInstance()
-                                            .getCurrentUser().getUid());
-                            // Delete all the data of the current user from the database.
-                            db.shiftLogDao().deleteAllShiftLogs(FirebaseAuth.getInstance()
-                                    .getCurrentUser().getUid());
-                            // Add the new shift log to `currentDatabaseContent`.
-                            currentDatabaseContent.add(shiftLog);
-                            /*
-                             * Add all of the shift logs from `currentDatabaseContent` to the
-                             * database.
-                             */
-                            for (ShiftLog shiftLogs : currentDatabaseContent) {
-                                db.shiftLogDao().insert(shiftLogs);
+                            if (getArguments() != null) {
+                                int clickedShiftLogId =
+                                        getArguments().getInt(ShiftLogsFragment.EXTRA_SHIFT_LOG_ID);
+                                shiftLog.setShiftLogId(clickedShiftLogId);
+                                db.shiftLogDao().insertShiftLogs(shiftLog);
+                            } else {
+                                // Store the current data of the database inside a `List`.
+                                List<ShiftLog> currentDatabaseContent = db.shiftLogDao()
+                                        .getAllShiftLogs(FirebaseAuth.getInstance()
+                                                .getCurrentUser().getUid());
+                                // Delete all the data of the current user from the database.
+                                db.shiftLogDao().deleteAllShiftLogs(FirebaseAuth.getInstance()
+                                        .getCurrentUser().getUid());
+                                // Add the new shift log to `currentDatabaseContent`.
+                                currentDatabaseContent.add(shiftLog);
+                                /*
+                                 * Add all of the shift logs from `currentDatabaseContent` to the
+                                 * database.
+                                 */
+                                for (ShiftLog shiftLogs : currentDatabaseContent) {
+                                    db.shiftLogDao().insertShiftLogs(shiftLogs);
+                                }
+
+                                // Refresh the `ShiftLogsFragment`.
+                                FragmentManager fragmentManager = getActivity()
+                                        .getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager
+                                        .beginTransaction();
+                                fragmentTransaction.replace(R.id.container, new ShiftLogsFragment())
+                                        .commit();
                             }
                             // Close the `FullScreenDialog`.
                             FullScreenDialog.this.dismiss();
-
-
-                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                             fragmentTransaction.replace(R.id.container, new ShiftLogsFragment()).commit();
-
-                            //refresh
                         }
                     });
                     db.close();
@@ -376,14 +388,14 @@ public class FullScreenDialog extends DialogFragment {
             return false;
         }
 
-        if (breakTaken.isChecked() &&
-                (breakStart.getDate().before(shiftStart.getDate())) ||
-                (breakStart.getDate().after(shiftEnd.getDate())) ||
-                (breakStart.getDate().after(breakEnd.getDate()) &&
-                        breakStart.getDate().getTime() <= breakEnd.getDate().getTime())) {
-            showMessage("Invalid break date or time");
-            return false;
-        }
+        // if (breakTaken.isChecked() &&
+        //         (breakStart.getDate().before(shiftStart.getDate())) ||
+        //         (breakStart.getDate().after(shiftEnd.getDate())) ||
+        //         (breakStart.getDate().after(breakEnd.getDate()) &&
+        //                 breakStart.getDate().getTime() <= breakEnd.getDate().getTime())) {
+        //     showMessage("Invalid break date or time");
+        //     return false;
+        // }
 
         if (governedByDriverHours.isChecked() &&
                 vehicleRegistration.getText().toString().isEmpty()) {

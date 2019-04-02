@@ -8,6 +8,8 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
+
 @Dao
 public interface ShiftLogDao {
     /**
@@ -30,15 +32,8 @@ public interface ShiftLogDao {
      * Inserts one or more new `ShiftLog` objects.
      * @param shiftLog the shift log to be inserted.
      */
-    @Insert
-    void insert(ShiftLog... shiftLog);
-
-    /**
-     * Updates a particular shift log.
-     * @param shiftLog the shift log to be updated.
-     */
-    @Update
-    void updateShiftLog(ShiftLog shiftLog);
+    @Insert(onConflict = REPLACE)
+    void insertShiftLogs(ShiftLog... shiftLog);
 
     /**
      * Deletes a particular shift log.

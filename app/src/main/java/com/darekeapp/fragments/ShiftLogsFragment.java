@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ShiftLogsFragment extends Fragment {
+    public static final String EXTRA_SHIFT_LOG_ID = "SHIFT_LOG_ID";
     public static final String EXTRA_COMPANY_NAME = "COMPANY_NAME";
     public static final String EXTRA_WORKED_FOR_AGENT = "WORKED_FOR_AGENT";
     public static final String EXTRA_AGENT_NAME = "AGENT_NAME";
@@ -70,7 +71,6 @@ public class ShiftLogsFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +79,6 @@ public class ShiftLogsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,8 +98,6 @@ public class ShiftLogsFragment extends Fragment {
                 fullScreenDialog.display(getFragmentManager());
             }
         });
-
-
 
         ShiftLogDatabase db = Room.databaseBuilder(getContext(), ShiftLogDatabase.class,
                 "ShiftLogDatabase")
@@ -127,6 +124,7 @@ public class ShiftLogsFragment extends Fragment {
             @Override
             public void onItemClick(ShiftLog shiftLog) {
                 Intent intent = new Intent(getActivity(), ShiftLogDataActivity.class);
+                intent.putExtra(EXTRA_SHIFT_LOG_ID, shiftLog.getShiftLogId());
                 intent.putExtra(EXTRA_COMPANY_NAME, shiftLog.getCompanyName());
                 intent.putExtra(EXTRA_WORKED_FOR_AGENT, shiftLog.isWorkedForAgent());
                 intent.putExtra(EXTRA_AGENT_NAME, shiftLog.getAgentName());
@@ -195,5 +193,4 @@ public class ShiftLogsFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }

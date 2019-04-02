@@ -2,6 +2,7 @@ package com.darekeapp.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -15,7 +16,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
-
 
 import com.darekeapp.R;
 import com.darekeapp.fragments.ShiftLogsFragment;
@@ -173,6 +173,8 @@ public class ShiftLogDataActivity extends AppCompatActivity {
         if (id == R.id.action_edit) {
             FullScreenDialog fullScreenDialog = new FullScreenDialog();
             Bundle args = new Bundle();
+            args.putInt(ShiftLogsFragment.EXTRA_SHIFT_LOG_ID, getIntent().getIntExtra(
+                    ShiftLogsFragment.EXTRA_SHIFT_LOG_ID, -1));
             args.putString(ShiftLogsFragment.EXTRA_COMPANY_NAME, getIntent().getStringExtra(
                     ShiftLogsFragment.EXTRA_COMPANY_NAME));
             args.putBoolean(ShiftLogsFragment.EXTRA_WORKED_FOR_AGENT, getIntent().getBooleanExtra(
