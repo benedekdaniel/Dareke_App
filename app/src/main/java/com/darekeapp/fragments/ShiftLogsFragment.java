@@ -103,10 +103,9 @@ public class ShiftLogsFragment extends Fragment {
         dividerItemDecoration.setDrawable(getResources()
                 .getDrawable(R.drawable.recyclerview_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
-
         recyclerView.setAdapter(adapter);
 
-        ((ShiftLogAdapter) adapter).setOnItemClickListener(
+        adapter.setOnItemClickListener(
                 new ShiftLogAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(ShiftLog shiftLog) {
