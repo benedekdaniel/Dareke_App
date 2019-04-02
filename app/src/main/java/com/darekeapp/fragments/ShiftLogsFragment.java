@@ -27,6 +27,7 @@ import com.darekeapp.utils.FullScreenDialog;
 import com.darekeapp.utils.SwipeToDeleteCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ShiftLogsFragment extends Fragment {
@@ -112,6 +113,7 @@ public class ShiftLogsFragment extends Fragment {
                 FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        Collections.reverse(shiftLogs);
         adapter = new ShiftLogAdapter(shiftLogs);
 
         // Add line divider after each shift log.
