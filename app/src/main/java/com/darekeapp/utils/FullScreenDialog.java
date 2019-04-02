@@ -23,6 +23,7 @@ import com.darekeapp.fragments.ShiftLogsFragment;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +51,22 @@ public class FullScreenDialog extends DialogFragment {
 
     public void display(FragmentManager fragmentManager) {
         show(fragmentManager, "fullscreen_dialog");
+    }
+
+    /**
+     * Formatter to format the date and time to default
+     * values to have a date of today and set the time
+     * to 00 for hours and 01 for minutes.
+     * @return the required date and time
+     */
+    public Date getDefaultDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, 12);
+        calendar.set(Calendar.MINUTE, 1);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTime();
     }
 
     @Override
@@ -111,9 +128,20 @@ public class FullScreenDialog extends DialogFragment {
         poaTime.setStepMinutes(1);
         driveTime.setStepMinutes(1);
 
+        // Set max/min date for break start/end.
+        breakStart.setMinDate(shiftStart.getDate());
+        breakStart.setMaxDate(shiftEnd.getDate());
+
+        breakEnd.setMinDate(shiftStart.getDate());
+        breakEnd.setMaxDate(shiftEnd.getDate());
+
         // Remove the dates from hour and minute inputs.
         poaTime.setDisplayDays(false);
         driveTime.setDisplayDays(false);
+
+        // Set the default date and time.
+        poaTime.setDefaultDate(getDefaultDate());
+        driveTime.setDefaultDate(getDefaultDate());
 
         // Set initial visibility of optional fields to `View.GONE`.
         agentName.setVisibility(View.GONE);
