@@ -4,12 +4,11 @@ import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +26,7 @@ import com.darekeapp.fragments.ShiftLogsFragment;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -53,9 +52,28 @@ public class FullScreenDialog extends DialogFragment {
     private TextView driveTimeText;
     private SingleDateAndTimePicker driveTime;
 
+    public FullScreenDialog() {}
+
     public void display(FragmentManager fragmentManager) {
         show(fragmentManager, "fullscreen_dialog");
     }
+
+    /**
+     * Formatter to format the date and time to default
+     * values to have a date of today and set the time
+     * to 00 for hours and 01 for minutes.
+     * @return the required date and time
+     */
+    public Date getDefaultDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, 12);
+        calendar.set(Calendar.MINUTE, 1);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTime();
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,6 +149,10 @@ public class FullScreenDialog extends DialogFragment {
         // Remove the dates from hour and minute inputs.
         poaTime.setDisplayDays(false);
         driveTime.setDisplayDays(false);
+
+        // Set the default date and time.
+        poaTime.setDefaultDate(getDefaultDate());
+        driveTime.setDefaultDate(getDefaultDate());
 
         // Set initial visibility of optional fields to `View.GONE`.
         agentName.setVisibility(View.GONE);
@@ -277,13 +299,18 @@ public class FullScreenDialog extends DialogFragment {
                             }
                             // Close the `FullScreenDialog`.
                             FullScreenDialog.this.dismiss();
+
+
+                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                             fragmentTransaction.replace(R.id.container, new ShiftLogsFragment()).commit();
+
+                            //refresh
                         }
                     });
                     db.close();
                 }
-                // FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                // FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                // fragmentTransaction.replace(R.id.container, new ShiftLogsFragment()).commit();
+
                 return true;
             }
         });

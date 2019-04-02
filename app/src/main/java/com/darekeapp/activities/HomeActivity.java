@@ -2,7 +2,6 @@ package com.darekeapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,7 +16,6 @@ import com.darekeapp.R;
 import com.darekeapp.fragments.HomeFragment;
 import com.darekeapp.fragments.ShiftLogsFragment;
 
-import com.darekeapp.utils.FullScreenDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -36,15 +34,7 @@ public class HomeActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.hide();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FullScreenDialog fullScreenDialog = new FullScreenDialog();
-                fullScreenDialog.display(getSupportFragmentManager());
-            }
-        });
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -79,18 +69,17 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
 
         if (id == R.id.nav_home) {
             getSupportActionBar().setTitle("Home");
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.container, new HomeFragment()).commit();
-            fab.hide();
+
         } else if (id == R.id.nav_shift_logs) {
             getSupportActionBar().setTitle("Shift Logs");
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.container, new ShiftLogsFragment()).commit();
-            fab.show();
+
         } else if (id == R.id.nav_sign_out) {
             FirebaseAuth.getInstance().signOut();
             Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
