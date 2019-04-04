@@ -132,6 +132,12 @@ public class FullScreenDialog extends DialogFragment {
         List<String> vehicleRegistrationList = db.shiftLogDao().getAllVehicleRegistrations(
                 FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+        // Remove all null values from `agentNameList`.
+        agentNameList.removeAll(Collections.singleton(null));
+
+        // Remove all null values from `vehicleRegistrationList`.
+        vehicleRegistrationList.removeAll(Collections.singleton(null));
+
         // Display list of suggestions after one character has been typed.
         companyName.setThreshold(1);
         agentName.setThreshold(1);
