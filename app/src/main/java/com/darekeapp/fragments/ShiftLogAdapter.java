@@ -5,22 +5,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHolder> {
+public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHolder> implements Filterable {
     private SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
 
     private List<ShiftLog> shiftLogs;
+    private List<ShiftLog> shiftLogsSearch;
     private OnItemClickListener listener;
 
     public ShiftLogAdapter(List<ShiftLog> shiftLogs) {
         this.shiftLogs = shiftLogs;
+        shiftLogsSearch = new ArrayList<>(shiftLogs);
     }
 
     public void removeShiftLog(final int position) {
@@ -53,6 +58,40 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
     public int getItemCount() {
         return shiftLogs.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<ShiftLog> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(shiftLogsSearch);
+            } else {
+                String filterPattern =  constraint.toString().toLowerCase().trim();
+
+                for (ShiftLog shiftlog: shiftLogsSearch) {
+                    if (shiftlog.getCompanyName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(shiftlog);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return  filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            
+        }
+    };
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView companyName;
