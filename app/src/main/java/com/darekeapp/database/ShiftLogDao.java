@@ -22,10 +22,26 @@ public interface ShiftLogDao {
     /**
      * Gets all the companies the user has previously worked for.
      * @param userUid the unique ID of the user
-     * @return all companies for user has previously worked for.
+     * @return all companies the user has previously worked for.
      */
     @Query("SELECT company_name FROM ShiftLog WHERE user_uid = :userUid")
     List<String> getAllCompanies(String userUid);
+
+    /**
+     * Gets all the agent names the user has previously worked for.
+     * @param userUid the unique ID of the user
+     * @return all agent names the user has previously worked for.
+     */
+    @Query("SELECT agent_name FROM ShiftLog WHERE user_uid = :userUid")
+    List<String> getAllAgentNames(String userUid);
+
+    /**
+     * Gets all the vehicle registrations the user has used.
+     * @param userUid the unique ID of the user
+     * @return all vehicle registrations the user has previously used.
+     */
+    @Query("SELECT vehicle_registration FROM ShiftLog WHERE user_uid = :userUid")
+    List<String> getAllVehicleRegistrations(String userUid);
 
     /**
      * Inserts one or more new `ShiftLog` objects.

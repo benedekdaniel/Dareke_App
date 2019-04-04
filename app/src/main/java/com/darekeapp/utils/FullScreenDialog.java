@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +26,7 @@ import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class FullScreenDialog extends DialogFragment {
 
     private AutoCompleteTextView companyName;
     private SwitchCompat workedForAgent;
-    private EditText agentName;
+    private AutoCompleteTextView agentName;
     private SingleDateAndTimePicker shiftStart;
     private SingleDateAndTimePicker shiftEnd;
     private SwitchCompat breakTaken;
@@ -46,7 +46,7 @@ public class FullScreenDialog extends DialogFragment {
     private TextView breakEndText;
     private SingleDateAndTimePicker breakEnd;
     private SwitchCompat governedByDriverHours;
-    private EditText vehicleRegistration;
+    private AutoCompleteTextView vehicleRegistration;
     private TextView poaText;
     private SingleDateAndTimePicker poaTime;
     private TextView driveTimeText;
@@ -66,7 +66,7 @@ public class FullScreenDialog extends DialogFragment {
      */
     public Date getDefaultDate() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 12);
+        calendar.set(Calendar.HOUR, 0);
         calendar.set(Calendar.MINUTE, 1);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
@@ -122,12 +122,37 @@ public class FullScreenDialog extends DialogFragment {
                 "ShiftLogDatabase").allowMainThreadQueries().build();
 
         // List of all companies that the logged in user has worked for.
-        List<String> companies = db.shiftLogDao().getAllCompanies(
+        List<String> companyList = db.shiftLogDao().getAllCompanies(
                 FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        // Shows a list of companies as the user starts to enter the company name.
+        List<String> agentNameList = db.shiftLogDao().getAllAgentNames(
+                FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        List<String> vehicleRegistrationList = db.shiftLogDao().getAllVehicleRegistrations(
+                FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        // Remove all null values from `agentNameList`.
+        agentNameList.removeAll(Collections.singleton(null));
+
+        // Remove all null values from `vehicleRegistrationList`.
+        vehicleRegistrationList.removeAll(Collections.singleton(null));
+
+        // Display list of suggestions after one character has been typed.
+        companyName.setThreshold(1);
+        agentName.setThreshold(1);
+        vehicleRegistration.setThreshold(1);
+
+        // Shows a list of previously-used companies as the user begins to type.
         companyName.setAdapter(new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_list_item_1, companies));
+                android.R.layout.simple_list_item_1, companyList));
+
+        // Shows a list of previously-used agent names as the user begins to type
+        agentName.setAdapter(new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1, agentNameList));
+
+        // Shows a list of previously-used vehicle registrations as the user begins to type.
+        vehicleRegistration.setAdapter(new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1, vehicleRegistrationList));
 
         // Displays all the times in 24-hour format.
         shiftStart.setIsAmPm(false);

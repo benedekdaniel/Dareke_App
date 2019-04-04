@@ -225,9 +225,9 @@ public class ShiftLogDataActivity extends AppCompatActivity {
     }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(ShiftLogDataActivity.this, new String[] {
-                Manifest.permission.READ_CONTACTS,
-                Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(ShiftLogDataActivity.this,
+                new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.SEND_SMS},
+                PERMISSION_REQUEST_CODE);
     }
 
     /**
@@ -286,5 +286,4 @@ public class ShiftLogDataActivity extends AppCompatActivity {
                 }
         }
     }
-
 }

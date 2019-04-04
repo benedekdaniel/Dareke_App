@@ -1,7 +1,6 @@
 package com.darekeapp.fragments;
 
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,24 +9,18 @@ import android.widget.TextView;
 
 import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
-import com.darekeapp.utils.DiffUtilCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHolder> {
-    SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
+    private SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
 
     private List<ShiftLog> shiftLogs;
     private OnItemClickListener listener;
 
     public ShiftLogAdapter(List<ShiftLog> shiftLogs) {
         this.shiftLogs = shiftLogs;
-    }
-
-    public void insertData(List<ShiftLog> insertList) {
-        DiffUtilCallback diffUtilCallback = new DiffUtilCallback(shiftLogs, insertList);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtilCallback);
     }
 
     public void removeShiftLog(final int position) {
