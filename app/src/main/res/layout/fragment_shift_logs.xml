@@ -6,7 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ShiftLogsFragment">
 
+    <SearchView
+        android:id="@+id/action_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Widget.AppCompat.SearchView"
+        android:queryHint="@string/Search"
+        app:defaultQueryHint="@string/Search"
+        tools:ignore="MissingConstraints">
+
+    </SearchView>
+
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="50dp"
         android:id="@+id/shift_list_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
