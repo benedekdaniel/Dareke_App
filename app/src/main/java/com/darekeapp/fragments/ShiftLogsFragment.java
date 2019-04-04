@@ -88,7 +88,7 @@ public class ShiftLogsFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.shift_list_recycler_view);
 
-        enableSwipeToDeleteAndUndo();
+        enableSwipeToDelete();
 
         FloatingActionButton fab = view.findViewById(R.id.fab2);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -145,13 +145,13 @@ public class ShiftLogsFragment extends Fragment {
         return view;
     }
 
-    private void enableSwipeToDeleteAndUndo() {
+    private void enableSwipeToDelete() {
         SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(
                 getActivity().getApplicationContext()) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 final int position = viewHolder.getAdapterPosition();
-                final ShiftLog item = adapter.getData().get(position);
+                final ShiftLog shiftLog = adapter.getData().get(position);
 
                 adapter.removeShiftLog(position);
                 final ShiftLogDatabase db = Room.databaseBuilder(getContext(),
@@ -160,7 +160,7 @@ public class ShiftLogsFragment extends Fragment {
                 AsyncTask.execute(new Runnable() {
                     @Override
                     public void run() {
-                        db.shiftLogDao().deleteShiftLog(item);
+                        db.shiftLogDao().deleteShiftLog(shiftLog);
                     }
                 });
                 db.close();
