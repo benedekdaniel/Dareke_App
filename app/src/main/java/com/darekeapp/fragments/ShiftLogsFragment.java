@@ -13,9 +13,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,8 +31,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Collections;
 import java.util.List;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class ShiftLogsFragment extends Fragment {
     public static final String EXTRA_SHIFT_LOG_ID = "SHIFT_LOG_ID";
@@ -82,7 +78,6 @@ public class ShiftLogsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -93,17 +88,15 @@ public class ShiftLogsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment.
-
-
         View view =  inflater.inflate(R.layout.fragment_shift_logs, container, false);
 
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        setHasOptionsMenu(true);
 
         recyclerView = view.findViewById(R.id.shift_list_recycler_view);
 
         enableSwipeToDelete();
 
-        FloatingActionButton fab = view.findViewById(R.id.fab2);
+        FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,16 +202,14 @@ public class ShiftLogsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.d(TAG, "onCreateOptionsMenu: MENU LOADED");
         inflater.inflate(R.menu.search_menu, menu);
 
-
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        MenuItem searchItem  = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
+            public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
@@ -228,7 +219,5 @@ public class ShiftLogsFragment extends Fragment {
                 return false;
             }
         });
-
-        super.onCreateOptionsMenu(menu, inflater);
     }
 }

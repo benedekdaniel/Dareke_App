@@ -16,7 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHolder> implements Filterable {
+public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHolder>
+        implements Filterable {
     private SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
 
     private List<ShiftLog> shiftLogs;
@@ -25,7 +26,7 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
 
     public ShiftLogAdapter(List<ShiftLog> shiftLogs) {
         this.shiftLogs = shiftLogs;
-        shiftLogsSearch = new ArrayList<>(shiftLogs);
+        this.shiftLogsSearch = new ArrayList<>(shiftLogs);
     }
 
     public void removeShiftLog(final int position) {
@@ -61,10 +62,10 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
 
     @Override
     public Filter getFilter() {
-        return exampleFilter;
+        return shiftLogFilter;
     }
 
-    private Filter exampleFilter = new Filter() {
+    private Filter shiftLogFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<ShiftLog> filteredList = new ArrayList<>();
@@ -72,19 +73,21 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(shiftLogsSearch);
             } else {
-                String filterPattern =  constraint.toString().toLowerCase().trim();
+                String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (ShiftLog shiftlog: shiftLogsSearch) {
-                    if (shiftlog.getCompanyName().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(shiftlog);
+                for (ShiftLog shiftLog : shiftLogsSearch) {
+                    if (shiftLog.getCompanyName().toLowerCase().contains(filterPattern) ||
+                            shiftLog.getShiftStart().toString().toLowerCase().contains(filterPattern) ||
+                            shiftLog.getShiftEnd().toString().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(shiftLog);
                     }
                 }
             }
 
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredList;
+            FilterResults filteredResults = new FilterResults();
+            filteredResults.values = filteredList;
 
-            return  filterResults;
+            return  filteredResults;
         }
 
         @Override
