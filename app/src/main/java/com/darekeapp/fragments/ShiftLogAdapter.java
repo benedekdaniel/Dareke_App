@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHolder> {
-    SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
+    private SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
 
     private List<ShiftLog> shiftLogs;
     private OnItemClickListener listener;
