@@ -388,14 +388,14 @@ public class FullScreenDialog extends DialogFragment {
             return false;
         }
 
-        // if (breakTaken.isChecked() &&
-        //         (breakStart.getDate().before(shiftStart.getDate())) ||
-        //         (breakStart.getDate().after(shiftEnd.getDate())) ||
-        //         (breakStart.getDate().after(breakEnd.getDate()) &&
-        //                 breakStart.getDate().getTime() <= breakEnd.getDate().getTime())) {
-        //     showMessage("Invalid break date or time");
-        //     return false;
-        // }
+        if (breakTaken.isChecked() &&
+                (breakStart.getDate().before(shiftStart.getDate()) ||
+                        breakStart.getDate().after(shiftEnd.getDate())) ||
+                (breakStart.getDate().after(breakEnd.getDate()) &&
+                        breakStart.getDate().getTime() <= breakEnd.getDate().getTime())) {
+            showMessage("Invalid break date or time");
+            return false;
+        }
 
         if (governedByDriverHours.isChecked() &&
                 vehicleRegistration.getText().toString().isEmpty()) {
