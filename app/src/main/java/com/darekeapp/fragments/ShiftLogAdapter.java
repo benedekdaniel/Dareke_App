@@ -89,7 +89,9 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            
+            shiftLogs.clear();
+            shiftLogs.addAll((List) results.values);
+            notifyDataSetChanged();
         }
     };
 
