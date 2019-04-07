@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,6 @@ import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.darekeapp.R;
 import com.darekeapp.database.ShiftLog;
@@ -179,6 +177,12 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
                     Activity activity = fragment.getActivity();
                     actionMode = ((AppCompatActivity) activity).startSupportActionMode(
                             new ContextualCallBack(ViewHolder.this));
+                    setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(ShiftLog shiftLog) {
+                            // Do nothing.
+                        }
+                    });
                     return true;
                 }
             });
