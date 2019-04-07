@@ -220,8 +220,7 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
                     mode.finish();
                     return true;
                 case R.id.action_multi_delete:
-                    //
-                    for (int i = 0; i < selectedShiftLogsList.size(); i++) {
+                    for (int i = selectedShiftLogsList.size() - 1; i >= 0; i--) {
                         viewHolder.shiftLogAdapter.removeShiftLog(i);
                         viewHolder.shiftLogAdapter.deleteShiftLog(selectedShiftLogsList.get(i));
                     }
