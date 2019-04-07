@@ -2,6 +2,7 @@ package com.darekeapp.fragments;
 
 import android.app.Activity;
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -216,7 +217,11 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_multi_share:
-                    Toast.makeText(fragment.getContext(), "Share", Toast.LENGTH_LONG).show();
+                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    sharingIntent.setType("text/plain");
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Shift Log");
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, selectedShiftLogsList.toString());
+                    fragment.getActivity().startActivity(Intent.createChooser(sharingIntent, "Share via"));
                     mode.finish();
                     return true;
                 case R.id.action_multi_delete:

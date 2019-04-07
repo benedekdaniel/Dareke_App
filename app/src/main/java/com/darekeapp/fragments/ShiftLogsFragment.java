@@ -148,8 +148,6 @@ public class ShiftLogsFragment extends Fragment {
             }
         });
 
-        // adapter.setOnItemClickListener();
-
         return view;
     }
 
