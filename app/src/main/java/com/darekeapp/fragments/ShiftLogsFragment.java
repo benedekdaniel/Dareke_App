@@ -115,7 +115,7 @@ public class ShiftLogsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         Collections.reverse(shiftLogs);
-        adapter = new ShiftLogAdapter(shiftLogs);
+        adapter = new ShiftLogAdapter(shiftLogs, this);
 
         // Add line divider after each shift log.
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(view
@@ -147,6 +147,8 @@ public class ShiftLogsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        // adapter.setOnItemClickListener();
 
         return view;
     }
