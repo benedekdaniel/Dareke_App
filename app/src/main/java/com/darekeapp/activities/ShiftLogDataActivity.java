@@ -16,7 +16,6 @@ import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-
 import com.darekeapp.R;
 import com.darekeapp.fragments.ShiftLogsFragment;
 import com.darekeapp.utils.FullScreenDialog;
@@ -43,6 +42,8 @@ public class ShiftLogDataActivity extends AppCompatActivity {
     private TextView driveTimeDataTitle;
     private TextView driveTimeDataText;
 
+    public SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
+
     /**
      * Request code for permission.
      */
@@ -57,9 +58,6 @@ public class ShiftLogDataActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
 
         companyNameDataText = findViewById(R.id.company_name_data_text);
         workedForAgentDataText = findViewById(R.id.worked_for_agent_data_text);
@@ -125,21 +123,23 @@ public class ShiftLogDataActivity extends AppCompatActivity {
         } else {
             vehicleRegistrationDataText.setText(
                     getIntent().getStringExtra(ShiftLogsFragment.EXTRA_VEHICLE_REGISTRATION));
-            String poaStringFormatted = timeFormatter.format(
-                    getIntent().getLongExtra(ShiftLogsFragment.EXTRA_POA_TIME, 0));
-            poaTimeDataText.setText(formatTime(poaStringFormatted));
-            String driveTimeFormatted = timeFormatter.format(getIntent().getLongExtra(
-                    ShiftLogsFragment.EXTRA_DRIVE_TIME, 0));
-            driveTimeDataText.setText(formatTime(driveTimeFormatted));
+            poaTimeDataText.setText(formatTime(
+                    getIntent().getLongExtra(ShiftLogsFragment.EXTRA_POA_TIME, 0)));
+            driveTimeDataText.setText(formatTime(getIntent().getLongExtra(
+                    ShiftLogsFragment.EXTRA_DRIVE_TIME, 0)));
         }
     }
 
-    private String formatTime(String str) {
+    public String formatTime(long time) {
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+
+        String strTime = timeFormatter.format(time);
+
         String hours = "";
         String minutes = "";
         String[] separated;
 
-        separated = str.split(":");
+        separated = strTime.split(":");
 
         if (separated[0].equals("0") || separated[0].equals("1")) {
             hours = " hour ";
@@ -173,6 +173,8 @@ public class ShiftLogDataActivity extends AppCompatActivity {
         if (id == R.id.action_edit) {
             FullScreenDialog fullScreenDialog = new FullScreenDialog();
             Bundle args = new Bundle();
+            args.putInt(ShiftLogsFragment.EXTRA_SHIFT_LOG_ID, getIntent().getIntExtra(
+                    ShiftLogsFragment.EXTRA_SHIFT_LOG_ID, -1));
             args.putString(ShiftLogsFragment.EXTRA_COMPANY_NAME, getIntent().getStringExtra(
                     ShiftLogsFragment.EXTRA_COMPANY_NAME));
             args.putBoolean(ShiftLogsFragment.EXTRA_WORKED_FOR_AGENT, getIntent().getBooleanExtra(
@@ -212,7 +214,7 @@ public class ShiftLogDataActivity extends AppCompatActivity {
      * Checks whether the permission for sending sms and accessing contacts has been granted.
      * @return true if permission granted, otherwise false
      */
-    public boolean checkPermission() {
+    private boolean checkPermission() {
         int SendSMSPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.SEND_SMS);
         int ContactPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -223,9 +225,9 @@ public class ShiftLogDataActivity extends AppCompatActivity {
     }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(ShiftLogDataActivity.this, new String[] {
-                Manifest.permission.READ_CONTACTS,
-                Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(ShiftLogDataActivity.this,
+                new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.SEND_SMS},
+                PERMISSION_REQUEST_CODE);
     }
 
     /**
@@ -284,5 +286,4 @@ public class ShiftLogDataActivity extends AppCompatActivity {
                 }
         }
     }
-
 }
