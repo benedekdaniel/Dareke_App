@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
-                <android.support.v7.widget.AppCompatEditText
+                <android.support.v7.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/company_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/worked_for_agent"
                 android:layout_marginTop="10dp">
-                <android.support.v7.widget.AppCompatEditText
+                <android.support.v7.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/agent_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/governed_by_driver_hours"
                 android:layout_marginTop="10dp">
-                <android.support.v7.widget.AppCompatEditText
+                <android.support.v7.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/vehicle_registration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -34,4 +34,6 @@
     <string name="poa_button_text">Add availability</string>
     <string name="drive_time">How much drive time did you accumulate during your shift?</string>
     <string name="title_activity_shift_log_data">Shift Log Data</string>
+    <string name="Search">Search</string>
+    <string name="delete">Delete</string>
 </resources>
