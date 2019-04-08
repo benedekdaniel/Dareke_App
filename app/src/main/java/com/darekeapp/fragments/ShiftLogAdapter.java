@@ -178,12 +178,6 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
                     Activity activity = fragment.getActivity();
                     actionMode = ((AppCompatActivity) activity).startSupportActionMode(
                             new ContextualCallBack(ViewHolder.this));
-                    setOnItemClickListener(new OnItemClickListener() {
-                        @Override
-                        public void onItemClick(ShiftLog shiftLog) {
-                            // Do nothing.
-                        }
-                    });
                     return true;
                 }
             });
@@ -249,6 +243,7 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             isInActionMode = false;
+            viewHolder.actionMode = null;
             viewHolder.shiftLogAdapter.notifyDataSetChanged();
         }
     }
