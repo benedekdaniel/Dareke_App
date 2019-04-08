@@ -6,13 +6,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -32,9 +35,9 @@ public class FullScreenDialog extends DialogFragment {
 
     private ShiftLogDatabase db;
 
-    private EditText companyName;
+    private AutoCompleteTextView companyName;
     private SwitchCompat workedForAgent;
-    private EditText agentName;
+    private AutoCompleteTextView agentName;
     private SingleDateAndTimePicker shiftStart;
     private SingleDateAndTimePicker shiftEnd;
     private SwitchCompat breakTaken;
@@ -43,11 +46,13 @@ public class FullScreenDialog extends DialogFragment {
     private TextView breakEndText;
     private SingleDateAndTimePicker breakEnd;
     private SwitchCompat governedByDriverHours;
-    private EditText vehicleRegistration;
+    private AutoCompleteTextView vehicleRegistration;
     private TextView poaText;
     private SingleDateAndTimePicker poaTime;
     private TextView driveTimeText;
     private SingleDateAndTimePicker driveTime;
+
+    public FullScreenDialog() {}
 
     public void display(FragmentManager fragmentManager) {
         show(fragmentManager, "fullscreen_dialog");
@@ -61,7 +66,7 @@ public class FullScreenDialog extends DialogFragment {
      */
     public Date getDefaultDate() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 12);
+        calendar.set(Calendar.HOUR, 0);
         calendar.set(Calendar.MINUTE, 1);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
@@ -111,6 +116,43 @@ public class FullScreenDialog extends DialogFragment {
         poaTime = view.findViewById(R.id.poa_time);
         driveTimeText = view.findViewById(R.id.drive_time_text);
         driveTime = view.findViewById(R.id.drive_time);
+
+        db = Room.databaseBuilder(getContext(),
+                ShiftLogDatabase.class,
+                "ShiftLogDatabase").allowMainThreadQueries().build();
+
+        // List of all companies that the logged in user has worked for.
+        List<String> companyList = db.shiftLogDao().getAllCompanies(
+                FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        List<String> agentNameList = db.shiftLogDao().getAllAgentNames(
+                FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        List<String> vehicleRegistrationList = db.shiftLogDao().getAllVehicleRegistrations(
+                FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        // Remove all null values from `agentNameList`.
+        agentNameList.removeAll(Collections.singleton(null));
+
+        // Remove all null values from `vehicleRegistrationList`.
+        vehicleRegistrationList.removeAll(Collections.singleton(null));
+
+        // Display list of suggestions after one character has been typed.
+        companyName.setThreshold(1);
+        agentName.setThreshold(1);
+        vehicleRegistration.setThreshold(1);
+
+        // Shows a list of previously-used companies as the user begins to type.
+        companyName.setAdapter(new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1, companyList));
+
+        // Shows a list of previously-used agent names as the user begins to type
+        agentName.setAdapter(new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1, agentNameList));
+
+        // Shows a list of previously-used vehicle registrations as the user begins to type.
+        vehicleRegistration.setAdapter(new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1, vehicleRegistrationList));
 
         // Displays all the times in 24-hour format.
         shiftStart.setIsAmPm(false);
@@ -251,7 +293,7 @@ public class FullScreenDialog extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -261,7 +303,9 @@ public class FullScreenDialog extends DialogFragment {
             }
         });
         toolbar.inflateMenu(R.menu.full_screen_dialog_menu);
-        // toolbar.getMenu().findItem(R.id.action_add).setTitle("Save");
+        if (getArguments() != null) {
+            toolbar.getMenu().findItem(R.id.action_add).setTitle("Save");
+        }
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -273,21 +317,36 @@ public class FullScreenDialog extends DialogFragment {
                         @Override
                         public void run() {
                             ShiftLog shiftLog = insertData();
-                            // Store the current data of the database inside a `List`.
-                            List<ShiftLog> currentDatabaseContent = db.shiftLogDao()
-                                            .getAllShiftLogs(FirebaseAuth.getInstance()
-                                            .getCurrentUser().getUid());
-                            // Delete all the data of the current user from the database.
-                            db.shiftLogDao().deleteAllShiftLogs(FirebaseAuth.getInstance()
-                                    .getCurrentUser().getUid());
-                            // Add the new shift log to `currentDatabaseContent`.
-                            currentDatabaseContent.add(shiftLog);
-                            /*
-                             * Add all of the shift logs from `currentDatabaseContent` to the
-                             * database.
-                             */
-                            for (ShiftLog shiftLogs : currentDatabaseContent) {
-                                db.shiftLogDao().insert(shiftLogs);
+                            if (getArguments() != null) {
+                                int clickedShiftLogId =
+                                        getArguments().getInt(ShiftLogsFragment.EXTRA_SHIFT_LOG_ID);
+                                shiftLog.setShiftLogId(clickedShiftLogId);
+                                db.shiftLogDao().insertShiftLogs(shiftLog);
+                            } else {
+                                // Store the current data of the database inside a `List`.
+                                List<ShiftLog> currentDatabaseContent = db.shiftLogDao()
+                                        .getAllShiftLogs(FirebaseAuth.getInstance()
+                                                .getCurrentUser().getUid());
+                                // Delete all the data of the current user from the database.
+                                db.shiftLogDao().deleteAllShiftLogs(FirebaseAuth.getInstance()
+                                        .getCurrentUser().getUid());
+                                // Add the new shift log to `currentDatabaseContent`.
+                                currentDatabaseContent.add(shiftLog);
+                                /*
+                                 * Add all of the shift logs from `currentDatabaseContent` to the
+                                 * database.
+                                 */
+                                for (ShiftLog shiftLogs : currentDatabaseContent) {
+                                    db.shiftLogDao().insertShiftLogs(shiftLogs);
+                                }
+
+                                // Refresh the `ShiftLogsFragment`.
+                                FragmentManager fragmentManager = getActivity()
+                                        .getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager
+                                        .beginTransaction();
+                                fragmentTransaction.replace(R.id.container, new ShiftLogsFragment())
+                                        .commit();
                             }
                             // Close the `FullScreenDialog`.
                             FullScreenDialog.this.dismiss();
@@ -295,9 +354,7 @@ public class FullScreenDialog extends DialogFragment {
                     });
                     db.close();
                 }
-                // FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                // FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                // fragmentTransaction.replace(R.id.container, new ShiftLogsFragment()).commit();
+
                 return true;
             }
         });
@@ -364,8 +421,8 @@ public class FullScreenDialog extends DialogFragment {
         }
 
         if (breakTaken.isChecked() &&
-                (breakStart.getDate().before(shiftStart.getDate())) ||
-                (breakStart.getDate().after(shiftEnd.getDate())) ||
+                (breakStart.getDate().before(shiftStart.getDate()) ||
+                        breakStart.getDate().after(shiftEnd.getDate())) ||
                 (breakStart.getDate().after(breakEnd.getDate()) &&
                         breakStart.getDate().getTime() <= breakEnd.getDate().getTime())) {
             showMessage("Invalid break date or time");
