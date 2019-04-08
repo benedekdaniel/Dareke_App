@@ -2,7 +2,6 @@ package com.darekeapp.activities;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -43,6 +42,8 @@ public class ShiftLogDataActivity extends AppCompatActivity {
     private TextView driveTimeDataTitle;
     private TextView driveTimeDataText;
 
+    public SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
+
     /**
      * Request code for permission.
      */
@@ -57,9 +58,6 @@ public class ShiftLogDataActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm");
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
 
         companyNameDataText = findViewById(R.id.company_name_data_text);
         workedForAgentDataText = findViewById(R.id.worked_for_agent_data_text);
@@ -125,21 +123,23 @@ public class ShiftLogDataActivity extends AppCompatActivity {
         } else {
             vehicleRegistrationDataText.setText(
                     getIntent().getStringExtra(ShiftLogsFragment.EXTRA_VEHICLE_REGISTRATION));
-            String poaStringFormatted = timeFormatter.format(
-                    getIntent().getLongExtra(ShiftLogsFragment.EXTRA_POA_TIME, 0));
-            poaTimeDataText.setText(formatTime(poaStringFormatted));
-            String driveTimeFormatted = timeFormatter.format(getIntent().getLongExtra(
-                    ShiftLogsFragment.EXTRA_DRIVE_TIME, 0));
-            driveTimeDataText.setText(formatTime(driveTimeFormatted));
+            poaTimeDataText.setText(formatTime(
+                    getIntent().getLongExtra(ShiftLogsFragment.EXTRA_POA_TIME, 0)));
+            driveTimeDataText.setText(formatTime(getIntent().getLongExtra(
+                    ShiftLogsFragment.EXTRA_DRIVE_TIME, 0)));
         }
     }
 
-    private String formatTime(String str) {
+    public String formatTime(long time) {
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+
+        String strTime = timeFormatter.format(time);
+
         String hours = "";
         String minutes = "";
         String[] separated;
 
-        separated = str.split(":");
+        separated = strTime.split(":");
 
         if (separated[0].equals("0") || separated[0].equals("1")) {
             hours = " hour ";
@@ -214,7 +214,7 @@ public class ShiftLogDataActivity extends AppCompatActivity {
      * Checks whether the permission for sending sms and accessing contacts has been granted.
      * @return true if permission granted, otherwise false
      */
-    public boolean checkPermission() {
+    private boolean checkPermission() {
         int SendSMSPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.SEND_SMS);
         int ContactPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(),

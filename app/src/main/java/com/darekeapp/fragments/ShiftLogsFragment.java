@@ -127,26 +127,26 @@ public class ShiftLogsFragment extends Fragment {
 
         adapter.setOnItemClickListener(
                 new ShiftLogAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(ShiftLog shiftLog) {
-                Intent intent = new Intent(getActivity(), ShiftLogDataActivity.class);
-                intent.putExtra(EXTRA_SHIFT_LOG_ID, shiftLog.getShiftLogId());
-                intent.putExtra(EXTRA_COMPANY_NAME, shiftLog.getCompanyName());
-                intent.putExtra(EXTRA_WORKED_FOR_AGENT, shiftLog.isWorkedForAgent());
-                intent.putExtra(EXTRA_AGENT_NAME, shiftLog.getAgentName());
-                intent.putExtra(EXTRA_SHIFT_START, shiftLog.getShiftStart());
-                intent.putExtra(EXTRA_SHIFT_END, shiftLog.getShiftEnd());
-                intent.putExtra(EXTRA_BREAK_TAKEN, shiftLog.isBreakTaken());
-                intent.putExtra(EXTRA_BREAK_START, shiftLog.getBreakStart());
-                intent.putExtra(EXTRA_BREAK_END, shiftLog.getBreakEnd());
-                intent.putExtra(EXTRA_GOVERNED_BY_DRIVER_HOURS,
-                        shiftLog.isGovernedByDriverHours());
-                intent.putExtra(EXTRA_VEHICLE_REGISTRATION, shiftLog.getVehicleRegistration());
-                intent.putExtra(EXTRA_POA_TIME, shiftLog.getPoaTime());
-                intent.putExtra(EXTRA_DRIVE_TIME, shiftLog.getDriveTime());
-                startActivity(intent);
-            }
-        });
+                    @Override
+                    public void onItemClick(ShiftLog shiftLog) {
+                        Intent intent = new Intent(getActivity(), ShiftLogDataActivity.class);
+                        intent.putExtra(EXTRA_SHIFT_LOG_ID, shiftLog.getShiftLogId());
+                        intent.putExtra(EXTRA_COMPANY_NAME, shiftLog.getCompanyName());
+                        intent.putExtra(EXTRA_WORKED_FOR_AGENT, shiftLog.isWorkedForAgent());
+                        intent.putExtra(EXTRA_AGENT_NAME, shiftLog.getAgentName());
+                        intent.putExtra(EXTRA_SHIFT_START, shiftLog.getShiftStart());
+                        intent.putExtra(EXTRA_SHIFT_END, shiftLog.getShiftEnd());
+                        intent.putExtra(EXTRA_BREAK_TAKEN, shiftLog.isBreakTaken());
+                        intent.putExtra(EXTRA_BREAK_START, shiftLog.getBreakStart());
+                        intent.putExtra(EXTRA_BREAK_END, shiftLog.getBreakEnd());
+                        intent.putExtra(EXTRA_GOVERNED_BY_DRIVER_HOURS,
+                                shiftLog.isGovernedByDriverHours());
+                        intent.putExtra(EXTRA_VEHICLE_REGISTRATION, shiftLog.getVehicleRegistration());
+                        intent.putExtra(EXTRA_POA_TIME, shiftLog.getPoaTime());
+                        intent.putExtra(EXTRA_DRIVE_TIME, shiftLog.getDriveTime());
+                        startActivity(intent);
+                    }
+                });
 
         return view;
     }
@@ -203,7 +203,6 @@ public class ShiftLogsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
-
         MenuItem searchItem  = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 

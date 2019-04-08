@@ -19,6 +19,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.darekeapp.R;
+import com.darekeapp.activities.ShiftLogDataActivity;
 import com.darekeapp.database.ShiftLog;
 import com.darekeapp.database.ShiftLogDatabase;
 
@@ -125,10 +126,8 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (ShiftLog shiftLog : shiftLogsSearch) {
                     if (shiftLog.getCompanyName().toLowerCase().contains(filterPattern) ||
-                            shiftLog.getShiftStart().toString().toLowerCase()
-                                    .contains(filterPattern) ||
-                            shiftLog.getShiftEnd().toString().toLowerCase()
-                                    .contains(filterPattern)) {
+                            shiftLog.getShiftStart().toString().toLowerCase().contains(filterPattern) ||
+                            shiftLog.getShiftEnd().toString().toLowerCase().contains(filterPattern)) {
                         filteredList.add(shiftLog);
                     }
                 }
@@ -223,14 +222,15 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_multi_share:
+                    String message = "";
+                    for (ShiftLog shiftLog : selectedShiftLogsList) {
+                        message += formatShiftLogMessage(shiftLog);
+                    }
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
-                    sharingIntent.putExtra(android.content.Intent
-                            .EXTRA_SUBJECT, "Shift Log");
-                    sharingIntent.putExtra(android.content.Intent
-                            .EXTRA_TEXT, selectedShiftLogsList.toString());
-                    fragment.getActivity().startActivity(Intent
-                            .createChooser(sharingIntent, "Share via"));
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Shift Log");
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+                    fragment.getActivity().startActivity(Intent.createChooser(sharingIntent, "Share via"));
                     mode.finish();
                     return true;
                 case R.id.action_multi_delete:
@@ -251,5 +251,47 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
             isInActionMode = false;
             viewHolder.shiftLogAdapter.notifyDataSetChanged();
         }
-    };
+    }
+
+    private String formatShiftLogMessage(ShiftLog shiftLog) {
+        String message;
+        ShiftLogDataActivity shiftLogDataActivity = new ShiftLogDataActivity();
+
+        message = "Company name: " + shiftLog.getCompanyName() + "\r\n" +
+                "Worked for agent? " + shiftLog.isWorkedForAgent() + "\r\n";
+
+        if (shiftLog.isWorkedForAgent()) {
+            message += "Agent name: " + shiftLog.getAgentName() + "\r\n";
+        }
+
+        message += "Shift start: " +
+                shiftLogDataActivity.dateFormatter.format(shiftLog.getShiftStart()) + "\r\n" +
+                "Shift end: " +
+                shiftLogDataActivity.dateFormatter.format(shiftLog.getShiftEnd()) + "\r\n" +
+                "Break taken? " + shiftLog.isBreakTaken() + "\r\n";
+
+        if (shiftLog.isBreakTaken()) {
+            message += "Break start: " +
+                    shiftLogDataActivity.dateFormatter.format(shiftLog.getBreakStart()) + "\r\n" +
+                    "Break end: " +
+                    shiftLogDataActivity.dateFormatter.format(shiftLog.getBreakEnd()) + "\r\n";
+        }
+
+        message += "Governed by driver hours? " + shiftLog.isGovernedByDriverHours() + "\r\n";
+
+        if (shiftLog.isGovernedByDriverHours()) {
+            message += "Vehicle registration: " + shiftLog.getVehicleRegistration() + "\r\n" +
+                    "POA time: " +
+                    shiftLogDataActivity.formatTime(shiftLog.getPoaTime()) + "\r\n" +
+                    "Drive time: " +
+                    shiftLogDataActivity.formatTime(shiftLog.getDriveTime()) + "\r\n";
+        } else {
+            message += "\r\n";
+        }
+
+        // Return the formatted message with the given shift details.
+        return message;
+    }
+
+    ;
 }
