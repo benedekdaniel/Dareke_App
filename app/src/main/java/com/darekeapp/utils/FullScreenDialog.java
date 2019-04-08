@@ -170,6 +170,13 @@ public class FullScreenDialog extends DialogFragment {
         poaTime.setStepMinutes(1);
         driveTime.setStepMinutes(1);
 
+        // Set max/min date for break start/end.
+        breakStart.setMinDate(shiftStart.getDate());
+        breakStart.setMaxDate(shiftEnd.getDate());
+
+        breakEnd.setMinDate(shiftStart.getDate());
+        breakEnd.setMaxDate(shiftEnd.getDate());
+
         // Remove the dates from hour and minute inputs.
         poaTime.setDisplayDays(false);
         driveTime.setDisplayDays(false);
