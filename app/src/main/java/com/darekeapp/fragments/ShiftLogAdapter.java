@@ -125,8 +125,10 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (ShiftLog shiftLog : shiftLogsSearch) {
                     if (shiftLog.getCompanyName().toLowerCase().contains(filterPattern) ||
-                            shiftLog.getShiftStart().toString().toLowerCase().contains(filterPattern) ||
-                            shiftLog.getShiftEnd().toString().toLowerCase().contains(filterPattern)) {
+                            shiftLog.getShiftStart().toString().toLowerCase()
+                                    .contains(filterPattern) ||
+                            shiftLog.getShiftEnd().toString().toLowerCase()
+                                    .contains(filterPattern)) {
                         filteredList.add(shiftLog);
                     }
                 }
@@ -223,9 +225,12 @@ public class ShiftLogAdapter extends RecyclerView.Adapter<ShiftLogAdapter.ViewHo
                 case R.id.action_multi_share:
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Shift Log");
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, selectedShiftLogsList.toString());
-                    fragment.getActivity().startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                    sharingIntent.putExtra(android.content.Intent
+                            .EXTRA_SUBJECT, "Shift Log");
+                    sharingIntent.putExtra(android.content.Intent
+                            .EXTRA_TEXT, selectedShiftLogsList.toString());
+                    fragment.getActivity().startActivity(Intent
+                            .createChooser(sharingIntent, "Share via"));
                     mode.finish();
                     return true;
                 case R.id.action_multi_delete:
